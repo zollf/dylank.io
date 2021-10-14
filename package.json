@@ -4,7 +4,7 @@
   "description": "Portfolio Website",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --open",
+    "dev": "webpack-dev-server",
     "build": "webpack build",
     "test": "jest --maxWorkers=4",
     "lint": "eslint . --ext .ts,.tsx"
