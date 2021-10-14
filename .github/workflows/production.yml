@@ -45,6 +45,7 @@ jobs:
   s3:
     name: Sync with S3
     runs-on: ubuntu-latest
+    needs: [react, terraform]
     steps:
       - name: Check out code
         uses: actions/checkout@v2
