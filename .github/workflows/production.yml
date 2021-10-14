@@ -38,10 +38,10 @@ jobs:
           aws-region            : "ap-southeast-2"
       - name: Terraform Check & Init
         run : |
-          terraform -chdir=deploy/core fmt -check 
-          terraform -chdir=deploy/core init
+          terraform -chdir=terraform fmt -check 
+          terraform -chdir=terraform init
       - name: Terraform Apply
-        run : terraform -chdir=deploy/core apply -auto-approve
+        run : terraform -chdir=terraform apply -auto-approve
 
   s3:
     name: Sync with S3
