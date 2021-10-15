@@ -20,7 +20,7 @@ data "aws_iam_policy_document" "user_policy" {
     effect = "Allow"
   }
   statement {
-    actions   = ["iam:GetUser"]
+    actions   = ["iam:GetUser", "iam:GetUserPolicy"]
     resources = ["arn:aws:iam::*:user/${aws_iam_user.iam_user.name}"]
     effect    = "Allow"
   }
