@@ -4,20 +4,20 @@ resource "aws_iam_user" "iam_user" {
 
 data "aws_iam_policy_document" "s3_policy" {
   statement {
-    actions   = ["s3:*"]
+    actions = ["s3:*"]
     resources = [
       aws_s3_bucket.s3.arn,
       "${aws_s3_bucket.s3.arn}/*"
     ]
-    effect    = "Allow"
+    effect = "Allow"
   }
   statement {
-    actions   = ["s3:GetObject", "s3:PutObject"]
+    actions = ["s3:GetObject", "s3:PutObject"]
     resources = [
       "arn:aws:s3:::${data.terraform_remote_state.remote.config.bucket}",
       "arn:aws:s3:::${data.terraform_remote_state.remote.config.bucket}/*"
     ]
-    effect    = "Allow"
+    effect = "Allow"
   }
 }
 
