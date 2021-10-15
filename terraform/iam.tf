@@ -2,7 +2,7 @@ resource "aws_iam_user" "iam_user" {
   name = "dylank.io-site"
 }
 
-data "aws_iam_policy_document" "s3_policy" {
+data "aws_iam_policy_document" "user_policy" {
   statement {
     actions = ["s3:*"]
     resources = [
@@ -19,11 +19,16 @@ data "aws_iam_policy_document" "s3_policy" {
     ]
     effect = "Allow"
   }
+  statement {
+    actions   = ["iam:GetUser"]
+    resources = ["arn:aws:iam::*:user/${aws_iam_user.iam_user.name}"]
+    effect    = "Allow"
+  }
 }
 
 resource "aws_iam_user_policy" "iam_policy" {
   name = "dylank.io-site-policy"
   user = aws_iam_user.iam_user.name
 
-  policy = data.aws_iam_policy_document.s3_policy.json
+  policy = data.aws_iam_policy_document.user_policy.json
 }
