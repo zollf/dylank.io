@@ -60,7 +60,8 @@ jobs:
         run: yarn build
       - name: Sync
         uses: jakejarvis/s3-sync-action@master
-        args: --follow-symlinks --delete
+        with:
+          args: --follow-symlinks --delete
         env:
           AWS_S3_BUCKET         : "dylank.io"
           AWS_ACCESS_KEY_ID     : ${{ secrets.AWS_ACCESS_KEY_ID }}
