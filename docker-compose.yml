@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  graphql:
+    build:
+      context: ./graphql
+      dockerfile: ../docker/go.dev.Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./graphql:/usr/app
+    command:
+      air

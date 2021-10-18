@@ -1,0 +1,20 @@
+type Project {
+  id: ID!
+  slug: String!
+  title: String!
+  description: String!
+  image: String!
+  url: String
+  git: String
+  tags: [Tags]
+}
+
+type Tags {
+  id: ID!
+  slug: String!
+  title: String!
+}
+
+type Query {
+  projects(tags: [String]): [Project]
+}
