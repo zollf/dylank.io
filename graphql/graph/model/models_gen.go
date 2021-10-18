@@ -10,11 +10,16 @@ type Project struct {
 	Image       string  `json:"image"`
 	URL         *string `json:"url"`
 	Git         *string `json:"git"`
-	Tags        []*Tags `json:"tags"`
+	Tags        []*Tag  `json:"tags"`
 }
 
-type Tags struct {
+type Tag struct {
 	ID    string `json:"id"`
 	Slug  string `json:"slug"`
 	Title string `json:"title"`
+}
+
+type TagInterface struct {
+	Tag   *Tag `json:"tag"`
+	Total int  `json:"total"`
 }

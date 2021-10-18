@@ -6,15 +6,21 @@ type Project {
   image: String!
   url: String
   git: String
-  tags: [Tags]
+  tags: [Tag]
 }
 
-type Tags {
+type Tag {
   id: ID!
   slug: String!
   title: String!
 }
 
+type TagInterface {
+  tag: Tag!
+  total: Int!
+}
+
 type Query {
   projects(tags: [String]): [Project]
+  tags: [TagInterface]
 }

@@ -7,29 +7,38 @@ import (
 	"api/graph/generated"
 	"api/graph/model"
 	"context"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
+	"sort"
 )
 
 func (r *queryResolver) Projects(ctx context.Context, tags []*string) ([]*model.Project, error) {
-	filename := "graph/projects.json"
-	jsonFile, err := os.Open(filename)
-	fmt.Println(err)
-	if err != nil {
-		panic(fmt.Errorf(fmt.Sprintf("Error: could not import %q", filename)))
+	return ParseProjects(), nil
+}
+
+func (r *queryResolver) Tags(ctx context.Context) ([]*model.TagInterface, error) {
+	var tagInterface []*model.TagInterface
+	var tagMap = make(map[string]*model.TagInterface)
+	for _, project := range ParseProjects() {
+		for _, tag := range project.Tags {
+			if val, ok := tagMap[tag.Slug]; ok {
+				val.Total = val.Total + 1
+			} else {
+				tagMap[tag.Slug] = &model.TagInterface{
+					Tag:   tag,
+					Total: 1,
+				}
+			}
+		}
 	}
 
-	defer jsonFile.Close()
+	for _, element := range tagMap {
+		tagInterface = append(tagInterface, element)
+	}
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
+	sort.SliceStable(tagInterface, func(i int, j int) bool {
+		return tagInterface[i].Total > tagInterface[j].Total
+	})
 
-	var projects []*model.Project
-
-	json.Unmarshal(byteValue, &projects)
-
-	return projects, nil
+	return tagInterface, nil
 }
 
 // Query returns generated.QueryResolver implementation.
