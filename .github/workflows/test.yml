@@ -35,7 +35,11 @@ jobs:
         with:
           path: graphql
       - name: 'STUFF'
-        run: ls && cd graphql && ls
+        run: ls
+      - name: 'STUFF'
+        run: cd graphql
+      - name: 'STUFF'
+        run: ls
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
