@@ -30,12 +30,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        with:
+          path: graphql
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
           go-version: '1.17.2'
-      - name: CD
-        run: cd graphql && ls
+      - name: Install dependencies
+        run: |
+          go version
+          go get -u golang.org/x/lint/golint
       - name: Go Modules Download
         run: go mod download
       - name: Go Build
@@ -47,8 +51,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: CD
-        run: cd graphql
+        with:
+          path: graphql
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
