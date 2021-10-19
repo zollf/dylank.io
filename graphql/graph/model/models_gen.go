@@ -3,23 +3,23 @@
 package model
 
 type Project struct {
-	ID          string  `json:"id"`
-	Slug        string  `json:"slug"`
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	Image       string  `json:"image"`
-	URL         *string `json:"url"`
-	Git         *string `json:"git"`
-	Tags        []*Tag  `json:"tags"`
+	ID          string  `json:"id" bson:"_id"`
+	Slug        string  `json:"slug" bson:"slug"`
+	Title       string  `json:"title" bson:"title"`
+	Description string  `json:"description" bson:"description"`
+	Image       string  `json:"image" bson:"image"`
+	URL         *string `json:"url" bson:"url"`
+	Git         *string `json:"git" bson:"git"`
+	Tags        []*Tag  `json:"tags" bson:"tags"`
 }
 
 type Tag struct {
-	ID    string `json:"id"`
-	Slug  string `json:"slug"`
-	Title string `json:"title"`
+	ID    string `json:"id" bson:"_id"`
+	Slug  string `json:"slug" bson:"slug"`
+	Title string `json:"title" bson:"title"`
 }
 
 type TagInterface struct {
-	Tag   *Tag `json:"tag"`
-	Total int  `json:"total"`
+	Tag   *Tag `json:"tag" bson:"tag"`
+	Total int  `json:"total" bson:"total"`
 }

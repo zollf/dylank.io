@@ -2,24 +2,33 @@ package graph
 
 import (
 	"api/graph/model"
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
+	"context"
+	"log"
+
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo"
 )
 
 func ParseProjects() []*model.Project {
 	var projects []*model.Project
-	filename := "data/projects.json"
-	jsonFile, err := os.Open(filename)
+	err := GetMongo(func(ctx context.Context, client *mongo.Client) error {
+		cur, err := client.Database("db").Collection("projects").Find(ctx, bson.D{{}})
+		for cur.Next(ctx) {
+			var result *model.Project
+			err := cur.Decode(&result)
+
+			if err != nil {
+				return err
+			}
+
+			projects = append(projects, result)
+		}
+		return err
+	})
 
 	if err != nil {
-		panic(fmt.Errorf(fmt.Sprintf("Error: could not import %q", filename)))
+		log.Fatal(err)
 	}
-
-	defer jsonFile.Close()
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	json.Unmarshal(byteValue, &projects)
 
 	return projects
 }
