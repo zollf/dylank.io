@@ -5,24 +5,24 @@ on:
     branches: [main]
 
 jobs:
-  react:
-    name: React Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-      - name: Yarn Install
-        run: yarn
-      - name: Yarn Build
-        run: yarn build
-      - name: Yarn Test
-        run: yarn test
-      - name: Yarn Lint
-        run: yarn lint
+  # react:
+  #   name: React Test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Check out code
+  #       uses: actions/checkout@v2
+  #     - name: Setup Node
+  #       uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '14.x'
+  #     - name: Yarn Install
+  #       run: yarn
+  #     - name: Yarn Build
+  #       run: yarn build
+  #     - name: Yarn Test
+  #       run: yarn test
+  #     - name: Yarn Lint
+  #       run: yarn lint
     
   go:
     name: Go Build
@@ -34,6 +34,8 @@ jobs:
         uses: actions/checkout@v2
         with:
           path: graphql
+      - name: 'STUFF'
+        run: ls && cd graphql && ls
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
@@ -45,18 +47,18 @@ jobs:
       - name: Go Build
         run: go build -o server server.go
 
-  golangci:
-    name: Go Lint
-    runs-on: ubuntu-latest
-    env:
-      GO111MODULE: on
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          path: graphql
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v2
-        with:
-          version: v1.29
-          args: ./...
+  # golangci:
+  #   name: Go Lint
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     GO111MODULE: on
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
+  #       with:
+  #         path: graphql
+  #     - name: golangci-lint
+  #       uses: golangci/golangci-lint-action@v2
+  #       with:
+  #         version: v1.29
+  #         args: ./...
