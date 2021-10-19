@@ -5,30 +5,28 @@ on:
     branches: [main]
 
 jobs:
-  # react:
-  #   name: React Test
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Check out code
-  #       uses: actions/checkout@v2
-  #     - name: Setup Node
-  #       uses: actions/setup-node@v1
-  #       with:
-  #         node-version: '14.x'
-  #     - name: Yarn Install
-  #       run: yarn
-  #     - name: Yarn Build
-  #       run: yarn build
-  #     - name: Yarn Test
-  #       run: yarn test
-  #     - name: Yarn Lint
-  #       run: yarn lint
+  react:
+    name: React Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+      - name: Yarn Install
+        run: yarn
+      - name: Yarn Build
+        run: yarn build
+      - name: Yarn Test
+        run: yarn test
+      - name: Yarn Lint
+        run: yarn lint
     
   go:
     name: Go Build
     runs-on: ubuntu-latest
-    env:
-      GO111MODULE: on
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -36,25 +34,7 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.17.2'
-      - name: Go Test
-        run: cd graphql && go test -v ./...
       - name: Go Modules Download
         run: cd graphql && go mod download
       - name: Go Build
         run: cd graphql && go build -o server server.go
-
-  # golangci:
-  #   name: Go Lint
-  #   runs-on: ubuntu-latest
-  #   env:
-  #     GO111MODULE: on
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v2
-  #       with:
-  #         path: graphql
-  #     - name: golangci-lint
-  #       uses: golangci/golangci-lint-action@v2
-  #       with:
-  #         version: v1.29
-  #         args: ./...
