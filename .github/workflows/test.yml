@@ -32,8 +32,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        with:
-          path: graphql
       - name: 'STUFF'
         run: ls
       - name: 'STUFF'
