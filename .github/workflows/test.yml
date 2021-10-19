@@ -32,12 +32,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: 'STUFF'
-        run: ls
-      - name: 'STUFF'
-        run: cd graphql/
-      - name: 'STUFF'
-        run: ls
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
@@ -45,9 +39,9 @@ jobs:
       - name: Go Test
         run: cd graphql && go test -v ./...
       - name: Go Modules Download
-        run: go mod download
+        run: cd graphql && go mod download
       - name: Go Build
-        run: go build -o server server.go
+        run: cd graphql && go build -o server server.go
 
   # golangci:
   #   name: Go Lint
