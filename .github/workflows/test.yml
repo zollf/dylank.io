@@ -35,14 +35,14 @@ jobs:
         with:
           go-version: '1.17.2'
       - name: CD
-        run: cd graphql
+        run: cd graphql && ls
       - name: Go Modules Download
         run: go mod download
       - name: Go Build
         run: go build -o server server.go
 
   golangci:
-    name: lint
+    name: Go Lint
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
