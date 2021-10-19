@@ -22,14 +22,15 @@ services:
       - 3000:3000
     volumes:
       - ./:/usr/app:cached
-      - node_modules:/app/node_modules:delegated  
+      - node_modules:/app/node_modules:delegated
+      - yarn_config:/usr/local/share/.config 
 
   mongo:
     image: mongo
     restart: always
     ports:
       - 27017:27017
-  
+
   mongo-express:
     image: mongo-express
     depends_on:
@@ -43,8 +44,19 @@ services:
       - ME_CONFIG_MONGODB_PORT=27017
       - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
       - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-    logging:
-      driver: none
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+      - mongo-express
+      - graphql
 
 volumes:
   node_modules:
+  yarn_config:
