@@ -31,20 +31,6 @@ services:
     ports:
       - 27017:27017
 
-  mongo-express:
-    image: mongo-express
-    depends_on:
-      - mongo
-    ports:
-      - 8081:8081
-    links:
-      - mongo
-    environment:
-      - ME_CONFIG_MONGODB_SERVER=mongo
-      - ME_CONFIG_MONGODB_PORT=27017
-      - ME_CONFIG_MONGODB_ENABLE_ADMIN=true
-      - ME_CONFIG_MONGODB_AUTH_DATABASE=admin
-
   nginx:
     image: nginx:latest
     volumes:
@@ -54,7 +40,6 @@ services:
       - 443:443
     depends_on:
       - web
-      - mongo-express
       - graphql
 
 volumes:
