@@ -27,7 +27,6 @@ data "aws_iam_policy_document" "iam_site_policy" {
 
   statement {
     actions = [
-      "ecr:GetAuthorizationToken",
       "ecr:BatchCheckLayerAvailability",
       "ecr:GetDownloadUrlForLayer",
       "ecr:GetRepositoryPolicy",
@@ -42,6 +41,14 @@ data "aws_iam_policy_document" "iam_site_policy" {
     ]
     effect    = "Allow"
     resources = [aws_ecr_repository.repo.arn]
+  }
+
+  statement {
+    actions = [
+      "ecr:GetAuthorizationToken"
+    ]
+    effect = "Allow"
+    resources = ["*"]
   }
 }
 
