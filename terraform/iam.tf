@@ -20,7 +20,11 @@ data "aws_iam_policy_document" "iam_site_policy" {
     effect = "Allow"
   }
   statement {
-    actions   = ["iam:GetUser", "iam:GetUserPolicy"]
+    actions   = [
+      "iam:GetUser", 
+      "iam:GetUserPolicy",
+      "iam:PutUserPolicy"
+    ]
     resources = [aws_iam_user.iam_user.arn]
     effect    = "Allow"
   }
