@@ -47,7 +47,7 @@ data "aws_iam_policy_document" "iam_site_policy" {
     actions = [
       "ecr:GetAuthorizationToken"
     ]
-    effect = "Allow"
+    effect    = "Allow"
     resources = ["*"]
   }
 }
