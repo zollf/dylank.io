@@ -43,7 +43,8 @@ data "aws_iam_policy_document" "iam_site_policy" {
       "ecr:ListTagsForResource",
       "ecr:DescribeImageScanFindings",
       "ecr:InitiateLayerUpload",
-      "ecr:UploadLayerPart"
+      "ecr:UploadLayerPart",
+      "ecr:CompleteLayerUpload"
     ]
     effect    = "Allow"
     resources = [aws_ecr_repository.repo.arn]
