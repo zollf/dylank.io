@@ -37,7 +37,8 @@ data "aws_iam_policy_document" "iam_site_policy" {
       "ecr:GetLifecyclePolicy",
       "ecr:GetLifecyclePolicyPreview",
       "ecr:ListTagsForResource",
-      "ecr:DescribeImageScanFindings"
+      "ecr:DescribeImageScanFindings",
+      "ecr:InitiateLayerUpload"
     ]
     effect    = "Allow"
     resources = [aws_ecr_repository.repo.arn]
