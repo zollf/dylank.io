@@ -40,7 +40,7 @@ data "aws_iam_policy_document" "iam_site_policy" {
       "ecr:ListTagsForResource",
       "ecr:DescribeImageScanFindings"
     ]
-    effect = "Allow"
+    effect    = "Allow"
     resources = [aws_ecr_repository.repo.arn]
   }
 }
