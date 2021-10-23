@@ -1,3 +1,5 @@
+# Used for ecr deployment
+
 REPO=$1
 AWS=$2
 REGION=$3

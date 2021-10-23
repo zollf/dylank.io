@@ -9,16 +9,12 @@ resource "aws_s3_bucket" "s3" {
 
 data "aws_iam_policy_document" "public_user_policy" {
   statement {
-    actions = ["s3:GetObject"]
-    resources = [
-      aws_s3_bucket.s3.arn,
-      "${aws_s3_bucket.s3.arn}/*"
-    ]
-    effect = "Allow"
+    actions   = ["s3:GetObject"]
+    resources = ["${aws_s3_bucket.s3.arn}/*"]
 
     principals {
-      type        = "*"
-      identifiers = ["*"]
+      type        = "AWS"
+      identifiers = [aws_cloudfront_origin_access_identity.cloudfront_identity.iam_arn]
     }
   }
 }
