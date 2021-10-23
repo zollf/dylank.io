@@ -9,6 +9,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
 
@@ -26,10 +27,26 @@ func main() {
 	}
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	router := gin.Default()
 
-	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
-	http.Handle("/query", srv)
+	router.LoadHTMLGlob("templates/*.gohtml")
 
-	log.Printf("connect to http://localhost:%s/ for GraphQL playground", port)
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	router.GET("/backend", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.gohtml", gin.H{
+			"title": "Main website",
+		})
+	})
+
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "index.gohtml", gin.H{
+			"title": "Main website",
+		})
+	})
+
+	router.GET("/backend/playground", gin.WrapH(playground.Handler("GraphQL playground", "/query")))
+	router.GET("/playground", gin.WrapH(playground.Handler("GraphQL playground", "/query")))
+
+	router.POST("/query", gin.WrapH(srv))
+
+	router.Run()
 }
