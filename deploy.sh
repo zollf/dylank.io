@@ -30,7 +30,8 @@ docker push $AWS/$REPO:latest || exit
 
 # Getting all images that are untagged and deleting them
 IMAGES_TO_DELETE=$(aws ecr list-images --region $REGION --repository-name $REPO --filter tagStatus=UNTAGGED --query "imageIds[*]" --output json)
-if [ $IMAGES_TO_DELETE != "[]" ]; then
+if [ "$IMAGES_TO_DELETE" != "[]" ]
+  then
     aws ecr batch-delete-image --region $REGION --repository-name $REPO --image-ids "$IMAGES_TO_DELETE" || true
 else
     echo "Skipping batch delete, no images to delete."
