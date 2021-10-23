@@ -95,7 +95,7 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
+          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: CP .env
         run: cp .env graphql
@@ -118,12 +118,10 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
+          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: CP .env
         run: cp .env graphql
-      - name: LS Check
-        run: cd graphql && ls -la
       - name: Heroku Login
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:
