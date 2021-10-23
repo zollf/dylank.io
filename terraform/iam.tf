@@ -30,23 +30,7 @@ data "aws_iam_policy_document" "iam_site_policy" {
   }
 
   statement {
-    actions = [
-      "ecr:BatchCheckLayerAvailability",
-      "ecr:GetDownloadUrlForLayer",
-      "ecr:GetRepositoryPolicy",
-      "ecr:DescribeRepositories",
-      "ecr:ListImages",
-      "ecr:DescribeImages",
-      "ecr:BatchGetImage",
-      "ecr:GetLifecyclePolicy",
-      "ecr:GetLifecyclePolicyPreview",
-      "ecr:ListTagsForResource",
-      "ecr:DescribeImageScanFindings",
-      "ecr:InitiateLayerUpload",
-      "ecr:UploadLayerPart",
-      "ecr:CompleteLayerUpload",
-      "ecr:PutImage",
-    ]
+    actions   = ["ecr:*"]
     effect    = "Allow"
     resources = [aws_ecr_repository.repo.arn]
   }
@@ -57,6 +41,12 @@ data "aws_iam_policy_document" "iam_site_policy" {
     ]
     effect    = "Allow"
     resources = ["*"]
+  }
+
+  statement {
+    actions   = ["cloudfront:*"]
+    effect    = "Allow"
+    resources = [aws_cloudfront_distribution.s3_distribution.arn]
   }
 }
 
