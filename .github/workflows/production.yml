@@ -95,7 +95,7 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          directory: "graphql"
+          directory: graphql
           envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: Configure AWS credentials
@@ -117,9 +117,11 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          directory: "graphql"
+          directory: graphql
           envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
           file_name: .env 
+      - name: LS Check
+        run: cd graphql && ls
       - name: Heroku Login
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:

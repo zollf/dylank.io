@@ -11,8 +11,6 @@ services:
       - ./graphql:/usr/app:cached
     command:
       air
-    environment:
-      MONGODB_URI: ''
 
   web:
     build:
