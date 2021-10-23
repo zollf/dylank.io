@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "iam_site_policy" {
   statement {
     actions   = ["cloudfront:*"]
     effect    = "Allow"
-    resources = [aws_cloudfront_distribution.s3_distribution.arn]
+    resources = ["*"]
   }
 }
 
