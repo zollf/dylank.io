@@ -1,14 +1,14 @@
 version: "3.8"
 
 services:
-  graphql:
+  backend:
     build:
-      context: ./graphql
+      context: ./backend
       dockerfile: ../docker/go.dev.Dockerfile
     ports:
       - 8080:8080
     volumes:
-      - ./graphql:/usr/app:cached
+      - ./backend:/usr/app:cached
     command:
       air
 
@@ -38,7 +38,7 @@ services:
       - 443:443
     depends_on:
       - web
-      - graphql
+      - backend
 
 volumes:
   node_modules:
