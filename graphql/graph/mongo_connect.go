@@ -3,6 +3,7 @@ package graph
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,10 +12,17 @@ import (
 
 type query func(context.Context, *mongo.Client) error
 
+const defaultUri = "mongodb://mongo:27017"
+
 func GetMongo(q query) error {
+	uri := os.Getenv("MONGO_URI")
+	if uri == "" {
+		uri = defaultUri
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://mongo:27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
 	defer client.Disconnect(ctx)
 
 	if err != nil {

@@ -92,6 +92,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Make Environment File
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          directory: "graphql"
+          envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -108,6 +113,11 @@ jobs:
     steps:
       - name: Check out code
         uses: actions/checkout@v2
+      - name: Make Environment File
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          directory: "graphql"
+          envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
       - name: Heroku Login
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:
