@@ -95,7 +95,7 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          directory: graphql
+          directory: graphql/
           envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: Configure AWS credentials
@@ -117,7 +117,7 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          directory: graphql
+          directory: graphql/
           envkey_MONGO_URL: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: LS Check
