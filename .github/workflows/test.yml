@@ -35,6 +35,6 @@ jobs:
         with:
           go-version: '1.17.2'
       - name: Go Modules Download
-        run: cd graphql && go mod download
+        run: cd backend && go mod download
       - name: Go Build
-        run: cd graphql && go build -o server server.go
+        run: cd backend && go build -o server server.go
