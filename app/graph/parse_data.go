@@ -1,7 +1,7 @@
 package graph
 
 import (
-	"api/graph/model"
+	"app/graph/model"
 	"context"
 	"log"
 
