@@ -1,6 +1,7 @@
 package graph
 
 import (
+	"app/database"
 	"app/graph/model"
 	"context"
 	"log"
@@ -11,7 +12,7 @@ import (
 
 func ParseProjects() []*model.Project {
 	var projects []*model.Project
-	err := GetMongo(func(ctx context.Context, client *mongo.Client) error {
+	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
 		cur, err := client.Database("db").Collection("projects").Find(ctx, bson.D{{}})
 		for cur.Next(ctx) {
 			var result *model.Project

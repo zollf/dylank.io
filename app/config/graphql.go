@@ -12,8 +12,8 @@ import (
 
 func Graphql(w http.ResponseWriter, r *http.Request, router http.HandlerFunc) {
 	path := r.URL.Path
-	if strings.HasPrefix(path, "/playground") {
-		playground.Handler("GraphQL playground", "/query").ServeHTTP(w, r)
+	if strings.HasPrefix(path, "/admin/playground") {
+		playground.Handler("GraphQL playground", "/graphql").ServeHTTP(w, r)
 		return
 	}
 
