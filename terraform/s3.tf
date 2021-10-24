@@ -9,6 +9,20 @@ resource "aws_s3_bucket" "s3" {
 
 data "aws_iam_policy_document" "public_user_policy" {
   statement {
+    actions = ["s3:GetObject"]
+    resources = [
+      aws_s3_bucket.s3.arn,
+      "${aws_s3_bucket.s3.arn}/*"
+    ]
+    effect = "Allow"
+
+    principals {
+      type        = "*"
+      identifiers = ["*"]
+    }
+  }
+
+  statement {
     actions   = ["s3:GetObject"]
     resources = ["${aws_s3_bucket.s3.arn}/*"]
 

@@ -107,25 +107,3 @@ jobs:
           aws-region            : "ap-southeast-2"
       - name: Upload
         run: sh deploy.sh dylank.io-go-image ${{ secrets.AWS_URL }} ap-southeast-2 docker/go.prod.Dockerfile
-
-  deploy-api:
-    name: Deploy Api to Heroku
-    runs-on: ubuntu-latest
-    needs: [go]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Make Environment File
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
-          file_name: .env 
-      - name: CP .env
-        run: cp .env app
-      - name: Heroku Login
-        uses: akhileshns/heroku-deploy@v3.12.12 
-        with:
-          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
-          heroku_app_name: service-dylank
-          heroku_email: ${{ secrets.HEROKU_EMAIL }}
-          usedocker: true
