@@ -21,6 +21,7 @@ data "aws_iam_policy_document" "iam_site_policy" {
   }
   statement {
     actions = [
+      # Users
       "iam:GetUserPolicy",
       "iam:ListGroupsForUser",
       "iam:ListAttachedUserPolicies",
@@ -33,9 +34,13 @@ data "aws_iam_policy_document" "iam_site_policy" {
       "iam:ListGroupPolicies",
       "iam:ListPolicyVersions",
       "iam:ListPolicies",
-      "iam:ListUsers"
+      "iam:ListUsers",
+      # Roles
+      "iam:GetRole",
+      "iam:ListRolePolicies",
+      "iam:ListAttachedRolePolicies",
     ]
-    resources = [aws_iam_user.iam_user.arn]
+    resources = [aws_iam_user.iam_user.arn, aws_iam_role.ecsTaskExecutionRole.arn]
     effect    = "Allow"
   }
 
