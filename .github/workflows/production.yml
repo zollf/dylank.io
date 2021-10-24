@@ -35,9 +35,9 @@ jobs:
         with:
           go-version: '1.17.2'
       - name: Go Modules Download
-        run: cd backend && go mod download
+        run: cd app && go mod download
       - name: Go Build
-        run: cd backend && go build -o server server.go
+        run: cd app && go build -o server server.go
   
   terraform:
     name: Terraform
@@ -98,7 +98,7 @@ jobs:
           envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: CP .env
-        run: cp .env backend
+        run: cp .env app
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -121,7 +121,7 @@ jobs:
           envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           file_name: .env 
       - name: CP .env
-        run: cp .env backend
+        run: cp .env app
       - name: Heroku Login
         uses: akhileshns/heroku-deploy@v3.12.12 
         with:
