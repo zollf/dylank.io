@@ -21,9 +21,19 @@ data "aws_iam_policy_document" "iam_site_policy" {
   }
   statement {
     actions = [
-      "iam:GetUser",
       "iam:GetUserPolicy",
-      "iam:PutUserPolicy"
+      "iam:ListGroupsForUser",
+      "iam:ListAttachedUserPolicies",
+      "iam:ListUserPolicies",
+      "iam:GetUser",
+      "iam:GetGroupPolicy",
+      "iam:GetPolicyVersion",
+      "iam:GetPolicy",
+      "iam:ListAttachedGroupPolicies",
+      "iam:ListGroupPolicies",
+      "iam:ListPolicyVersions",
+      "iam:ListPolicies",
+      "iam:ListUsers"
     ]
     resources = [aws_iam_user.iam_user.arn]
     effect    = "Allow"
@@ -45,6 +55,30 @@ data "aws_iam_policy_document" "iam_site_policy" {
 
   statement {
     actions   = ["cloudfront:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
+    actions   = ["ec2:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
+    actions   = ["ecs:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
+    actions   = ["elasticloadbalancing:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
+
+  statement {
+    actions   = ["route53:*"]
     effect    = "Allow"
     resources = ["*"]
   }

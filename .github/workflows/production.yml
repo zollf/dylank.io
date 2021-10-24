@@ -5,9 +5,29 @@ on:
     branches: [main]
 
 jobs:
+  terraform:
+    name: Terraform
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region            : "ap-southeast-2"
+      - name: Terraform Check & Init
+        run : |
+          terraform -chdir=terraform fmt -check 
+          terraform -chdir=terraform init
+      - name: Terraform Apply
+        run : terraform -chdir=terraform apply -auto-approve
+  
   react:
     name: React Test
     runs-on: ubuntu-latest
+    needs: [terraform]
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -27,6 +47,7 @@ jobs:
   go:
     name: Go Test
     runs-on: ubuntu-latest
+    needs: [terraform]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -38,30 +59,11 @@ jobs:
         run: cd app && go mod download
       - name: Go Build
         run: cd app && go build -o server server.go
-  
-  terraform:
-    name: Terraform
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region            : "ap-southeast-2"
-      - name: Terraform Check & Init
-        run : |
-          terraform -chdir=terraform fmt -check 
-          terraform -chdir=terraform init
-      - name: Terraform Apply
-        run : terraform -chdir=terraform apply -auto-approve
 
   s3:
     name: Sync with S3
     runs-on: ubuntu-latest
-    needs: [react, terraform]
+    needs: [react]
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -84,11 +86,10 @@ jobs:
           AWS_REGION            : "ap-southeast-2"
           SOURCE_DIR            : "public"
 
-  # Currently leaving this in until AWS AppRunner comes to ap-southeast-2
   ecr:
     name: Upload to ECR
     runs-on: ubuntu-latest
-    needs: [go, terraform]
+    needs: [go]
     steps:
       - name: Check out code
         uses: actions/checkout@v2
