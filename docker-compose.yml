@@ -1,14 +1,14 @@
 version: "3.8"
 
 services:
-  backend:
+  app:
     build:
-      context: ./backend
+      context: ./app
       dockerfile: ../docker/go.dev.Dockerfile
     ports:
       - 8080:8080
     volumes:
-      - ./backend:/usr/app:cached
+      - ./app:/usr/app:cached
     command:
       air
 
@@ -38,7 +38,7 @@ services:
       - 443:443
     depends_on:
       - web
-      - backend
+      - app
 
 volumes:
   node_modules:

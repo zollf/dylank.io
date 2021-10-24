@@ -35,6 +35,6 @@ jobs:
         with:
           go-version: '1.17.2'
       - name: Go Modules Download
-        run: cd backend && go mod download
+        run: cd app && go mod download
       - name: Go Build
-        run: cd backend && go build -o server server.go
+        run: cd app && go build -o server server.go
