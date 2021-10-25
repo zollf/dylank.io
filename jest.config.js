@@ -8,7 +8,7 @@ module.exports = {
   testPathIgnorePatterns: ['node_modules'],
   moduleDirectories: ['node_modules'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(scss)': 'identity-obj-proxy',
   },
   transform: {

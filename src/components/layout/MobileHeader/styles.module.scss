@@ -1,0 +1,49 @@
+.mobileHeader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  height: $mobileHeaderHeight;
+  background: $color-gray-colors-white;
+  justify-content: space-between;
+  padding: $margin * 0.5;
+  z-index: 1;
+
+  .logo {
+    color: $color-brand-colors-secondary-1;
+
+    @include text-style-ubuntu-medium-20-font-size;
+  }
+
+  .menu {
+    @include ClearButton;
+
+    cursor: pointer;
+    transform: rotate(0);
+    transition: 0.2s all ease;
+
+    &[data-active="true"] {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.backing {
+  @include ClearButton;
+
+  z-index: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(black, 0.3);
+  transition: 0.2s all ease;
+  opacity: 1;
+  cursor: pointer;
+
+  &[data-active="false"] {
+    opacity: 0;
+  }
+}

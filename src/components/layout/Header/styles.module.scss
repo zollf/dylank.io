@@ -1,0 +1,47 @@
+.header {
+  background: $color-gray-colors-white;
+  display: flex;
+  justify-content: center;
+  height: $desktopHeaderHeight;
+
+  .inner {
+    width: 100%;
+    max-width: 1280px;
+    height: 100%;
+    display: grid;
+    align-items: center;
+    padding: $margin;
+    grid-template-columns: repeat(3, 1fr);
+
+    .logo {
+      color: $color-brand-colors-secondary-1;
+
+      @include text-style-ubuntu-medium-20-font-size;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+      column-gap: $margin;
+      justify-self: center;
+
+      a {
+        color: $color-brand-colors-secondary-1;
+
+        @include text-style-ubuntu-medium-14-font-size;
+      }
+    }
+
+    .socials {
+      display: flex;
+      align-items: center;
+      column-gap: $margin * 0.5;
+      justify-self: flex-end;
+
+      svg {
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+}

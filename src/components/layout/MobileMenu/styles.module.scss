@@ -1,0 +1,35 @@
+.mobileMenu {
+  position: fixed;
+  right: 0;
+  width: 60%;
+  top: $mobileHeaderHeight;
+  background: $color-brand-colors-primary;
+  height: 100%;
+  padding: $margin;
+  display: flex;
+  flex-direction: column;
+  row-gap: $margin * 0.5;
+  z-index: 1;
+  transition: 0.2s all ease;
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    row-gap: $margin * 0.5;
+
+    a {
+      color: $color-gray-colors-white;
+
+      @include text-style-ubuntu-medium-20-font-size;
+    }
+  }
+
+  .socials {
+    display: flex;
+    column-gap: $margin * 0.5;
+  }
+
+  &[data-active="false"] {
+    transform: translateX(100%);
+  }
+}
