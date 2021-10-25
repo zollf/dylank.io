@@ -6,30 +6,41 @@
   background: $color-brand-colors-primary;
   height: 100%;
   padding: $margin;
-  display: flex;
-  flex-direction: column;
-  row-gap: $margin * 0.5;
   z-index: 1;
   transition: 0.2s all ease;
 
-  nav {
-    display: flex;
-    flex-direction: column;
-    row-gap: $margin * 0.5;
-
-    a {
-      color: $color-gray-colors-white;
-
-      @include text-style-ubuntu-medium-20-font-size;
-    }
-  }
-
-  .socials {
-    display: flex;
-    column-gap: $margin * 0.5;
-  }
-
   &[data-active="false"] {
     transform: translateX(100%);
+  }
+
+  .inner {
+    display: grid;
+    height: max-content;
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: $margin * 0.5;
+
+    nav {
+      display: grid;
+      grid-template-rows: repeat(4, auto);
+      row-gap: $margin * 0.5;
+
+      a {
+        color: $color-gray-colors-white;
+
+        @include text-style-ubuntu-medium-32-font-size;
+      }
+    }
+
+    .socials {
+      display: grid;
+      width: max-content;
+      grid-template-columns: repeat(3, auto);
+      column-gap: $margin * 0.5;
+
+      svg {
+        height: 48px;
+        width: 48px;
+      }
+    }
   }
 }
