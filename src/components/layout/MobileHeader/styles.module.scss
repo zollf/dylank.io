@@ -1,5 +1,5 @@
 .mobileHeader {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -7,13 +7,14 @@
   height: $mobileHeaderHeight;
   background: $color-gray-colors-white;
   justify-content: space-between;
-  padding: $margin * 0.5;
+  padding: 0 $margin;
+  align-items: center;
   z-index: 1;
 
   .logo {
     color: $color-brand-colors-secondary-1;
 
-    @include text-style-ubuntu-medium-20-font-size;
+    @include text-style-ubuntu-medium-32-font-size;
   }
 
   .menu {
@@ -22,9 +23,15 @@
     cursor: pointer;
     transform: rotate(0);
     transition: 0.2s all ease;
+    display: flex;
 
     &[data-active="true"] {
       transform: rotate(180deg);
+    }
+
+    svg {
+      height: 48px;
+      width: 48px;
     }
   }
 }

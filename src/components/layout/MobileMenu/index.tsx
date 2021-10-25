@@ -12,16 +12,18 @@ interface Props {
 const MobileMenu = ({ active }: Props) => {
   return (
     <div className={styles.mobileMenu} data-active={active} data-testid="mobileMenu">
-      <nav>
-        <a href="#home">Home</a>
-        <a href="#work">Work</a>
-        <a href="#about">About</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <div className={styles.socials}>
-        <DiscordLogo />
-        <LinkedInLogo />
-        <GithubLogo />
+      <div className={styles.inner}>
+        <nav>
+          <a href="#home">Home</a>
+          <a href="#work">Work</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </nav>
+        <div className={styles.socials}>
+          <DiscordLogo />
+          <LinkedInLogo />
+          <GithubLogo />
+        </div>
       </div>
     </div>
   );

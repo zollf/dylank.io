@@ -27,6 +27,11 @@
       height: 425px;
       width: 280px;
       background: $color-brand-colors-primary;
+
+      @include mobile {
+        height: 254px;
+        width: 166px;
+      }
     }
   }
 
@@ -65,14 +70,17 @@
     }
 
     .btns {
-      display: flex;
+      display: grid;
+      width: max-content;
+      grid-template-columns: repeat(2, auto);
       margin-top: $margin * 0.5;
       column-gap: $margin * 0.5;
 
       @include mobile {
         width: 100%;
         max-width: 180px;
-        flex-direction: column;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
         row-gap: $margin * 0.5;
         margin-top: 0;
       }

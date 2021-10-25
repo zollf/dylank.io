@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: 0.2s all ease;
 
   &.large {
     padding: 0 $margin;
@@ -26,12 +27,24 @@
     color: $color-gray-colors-white;
     background: $color-brand-colors-primary;
     border: 2px solid $color-brand-colors-primary;
+
+    &:hover {
+      color: $color-brand-colors-primary;
+      background: $color-gray-colors-white;
+      border-color: $color-brand-colors-primary;
+    }
   }
 
   &.white {
     color: $color-brand-colors-primary;
     background: $color-gray-colors-white;
     border: 2px solid $color-brand-colors-primary;
+
+    &:hover {
+      color: $color-gray-colors-white;
+      background: $color-brand-colors-primary;
+      border-color: $color-brand-colors-primary;
+    }
   }
 
   &.full {
