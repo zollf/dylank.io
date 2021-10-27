@@ -17,7 +17,7 @@ func Graphql(w http.ResponseWriter, r *http.Request, router http.HandlerFunc) {
 		return
 	}
 
-	if strings.HasPrefix(path, "/graphql") {
+	if strings.HasPrefix(path, "/api/graphql") {
 		srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 		srv.ServeHTTP(w, r)
 		return

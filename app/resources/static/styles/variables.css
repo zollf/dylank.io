@@ -1,0 +1,20 @@
+:root {
+  --brand-colors-primary: rgba(17,106,204,1);
+  --brand-colors-secondary-1: rgba(24,34,51,1);
+  --brand-colors-secondary-2: rgba(179,206,226,1);
+  --brand-colors-secondary-3: rgba(217,221,231,1);
+  --brand-colors-secondary-4: rgba(253,78,93,1);
+  --gray-colors-black: rgba(0,0,0,1);
+  --gray-colors-gray-1: rgba(31,41,55,1);
+  --gray-colors-gray-2: rgba(55,65,81,1);
+  --gray-colors-gray-3: rgba(75,85,99,1);
+  --gray-colors-gray-4: rgba(107,114,128,1);
+  --gray-colors-gray-5: rgba(156,163,175,1);
+  --gray-colors-gray-6: rgba(209,213,219,1);
+  --gray-colors-gray-7: rgba(243,244,246,1);
+  --gray-colors-white: rgba(255,255,255,1);
+  --state-colors-error: rgba(186,0,0,1);
+  --state-colors-info: rgba(160,195,255,1);
+  --state-colors-success: rgba(118,202,102,1);
+  --state-colors-warning: rgba(251,199,86,1);
+}

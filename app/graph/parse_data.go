@@ -14,6 +14,11 @@ func ParseProjects() []*model.Project {
 	var projects []*model.Project
 	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
 		cur, err := client.Database("db").Collection("projects").Find(ctx, bson.D{{}})
+
+		if err != nil {
+			return err
+		}
+
 		for cur.Next(ctx) {
 			var result *model.Project
 			err := cur.Decode(&result)
@@ -24,7 +29,7 @@ func ParseProjects() []*model.Project {
 
 			projects = append(projects, result)
 		}
-		return err
+		return nil
 	})
 
 	if err != nil {

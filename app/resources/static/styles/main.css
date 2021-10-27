@@ -1,0 +1,21 @@
+* {
+  font-family: Ubuntu;
+  color: var(--brand-colors-secondary-1);
+}
+
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 15% auto;
+  min-height: calc(100vh - 70px);
+  background: var(--gray-colors-gray-7);
+}
+
+main > .content {
+  padding: 24px;
+}

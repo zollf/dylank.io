@@ -1,0 +1,21 @@
+extends ../admin.pug
+
+block content
+  .space-between
+    h1 Create User
+    form(action='/api/users/delete', method='POST' class="mb-0")
+      input(hidden="true" value="{{.User.ID}}" name="id")
+      button(type="submit" class="btn btn-danger btn-sm m-1") Delete
+  form(action='/api/users/edit', method='POST')
+    input(hidden="true" value="{{.User.ID}}" name="id")
+    input(hidden="true" value="{{.User.DateCreated}}" name="dateCreated")
+    .form-group.mb-3
+      label(for="username") Username 
+      input(type="text" class="form-control" name="username" placeholder="Username" value="{{.User.Username}}" disabled=true)
+    .form-group.mb-3
+      label(for="password") Password
+      input(type="password" class="form-control" name="password" placeholder="Password" required=true)
+    .form-group.mb-3
+      label(for="email") Email
+      input(type="email" class="form-control" name="email" placeholder="Email" value="{{.User.Email}}" required=true)
+    button(type="submit" class="btn btn-primary") Save
