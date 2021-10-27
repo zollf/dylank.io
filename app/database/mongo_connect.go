@@ -2,7 +2,6 @@ package database
 
 import (
 	"context"
-	"log"
 	"os"
 	"time"
 
@@ -26,20 +25,15 @@ func GetMongo(q query) error {
 	defer client.Disconnect(ctx)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	err = client.Ping(ctx, nil)
 
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	err = q(ctx, client)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	return err
 }
