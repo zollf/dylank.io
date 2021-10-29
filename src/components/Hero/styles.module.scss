@@ -14,6 +14,7 @@
   }
 
   .left {
+    position: relative;
     justify-self: flex-end;
     margin-right: $margin * 2;
 
@@ -32,6 +33,10 @@
         height: 254px;
         width: 166px;
       }
+    }
+
+    .model {
+      position: absolute !important;
     }
   }
 

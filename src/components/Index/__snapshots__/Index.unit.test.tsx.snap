@@ -135,6 +135,14 @@ exports[`matches its mobile snapshot 1`] = `
           class="left"
         >
           <div
+            class="model"
+            style="position: relative; width: 100%; height: 100%; overflow: hidden;"
+          >
+            <canvas
+              style="display: block;"
+            />
+          </div>
+          <div
             class="stub"
           />
         </div>
@@ -275,6 +283,14 @@ exports[`matches its snapshot 1`] = `
         <div
           class="left"
         >
+          <div
+            class="model"
+            style="position: relative; width: 100%; height: 100%; overflow: hidden;"
+          >
+            <canvas
+              style="display: block;"
+            />
+          </div>
           <div
             class="stub"
           />
