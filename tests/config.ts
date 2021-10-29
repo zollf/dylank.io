@@ -15,6 +15,8 @@ class ResizeObserver {
   }
 }
 
+jest.mock('three/examples/jsm/loaders/GLTFLoader', () => ({}));
+
 window.ResizeObserver = ResizeObserver;
 
 fetchMock.enableMocks();

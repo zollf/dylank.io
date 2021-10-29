@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import * as three from 'three';
-import GLTFLoader from 'three-gltf-loader';
 import { Environment, OrbitControls, PerspectiveCamera, Plane, Shadow } from '@react-three/drei';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { useFrame, useLoader } from '@react-three/fiber';
 
 // istanbul ignore next
@@ -9,7 +9,7 @@ const HeroModel = () => {
   const obj = useRef<three.Mesh>();
   const gltf = useLoader(GLTFLoader, 'scene/scene.gltf');
 
-  useFrame(() => (obj.current!.rotation.y += 0.01));
+  useFrame(() => (obj.current!.rotation.y += 0.001));
 
   return (
     <PerspectiveCamera>
