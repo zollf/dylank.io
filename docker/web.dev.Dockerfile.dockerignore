@@ -1,0 +1,5 @@
+/app
+/.github
+/coverage
+/terraform
+/node_modules
