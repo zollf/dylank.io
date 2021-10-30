@@ -1,0 +1,32 @@
+extends ../admin.pug
+
+block content
+  .space-between
+    h1 Projects
+    a(href="/admin/projects/create" class="btn btn-success") Create
+  if .Err
+    .alert.alert-danger {{.Err}}
+  if .Success
+    .alert.alert-success Success
+  table(class="table")
+    thead 
+      tr 
+        th(scope="col") #
+        th(scope="col") Name 
+        th(scope="col") Description
+        th(scope="col") Date Created
+        th(scope="col") Date Updated
+        th(scope="col") Action
+    tbody 
+      each _, i in .Users
+        tr 
+          th(scope="row" class="align-middle") {{.Index}}
+          th(class="align-middle") {{.Name}}
+          th(class="align-middle") {{.Description}}
+          th(class="align-middle") {{.DateCreated}}
+          th(class="align-middle") {{.DateUpdated}}
+          th(class="flex-row") 
+            a(href="/admin/projects/view/{{.ID}}" class="btn btn-primary btn-sm m-1") View
+            form(action='/api/projects/delete', method='POST' class="mb-0")
+              input(hidden="true" value="{{.ID}}" name="id")
+              button(type="submit" class="btn btn-danger btn-sm m-1") Delete
