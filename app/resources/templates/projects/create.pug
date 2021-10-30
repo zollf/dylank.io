@@ -1,0 +1,23 @@
+extends ../admin.pug
+
+block content
+  form(action='/api/projects/create', method='POST')
+    .form-group.mb-3
+      label(for="title") Title
+      input(type="text" class="form-control" name="title" placeholder="Title" required=true)
+    .form-group.mb-3
+      label(for="slug") Slug
+      input(type="text" class="form-control" name="slug" placeholder="Slug" required=true)
+    .form-group.mb-3
+      label(for="description") Description
+      textarea(type="email" class="form-control" name="email" placeholder="Email" required=true rows="3")
+    .form-group.mb-3
+      label(for="image") Image 
+      input(type="file" class="form-control-file" name="image")
+    .form-group.mb-3
+      label(for="url") URL
+      input(type="text" class="form-control" name="url" placeholder="Url")
+    .form-group.mb-3
+      label(for="git") Git
+      input(type="text" class="form-control" name="git" placeholder="Git")
+    button(type="submit" class="btn btn-primary") Create

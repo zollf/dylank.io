@@ -34,5 +34,8 @@ func main() {
 	app.Post("/api/users/edit", controllers.CreateOrEditUser)
 	app.Post("/api/users/delete", controllers.DeleteUser)
 
+	app.Get("/admin/projects", views.Projects)
+	app.Get("/admin/projects/create", views.NewProject)
+
 	app.Listen(":8080")
 }

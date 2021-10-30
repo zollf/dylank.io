@@ -1,11 +1,36 @@
 # dylank.io
-Portfolio Website
+https://dylank.io
 
-## GraphQl
-```
-go get github.com/99designs/gqlgen
+Front end is served through s3, and backend AWS Fargate.
+
+## Startup
+Create env file (only needed for backend app)
+```bash
+cp app/.env.example .env
 ```
 
+Build + Start
+```bash
+yarn
+docker-compose build
+docker-compose up
 ```
-go generate ./... 
+
+Open http://localhost
+## Test
+```bash
+yarn test
 ```
+
+## Lint
+```bash
+yarn lint
+terraform -chdir=terraform fmt -check 
+```
+
+## Tech Stack
+- Frontend - Typescript, React, Webpack, SCSS 
+- API Gateway - Graphql
+- Backend - Golang, Iris
+- Database - MongoDB
+- Infra - AWS, Terraform, Docker, Nginx 
