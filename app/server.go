@@ -2,40 +2,36 @@ package main
 
 import (
 	"app/config"
-	"app/controllers"
 	"app/middleware"
-	"app/views"
+	"app/routes"
+	"app/scripts"
+	"os"
 
 	"github.com/kataras/iris/v12"
 )
 
 func main() {
 	config.DotEnv()
-	app := iris.New()
-	app.WrapRouter(config.Graphql)
 
-	e := iris.Pug("./resources/templates", ".pug").Reload(true)
-	app.RegisterView(e)
-	app.HandleDir("/admin/styles", iris.Dir("./resources/static/styles"))
+	// Run server if there is no other args
+	if len(os.Args) == 1 || os.Args[1] == "runserver" {
+		app := iris.New()
+		app.WrapRouter(config.Graphql)
 
-	app.Get("/admin/login", views.Login)
-	app.Get("/admin/logout", views.Logout)
-	app.Get("/api/logout", controllers.Logout)
-	app.Post("/api/login", controllers.Login)
+		e := iris.Pug("./resources/templates", ".pug").Reload(true)
+		app.RegisterView(e)
+		app.HandleDir("/admin/styles", iris.Dir("./resources/static/styles"))
 
-	app.Use(middleware.AuthRequired)
-	app.Get("/admin", views.AdminIndex)
+		routes.AuthRoutes(app)
 
-	app.Get("/admin/users/create", views.NewUser)
-	app.Get("/admin/users/view/{id}", views.EditUser)
-	app.Get("/admin/users", views.Users)
+		app.Use(middleware.AuthRequired)
 
-	app.Post("/api/users/create", controllers.CreateOrEditUser)
-	app.Post("/api/users/edit", controllers.CreateOrEditUser)
-	app.Post("/api/users/delete", controllers.DeleteUser)
+		routes.AdminRoutes(app)
+		routes.UserRoutes(app)
+		routes.ProjectsRoutes(app)
 
-	app.Get("/admin/projects", views.Projects)
-	app.Get("/admin/projects/create", views.NewProject)
-
-	app.Listen(":8080")
+		app.Listen(":8080")
+	} else {
+		scripts.RunScripts(os.Args[1:])
+	}
 }
