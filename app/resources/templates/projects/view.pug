@@ -1,0 +1,35 @@
+extends ../admin.pug
+
+block content
+  .space-between
+    h1 Edit User - {{.Project.Title}}
+    .flex-row
+      a(href="/admin/projects" class="btn btn-secondary btn-sm m-1") Back
+      form(action='/api/projects/delete', method='POST' class="mb-0")
+        input(hidden="true" value="{{.Project.ID}}" name="id")
+        button(type="submit" class="btn btn-danger btn-sm m-1") Delete
+  form(action='/api/projects/edit', method='POST')
+    input(hidden="true" value="{{.Project.ID}}" name="id")
+    input(hidden="true" value="{{.Project.DateCreated}}" name="dateCreated")
+    .form-group.mb-3
+      label(for="title") Title
+      input(type="text" class="form-control" name="title" placeholder="Title" value="{{.Project.Title}}" required=true)
+    .form-group.mb-3
+      label(for="slug") Slug
+      input(type="text" class="form-control" name="slug" placeholder="Slug" value="{{.Project.Slug}}" required=true)
+    .form-group.mb-3
+      label(for="description") Description
+      input(type="text" class="form-control" name="description" placeholder="Description" value="{{.Project.Description}}" required=true)  
+    .form-group.mb-3
+      label(for="current_image_url") Image Url
+      input(type="text" class="form-control" name="current_image_url" value="{{.Project.Image}}" disabled=true)
+    .form-group.mb-3
+      label(for="image") Image 
+      input(type="file" class="form-control-file" name="image")
+    .form-group.mb-3
+      label(for="url") URL
+      input(type="text" class="form-control" name="url" placeholder="Url" value="{{.Project.URL}}")
+    .form-group.mb-3
+      label(for="git") Git
+      input(type="text" class="form-control" name="git" placeholder="Git" value="{{.Project.Git}}")
+    button(type="submit" class="btn btn-primary") Save

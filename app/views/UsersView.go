@@ -58,6 +58,7 @@ func EditUser(ctx iris.Context) {
 
 	if user_err != nil {
 		ctx.View("404.pug")
+		return
 	}
 
 	user_data := UserData{
