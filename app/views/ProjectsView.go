@@ -45,6 +45,48 @@ func NewProject(ctx iris.Context) {
 	ctx.View("projects/create.pug")
 }
 
-func EditProject() {
+func EditProject(ctx iris.Context) {
+	type ProjectData struct {
+		ID          string
+		Title       string
+		Slug        string
+		Description string
+		Image       string
+		URL         string
+		Git         string
+		Tags        []*models.Tag
+		DateCreated string
+		DateUpdated string
+	}
 
+	id := ctx.Params().Get("id")
+	project, project_err := models.GetProject(id)
+
+	if project_err != nil {
+		ctx.View("404.pug")
+	}
+
+	project_url := ""
+	if project.URL != nil {
+		project_url = *project.URL
+	}
+
+	git_url := ""
+	if project.Git != nil {
+		git_url = *project.Git
+	}
+
+	project_data := ProjectData{
+		ID:          project.ID.Hex(),
+		Title:       project.Title,
+		Slug:        project.Slug,
+		Image:       project.Image,
+		URL:         project_url,
+		Git:         git_url,
+		Tags:        project.Tags,
+		Description: project.Description,
+		DateCreated: project.DateCreated,
+	}
+
+	ctx.View("projects/view.pug", iris.Map{"Project": project_data})
 }

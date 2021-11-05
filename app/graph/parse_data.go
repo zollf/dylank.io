@@ -13,7 +13,7 @@ import (
 func ParseProjects() []*model.Project {
 	var projects []*model.Project
 	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		cur, err := client.Database("db").Collection("projects").Find(ctx, bson.D{{}})
+		cur, err := client.Database("db").Collection("project").Find(ctx, bson.D{{}})
 
 		if err != nil {
 			return err

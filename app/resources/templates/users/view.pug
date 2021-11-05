@@ -2,7 +2,7 @@ extends ../admin.pug
 
 block content
   .space-between
-    h1 Create User
+    h1 Edit User - {{.User.Username}}
     form(action='/api/users/delete', method='POST' class="mb-0")
       input(hidden="true" value="{{.User.ID}}" name="id")
       button(type="submit" class="btn btn-danger btn-sm m-1") Delete

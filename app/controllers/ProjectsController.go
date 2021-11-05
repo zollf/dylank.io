@@ -31,25 +31,35 @@ func CreateOrEditProject(ctx iris.Context) {
 		DateCreated = time.Now().UTC().String()
 	}
 
+	var project_url string
+	if ctx.FormValue("url") != "" {
+		project_url = ctx.FormValue("url")
+	}
+
+	var git_url string
+	if ctx.FormValue("git") != "" {
+		git_url = ctx.FormValue("git")
+	}
+
 	project := &models.Project{
-		ID: ID,
-		Title: ctx.FormValue("title"),
-		Slug: ctx.FormValue("slug"),
+		ID:          ID,
+		Title:       ctx.FormValue("title"),
+		Slug:        ctx.FormValue("slug"),
 		Description: ctx.FormValue("description"),
-		Image: "",
-		URL: nil,
-		Git: nil,
-		DateCreated:  DateCreated,
-		DateUpdated:  time.Now().UTC().String(),
+		Image:       "",
+		URL:         &project_url,
+		Git:         &git_url,
+		DateCreated: DateCreated,
+		DateUpdated: time.Now().UTC().String(),
 	}
 
 	err := models.CreateOrEditProject(project)
 
 	if err != nil {
-		ctx.Redirect(fmt.Sprintf("/admin/users?err=%s", err.Error()))
+		ctx.Redirect(fmt.Sprintf("/admin/projects?err=%s", err.Error()))
 		return
 	} else {
-		ctx.Redirect("/admin/users?success=true")
+		ctx.Redirect("/admin/projects?success=true")
 		return
 	}
 }

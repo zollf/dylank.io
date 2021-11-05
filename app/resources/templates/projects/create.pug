@@ -10,7 +10,7 @@ block content
       input(type="text" class="form-control" name="slug" placeholder="Slug" required=true)
     .form-group.mb-3
       label(for="description") Description
-      textarea(type="email" class="form-control" name="email" placeholder="Email" required=true rows="3")
+      input(type="text" class="form-control" name="description" placeholder="Description" value="{{.Project.Description}}" required=true)  
     .form-group.mb-3
       label(for="image") Image 
       input(type="file" class="form-control-file" name="image")
