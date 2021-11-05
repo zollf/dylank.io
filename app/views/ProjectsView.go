@@ -19,7 +19,11 @@ func Projects(ctx iris.Context) {
 		DateUpdated string
 	}
 
-	projects, _ := models.GetProjects()
+	projects, p_err := models.GetProjects()
+	if p_err != nil {
+		err = p_err.Error()
+	}
+
 	var project_data []*ProjectData
 	layout := "2006-01-02 15:04:05 -0700 MST"
 	zone, _ := time.LoadLocation("Australia/Perth")
@@ -64,6 +68,7 @@ func EditProject(ctx iris.Context) {
 
 	if project_err != nil {
 		ctx.View("404.pug")
+		return
 	}
 
 	project_url := ""

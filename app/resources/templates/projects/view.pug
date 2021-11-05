@@ -3,9 +3,11 @@ extends ../admin.pug
 block content
   .space-between
     h1 Edit User - {{.Project.Title}}
-    form(action='/api/projects/delete', method='POST' class="mb-0")
-      input(hidden="true" value="{{.Project.ID}}" name="id")
-      button(type="submit" class="btn btn-danger btn-sm m-1") Delete
+    .flex-row
+      a(href="/admin/projects" class="btn btn-secondary btn-sm m-1") Back
+      form(action='/api/projects/delete', method='POST' class="mb-0")
+        input(hidden="true" value="{{.Project.ID}}" name="id")
+        button(type="submit" class="btn btn-danger btn-sm m-1") Delete
   form(action='/api/projects/edit', method='POST')
     input(hidden="true" value="{{.Project.ID}}" name="id")
     input(hidden="true" value="{{.Project.DateCreated}}" name="dateCreated")

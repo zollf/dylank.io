@@ -38,109 +38,59 @@ func CreateOrEditUser(user *User) error {
 
 func GetUsers() ([]*User, error) {
 	var users []*User
-	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		cur, err := client.Database("db").Collection(UserCol).Find(ctx, bson.D{})
-
-		if err != nil {
+	err := database.GetDocuments(UserCol, func(cur *mongo.Cursor) error {
+		var user *User
+		if err := cur.Decode(&user); err != nil {
 			return err
+		} else {
+			users = append(users, user)
+			return nil
 		}
-
-		for cur.Next(ctx) {
-			var result *User
-			err := cur.Decode(&result)
-
-			if err != nil {
-				return err
-			}
-
-			users = append(users, result)
-		}
-
-		return nil
 	})
 
 	return users, err
 }
 
-func GetUser(id string) (*User, error) {
-	var user *User
-	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		pid, pid_err := primitive.ObjectIDFromHex(id)
-
-		if pid_err != nil {
-			return pid_err
-		}
-
-		result := client.Database("db").Collection(UserCol).FindOne(ctx, bson.M{"_id": pid})
-
-		if result.Err() != nil {
-			return result.Err()
-		}
-
-		return result.Decode(&user)
-	})
-
-	return user, err
-}
-
 func FindUser(user *User) (bool, error) {
-	var found bool = false
-	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		count, err := client.Database("db").Collection(UserCol).CountDocuments(ctx, bson.M{"_id": user.ID})
-
-		if err != nil {
-			return err
-		}
-
-		found = count != 0
-		return nil
-	})
-
-	return found, err
-}
-
-func CreateUser(user *User) error {
-	return database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		hash, hash_err := HashPassword(user.Password)
-
-		if hash_err != nil {
-			return hash_err
-		}
-
-		user.Password = hash
-
-		_, err := client.Database("db").Collection(UserCol).InsertOne(ctx, user)
-		return err
-	})
+	return database.DocumentExist(UserCol, bson.M{"_id": user.ID})
 }
 
 func UpdateUser(user *User) error {
-	return database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		hash, hash_err := HashPassword(user.Password)
-
-		if hash_err != nil {
-			return hash_err
-		}
-
+	if hash, hash_err := HashPassword(user.Password); hash_err != nil {
+		return hash_err
+	} else {
 		user.Password = hash
+		return database.UpdateDocument(ProjCol, bson.M{"_id": user.ID}, bson.M{"$set": user})
+	}
+}
 
-		_, err := client.Database("db").Collection(UserCol).UpdateOne(ctx, bson.M{"_id": user.ID}, bson.M{"$set": user})
-		return err
-	})
+func CreateUser(user *User) error {
+	if hash, hash_err := HashPassword(user.Password); hash_err != nil {
+		return hash_err
+	} else {
+		user.Password = hash
+		return database.CreateDocument(UserCol, user)
+	}
+}
+
+func GetUser(id string) (*User, error) {
+	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
+		return nil, pid_err
+	} else {
+		var user *User
+		err := database.GetDocument(UserCol, bson.M{"_id": pid}, func(res *mongo.SingleResult) error {
+			return res.Decode(&user)
+		})
+		return user, err
+	}
 }
 
 func DeleteUser(id string) error {
-	return database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		pid, pid_err := primitive.ObjectIDFromHex(id)
-
-		if pid_err != nil {
-			return pid_err
-		}
-
-		_, err := client.Database("db").Collection(UserCol).DeleteOne(ctx, bson.M{"_id": pid})
-
-		return err
-	})
+	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
+		return pid_err
+	} else {
+		return database.DeleteDocument(UserCol, bson.M{"_id": pid})
+	}
 }
 
 func GetUserWithPassword(username string, password string) (*User, error) {

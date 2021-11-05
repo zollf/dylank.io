@@ -2,7 +2,6 @@ package models
 
 import (
 	"app/database"
-	"context"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -31,92 +30,60 @@ type Tag struct {
 const ProjCol = "project"
 
 func CreateOrEditProject(project *Project) error {
-	found, err := FindProject(project)
-
-	if err != nil {
+	if found, err := FindProject(project); err != nil {
 		return nil
-	}
-
-	if found {
-		return UpdateProject(project)
 	} else {
-		return CreateProject(project)
+		if found {
+			return UpdateProject(project)
+		} else {
+			return CreateProject(project)
+		}
 	}
 }
 
 func GetProjects() ([]*Project, error) {
 	var projects []*Project
-	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		cur, err := client.Database("db").Collection(ProjCol).Find(ctx, bson.D{})
-
-		if err != nil {
+	err := database.GetDocuments(ProjCol, func(cur *mongo.Cursor) error {
+		var project *Project
+		if err := cur.Decode(&project); err != nil {
 			return err
+		} else {
+			projects = append(projects, project)
+			return nil
 		}
-
-		for cur.Next(ctx) {
-			var result *Project
-			err := cur.Decode(&result)
-
-			if err != nil {
-				return err
-			}
-
-			projects = append(projects, result)
-		}
-
-		return nil
 	})
 
 	return projects, err
 }
 
 func FindProject(project *Project) (bool, error) {
-	var found bool = false
-	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		count, err := client.Database("db").Collection(ProjCol).CountDocuments(ctx, bson.M{"_id": project.ID})
-
-		if err != nil {
-			return err
-		}
-
-		found = count != 0
-		return nil
-	})
-
-	return found, err
+	return database.DocumentExist(ProjCol, bson.M{"_id": project.ID})
 }
 
 func UpdateProject(project *Project) error {
-	return database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		_, err := client.Database("db").Collection(ProjCol).UpdateOne(ctx, bson.M{"_id": project.ID}, bson.M{"$set": project})
-		return err
-	})
+	return database.UpdateDocument(ProjCol, bson.M{"_id": project.ID}, bson.M{"$set": project})
 }
 
 func CreateProject(project *Project) error {
-	return database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		_, err := client.Database("db").Collection(ProjCol).InsertOne(ctx, project)
-		return err
-	})
+	return database.CreateDocument(ProjCol, project)
 }
 
 func GetProject(id string) (*Project, error) {
-	var project *Project
-	err := database.GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		pid, pid_err := primitive.ObjectIDFromHex(id)
+	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
+		return nil, pid_err
+	} else {
+		var project *Project
+		err := database.GetDocument(ProjCol, bson.M{"_id": pid}, func(res *mongo.SingleResult) error {
+			return res.Decode(&project)
+		})
+		return project, err
+	}
+}
 
-		if pid_err != nil {
-			return pid_err
-		}
-
-		result := client.Database("db").Collection(ProjCol).FindOne(ctx, bson.M{"_id": pid})
-
-		if result.Err() != nil {
-			return result.Err()
-		}
-
-		return result.Decode(&project)
-	})
-
-	return project, err
+func DeleteProject(id string) error {
+	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
+		return pid_err
+	} else {
+		return database.DeleteDocument(ProjCol, bson.M{"_id": pid})
+	}
 }

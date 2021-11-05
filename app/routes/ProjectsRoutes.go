@@ -14,4 +14,5 @@ func ProjectsRoutes(app *iris.Application) {
 
 	app.Post("/api/projects/create", controllers.CreateOrEditProject)
 	app.Post("/api/projects/edit", controllers.CreateOrEditProject)
+	app.Post("/api/projects/delete", controllers.DeleteProject)
 }

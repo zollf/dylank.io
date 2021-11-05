@@ -1,6 +1,10 @@
 extends ../admin.pug
 
 block content
+  .space-between
+    h1 Create Project
+    .flex-row 
+      a(href="/admin/projects" class="btn btn-secondary btn-sm m-1") Back
   form(action='/api/projects/create', method='POST')
     .form-group.mb-3
       label(for="title") Title
