@@ -10,8 +10,16 @@ var Help = ServerCommand{
 }
 
 func HelpCommand(args []string) error {
-	for name, command := range RegisteredCommands {
-		log.Printf("%s - %s", name, command.Description)
+	if len(args) == 0 {
+		for name, command := range RegisteredCommands {
+			log.Printf("%s - %s", name, command.Description)
+		}
+	} else {
+		if rCommand, ok := RegisteredCommands[args[0]]; ok {
+			log.Printf("%s - %s", rCommand.CommandName, rCommand.Description)
+		} else {
+			log.Printf("Command %s does not exist", rCommand.CommandName)
+		}
 	}
 	return nil
 }
