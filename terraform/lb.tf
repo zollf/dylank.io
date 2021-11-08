@@ -1,19 +1,17 @@
 resource "aws_alb" "application_load_balancer" {
-  name               = "dylank-io-app-lb" # Naming our load balancer
+  name               = "${var.project}-load-balancer"
   load_balancer_type = "application"
-  subnets = [ # Referencing the default subnets
+  subnets = [
     "${aws_default_subnet.default_subnet_a.id}",
     "${aws_default_subnet.default_subnet_b.id}",
     "${aws_default_subnet.default_subnet_c.id}"
   ]
-  # Referencing the security group
   security_groups = ["${aws_security_group.lb.id}"]
   internal        = false
 }
 
-# Creating a security group for the load balancer:
 resource "aws_security_group" "lb" {
-  name        = "dylank-io-security-group"
+  name        = "${var.project}_security_group"
   description = "Allow http and https communication"
   vpc_id      = aws_default_vpc.default_vpc.id
 
@@ -25,30 +23,30 @@ resource "aws_security_group" "lb" {
   }
 
   ingress {
-    from_port   = 443 # Allowing traffic in from port 443
+    from_port   = 443
     to_port     = 443
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port   = 0             # Allowing any incoming port
-    to_port     = 0             # Allowing any outgoing port
-    protocol    = "-1"          # Allowing any outgoing protocol 
-    cidr_blocks = ["0.0.0.0/0"] # Allowing traffic out to all IP addresses
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
 resource "aws_lb_target_group" "target_group" {
-  name        = "dylank-io-target-group"
+  name        = "${var.project}-target-group"
   port        = 80
   protocol    = "HTTP"
   target_type = "ip"
-  vpc_id      = aws_default_vpc.default_vpc.id # Referencing the default VPC
+  vpc_id      = aws_default_vpc.default_vpc.id
 
   health_check {
     matcher  = "200,301,302"
-    path     = "/robots.txt" // <- Change this when ready
+    path     = "/"
     interval = 300
   }
 }

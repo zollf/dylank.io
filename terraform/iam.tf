@@ -1,5 +1,5 @@
 resource "aws_iam_user" "iam_user" {
-  name = "dylank.io-site"
+  name = "${var.project}-site-user"
 }
 
 data "aws_iam_policy_document" "iam_site_policy" {
@@ -40,14 +40,14 @@ data "aws_iam_policy_document" "iam_site_policy" {
       "iam:ListRolePolicies",
       "iam:ListAttachedRolePolicies",
     ]
-    resources = [aws_iam_user.iam_user.arn, aws_iam_role.ecsTaskExecutionRole.arn]
+    resources = [aws_iam_user.iam_user.arn, aws_iam_role.ecs_task_execution_role.arn]
     effect    = "Allow"
   }
 
   statement {
     actions   = ["ecr:*"]
     effect    = "Allow"
-    resources = [aws_ecr_repository.repo.arn]
+    resources = [aws_ecr_repository.go.arn]
   }
 
   statement {
@@ -90,14 +90,14 @@ data "aws_iam_policy_document" "iam_site_policy" {
 }
 
 resource "aws_iam_user_policy" "iam_policy" {
-  name = "dylank.io-site-policy"
+  name = "${var.project}_site_policy"
   user = aws_iam_user.iam_user.name
 
   policy = data.aws_iam_policy_document.iam_site_policy.json
 }
 
-resource "aws_iam_role" "ecsTaskExecutionRole" {
-  name               = "dylank-io-ecs-execution-role"
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name               = "${var.project}_ecs_execution_role"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 }
 
@@ -112,7 +112,7 @@ data "aws_iam_policy_document" "assume_role_policy" {
   }
 }
 
-resource "aws_iam_role_policy_attachment" "ecsTaskExecutionRole_policy" {
-  role       = aws_iam_role.ecsTaskExecutionRole.name
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_policy" {
+  role       = aws_iam_role.ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
