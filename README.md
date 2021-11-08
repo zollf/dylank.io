@@ -22,7 +22,7 @@ Open http://localhost
 ```bash
 cd app
 go run server.go help
-go run server.go <command> help
+go run server.go help <command> 
 ```
 
 Commands
@@ -47,3 +47,6 @@ terraform -chdir=terraform fmt -check
 - Backend - Golang, Iris
 - Database - MongoDB
 - Infra - AWS, Terraform, Docker, Nginx 
+
+## Credits
+- Penguin Model - https://sketchfab.com/ZhangWanqing
