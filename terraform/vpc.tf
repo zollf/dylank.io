@@ -1,5 +1,8 @@
 # Providing a reference to our default VPC
 resource "aws_default_vpc" "default_vpc" {
+  tags = {
+    Name = "${var.project}_default_vpc"
+  }
 }
 
 # Providing a reference to our default subnets

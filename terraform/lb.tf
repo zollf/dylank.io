@@ -6,35 +6,8 @@ resource "aws_alb" "application_load_balancer" {
     "${aws_default_subnet.default_subnet_b.id}",
     "${aws_default_subnet.default_subnet_c.id}"
   ]
-  security_groups = ["${aws_security_group.lb.id}"]
+  security_groups = ["${aws_security_group.lb_security_group.id}"]
   internal        = false
-}
-
-resource "aws_security_group" "lb" {
-  name        = "${var.project}_security_group"
-  description = "Allow http and https communication"
-  vpc_id      = aws_default_vpc.default_vpc.id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 resource "aws_lb_target_group" "target_group" {

@@ -1,5 +1,6 @@
+// My main cluster
 resource "aws_ecs_cluster" "cluster" {
-  name = "ECS_Production"
+  name = var.cluster
 }
 
 resource "aws_ecs_task_definition" "task" {
@@ -43,7 +44,7 @@ resource "aws_ecs_service" "ecs_service" {
       "${aws_default_subnet.default_subnet_b.id}",
       "${aws_default_subnet.default_subnet_c.id}"
     ]
-    assign_public_ip = false
+    assign_public_ip = true
     security_groups  = ["${aws_security_group.service_security_group.id}"]
   }
 
@@ -51,21 +52,5 @@ resource "aws_ecs_service" "ecs_service" {
     target_group_arn = aws_lb_target_group.target_group.arn
     container_name   = "${var.project}_go"
     container_port   = 8080
-  }
-}
-
-resource "aws_security_group" "service_security_group" {
-  ingress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    security_groups = ["${aws_security_group.lb.id}"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
   }
 }
