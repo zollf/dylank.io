@@ -17,6 +17,7 @@ block content
       input(type="text" class="form-control" name="description" placeholder="Description" value="{{.Project.Description}}" required=true)  
     .form-group.mb-3
       label(for="image") Image 
+      br
       input(type="file" class="form-control-file" name="image")
     .form-group.mb-3
       label(for="url") URL
@@ -24,4 +25,11 @@ block content
     .form-group.mb-3
       label(for="git") Git
       input(type="text" class="form-control" name="git" placeholder="Git")
+
+    each _, i in .Tags 
+      input(type="checkbox" id="{{.Slug}}" name="tags" class="m-2" value="false")
+      label(for="{{.Slug}}") {{.Title}}
+      br
+
+    br
     button(type="submit" class="btn btn-primary") Create

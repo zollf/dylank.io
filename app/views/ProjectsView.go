@@ -13,15 +13,15 @@ func Projects(ctx iris.Context) {
 	type ProjectData struct {
 		ID          string
 		Index       int
-		Name        string
+		Title       string
 		Description string
 		DateCreated string
 		DateUpdated string
 	}
 
-	projects, p_err := models.GetProjects()
-	if p_err != nil {
-		err = p_err.Error()
+	projects, projects_err := models.GetProjects()
+	if projects_err != nil {
+		err = projects_err.Error()
 	}
 
 	var project_data []*ProjectData
@@ -35,7 +35,7 @@ func Projects(ctx iris.Context) {
 		project_data = append(project_data, &ProjectData{
 			ID:          project.ID.Hex(),
 			Index:       i + 1,
-			Name:        project.Title,
+			Title:       project.Title,
 			Description: project.Description,
 			DateCreated: DateCreated.In(zone).Format(time.RFC822),
 			DateUpdated: DateUpdated.In(zone).Format(time.RFC822),
@@ -46,10 +46,20 @@ func Projects(ctx iris.Context) {
 }
 
 func NewProject(ctx iris.Context) {
-	ctx.View("projects/create.pug")
+	if tags, tags_err := models.GetTags(); tags_err != nil {
+		ctx.View("projects/create.pug", iris.Map{"Tags": []models.Tag{}, "Err": tags_err.Error()})
+	} else {
+		ctx.View("projects/create.pug", iris.Map{"Tags": tags})
+	}
 }
 
 func EditProject(ctx iris.Context) {
+	type TagData struct {
+		Title   string
+		Slug    string
+		Checked bool
+	}
+
 	type ProjectData struct {
 		ID          string
 		Title       string
@@ -93,5 +103,15 @@ func EditProject(ctx iris.Context) {
 		DateCreated: project.DateCreated,
 	}
 
-	ctx.View("projects/view.pug", iris.Map{"Project": project_data})
+	var tags_data []*TagData
+	tags, _ := models.GetTags()
+	for _, tag := range tags {
+		tags_data = append(tags_data, &TagData{
+			Title:   tag.Title,
+			Slug:    tag.Slug,
+			Checked: models.CheckTagExistsInTags(tag, project.Tags),
+		})
+	}
+
+	ctx.View("projects/view.pug", iris.Map{"Project": project_data, "Tags": tags_data})
 }
