@@ -1,0 +1,15 @@
+extends ../admin.pug
+
+block content
+  .space-between
+    h1 Create Tag
+    .flex-row 
+      a(href="/admin/tags" class="btn btn-secondary btn-sm m-1") Back
+  form(action='/api/tags/create', method='POST')
+    .form-group.mb-3
+      label(for="title") Title
+      input(type="text" class="form-control" name="title" placeholder="Title" required=true)
+    .form-group.mb-3
+      label(for="slug") Slug
+      input(type="text" class="form-control" name="slug" placeholder="Slug" required=true)
+    button(type="submit" class="btn btn-primary") Create

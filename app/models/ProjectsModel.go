@@ -2,6 +2,7 @@ package models
 
 import (
 	"app/database"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -21,17 +22,11 @@ type Project struct {
 	Tags        []*Tag             `json:"tags" bson:"tags"`
 }
 
-type Tag struct {
-	ID    string `json:"id" bson:"_id"`
-	Slug  string `json:"slug" bson:"slug"`
-	Title string `json:"title" bson:"title"`
-}
-
 const ProjCol = "project"
 
 func CreateOrEditProject(project *Project) error {
 	if found, err := FindProject(project); err != nil {
-		return nil
+		return fmt.Errorf("error occurred when trying to find if project exists")
 	} else {
 		if found {
 			return UpdateProject(project)

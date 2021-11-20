@@ -2,8 +2,8 @@ extends ../admin.pug
 
 block content
   .space-between
-    h1 Projects
-    a(href="/admin/projects/create" class="btn btn-success") Create
+    h1 Tags
+    a(href="/admin/tags/create" class="btn btn-success") Create
   if .Err
     .alert.alert-danger {{.Err}}
   if .Success
@@ -13,20 +13,20 @@ block content
       tr 
         th(scope="col") #
         th(scope="col") Title 
-        th(scope="col") Description
+        th(scope="col") Slug
         th(scope="col") Date Created
         th(scope="col") Date Updated
         th(scope="col") Action
     tbody 
-      each _, i in .Projects
+      each _, i in .Tags
         tr 
           th(scope="row" class="align-middle") {{.Index}}
           th(class="align-middle") {{.Title}}
-          th(class="align-middle") {{.Description}}
+          th(class="align-middle") {{.Slug}}
           th(class="align-middle") {{.DateCreated}}
           th(class="align-middle") {{.DateUpdated}}
           th(class="flex-row") 
-            a(href="/admin/projects/view/{{.ID}}" class="btn btn-primary btn-sm m-1") View
-            form(action='/api/projects/delete', method='POST' class="mb-0")
+            a(href="/admin/tags/view/{{.ID}}" class="btn btn-primary btn-sm m-1") View
+            form(action='/api/tags/delete', method='POST' class="mb-0")
               input(hidden="true" value="{{.ID}}" name="id")
               button(type="submit" class="btn btn-danger btn-sm m-1") Delete

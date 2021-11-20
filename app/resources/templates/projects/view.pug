@@ -25,6 +25,7 @@ block content
       input(type="text" class="form-control" name="current_image_url" value="{{.Project.Image}}" disabled=true)
     .form-group.mb-3
       label(for="image") Image 
+      br
       input(type="file" class="form-control-file" name="image")
     .form-group.mb-3
       label(for="url") URL
@@ -32,4 +33,13 @@ block content
     .form-group.mb-3
       label(for="git") Git
       input(type="text" class="form-control" name="git" placeholder="Git" value="{{.Project.Git}}")
+
+    each _, i in .Tags 
+      if .Checked
+        input(type="checkbox" id="{{.Slug}}" name="tags" class="m-2" value="{{.Slug}}" checked="true")
+      else 
+        input(type="checkbox" id="{{.Slug}}" name="tags" class="m-2" value="{{.Slug}}")
+      label(for="{{.Slug}}") {{.Title}}
+      br
+
     button(type="submit" class="btn btn-primary") Save
