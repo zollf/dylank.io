@@ -33,14 +33,6 @@ func GetOrCreateDate(ctx iris.Context) string {
 	}
 }
 
-func SaveRedirectIfExist(ctx iris.Context, url string, prefix string) {
-	if redirect := ctx.FormValue("redirect"); redirect != "" {
-		ctx.Redirect(fmt.Sprintf("%s%sredirect=%s", url, prefix, redirect))
-	} else {
-		ctx.Redirect(url)
-	}
-}
-
 func RedirectIfExist(ctx iris.Context, errMsg *string, successMsg *string, data iris.Map) {
 	if redirect := ctx.FormValue("redirect"); redirect != "" {
 		if errMsg != nil {
@@ -56,6 +48,7 @@ func RedirectIfExist(ctx iris.Context, errMsg *string, successMsg *string, data 
 		success := true
 		if errMsg != nil {
 			success = false
+			ctx.StatusCode(400)
 		}
 		ctx.JSON(Response{
 			Success:    success,
@@ -77,4 +70,38 @@ func ErrorMsg(msg string) *string {
 	var error_msg *string
 	error_msg = &msg
 	return error_msg
+}
+
+func ErrorResponse(ctx iris.Context, err string, data iris.Map) {
+	RedirectIfExist(ctx, ErrorMsg(err), nil, data)
+}
+
+func SuccessResponse(ctx iris.Context, msg string, data iris.Map) {
+	RedirectIfExist(ctx, nil, SuccessMsg(msg), data)
+}
+
+func GetVar(ctx iris.Context, val string) *string {
+	var result *string
+	if formValue := ctx.FormValue(val); formValue != "" {
+		result = &formValue
+	}
+
+	return result
+}
+
+func ValidInputs(ctx iris.Context, inputs []string) bool {
+	errorMap := make(map[string]string)
+	valid := true
+	for _, input := range inputs {
+		if ctx.FormValue(input) == "" {
+			errorMap[input] = fmt.Sprintf("Paramater %s is missing or empty", input)
+			valid = false
+		}
+	}
+
+	if !valid {
+		ErrorResponse(ctx, "Parameter(s) are missing or empty", iris.Map{"errors": errorMap})
+	}
+
+	return valid
 }

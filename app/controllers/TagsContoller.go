@@ -11,13 +11,12 @@ import (
 )
 
 func CreateOrEditTag(ctx iris.Context) {
-	if ctx.FormValue("title") == "" {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Please include title and slug"), nil, iris.Map{"tag": nil})
+	if !helpers.ValidInputs(ctx, []string{"title"}) {
 		return
 	}
 
 	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to get or create id"), nil, iris.Map{"tag": nil})
+		helpers.ErrorResponse(ctx, "Failed to get or create id", iris.Map{"tag": nil, "error": id_err.Error()})
 	} else {
 		tag := &models.Tag{
 			ID:          id,
@@ -28,22 +27,29 @@ func CreateOrEditTag(ctx iris.Context) {
 		}
 
 		if err := models.CreateOrEditTag(tag); err != nil {
-			helpers.RedirectIfExist(ctx, helpers.ErrorMsg(err.Error()), nil, iris.Map{"tag": nil})
+			helpers.ErrorResponse(ctx, "Failed to save tag", iris.Map{"tag": nil, "error": err.Error()})
 		} else {
-			helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully saved tag"), iris.Map{"tag": tag})
+			helpers.SuccessResponse(ctx, "Successfully saved tag", iris.Map{"tag": tag})
 		}
 	}
 }
 
 func DeleteTag(ctx iris.Context) {
-	if ctx.FormValue("id") == "" {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Please include id of tag"), nil, iris.Map{})
+	if !helpers.ValidInputs(ctx, []string{"id"}) {
 		return
 	}
 
 	if err := models.DeleteTag(ctx.FormValue("id")); err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to delete tag"), nil, iris.Map{})
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to delete tag"), nil, iris.Map{"error": err.Error()})
 	} else {
 		helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully deleted tag"), iris.Map{})
 	}
+}
+
+func ListTags(ctx iris.Context) {
+	tags, err := models.GetTags()
+	if err != nil {
+		helpers.ErrorResponse(ctx, "Failed to list tags", iris.Map{"error": err.Error()})
+	}
+	helpers.SuccessResponse(ctx, "Successfully listed tags", iris.Map{"tags": tags})
 }

@@ -1,7 +1,14 @@
 # Api for Backend application
 
-| Endpoint | Method | Params | Description | 
-| --- | --- | --- | --- |
+| Title | Endpoint | Method | Params |
+| --- | --- | --- | --- | 
+| Login | `api/login` | POST | **Required**<br>`username`<br/>`password` |
+| List Projects | `api/projects` | GET | N/A |
+| Create Project | `api/project/create` | POST | **Required**<br>`title`<br/>`description`<br/>**Optional**<br/>`url`<br/>`git`<br/>`tags` |
+| Delete Project | `api/project/delete` | POST | **Required**<br>`id` |
+| List Tags | `api/tags` | GET | N/A |
+| Create Tag | `api/tag/create` | POST | **Required**<br>`title` |
+| Delete Tag | `api/tag/delete` | POST | **Required**<br>`id` |
 
 
 # Getting JWT to login

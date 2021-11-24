@@ -10,13 +10,12 @@ import (
 )
 
 func CreateOrEditProject(ctx iris.Context) {
-	if invalidProjectRequest(ctx) {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Params are invalid"), nil, iris.Map{"tag": nil})
+	if !helpers.ValidInputs(ctx, []string{"title", "description"}) {
 		return
 	}
 
 	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to get or create id"), nil, iris.Map{"project": nil})
+		helpers.ErrorResponse(ctx, "Failed to get or create id", iris.Map{"project": nil, "error": id_err.Error()})
 	} else {
 		// Get all tags then filter
 		var checked_tags []*models.Tag
@@ -31,43 +30,43 @@ func CreateOrEditProject(ctx iris.Context) {
 			}
 		}
 
-		project_url := ctx.FormValue("url")
-		git_url := ctx.FormValue("git")
-
 		project := &models.Project{
 			ID:          id,
 			Title:       ctx.FormValue("title"),
 			Slug:        slug.Make(ctx.FormValue("title")),
 			Description: ctx.FormValue("description"),
 			Image:       "",
-			URL:         &project_url,
-			Git:         &git_url,
+			URL:         helpers.GetVar(ctx, "url"),
+			Git:         helpers.GetVar(ctx, "git"),
 			Tags:        checked_tags,
 			DateCreated: helpers.GetOrCreateDate(ctx),
 			DateUpdated: time.Now().UTC().String(),
 		}
 
 		if err := models.CreateOrEditProject(project); err != nil {
-			helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to save project"), nil, iris.Map{"project": nil})
+			helpers.ErrorResponse(ctx, "Failed to save project", iris.Map{"project": nil, "error": err.Error()})
 		} else {
-			helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully saved project"), iris.Map{"project": project})
+			helpers.SuccessResponse(ctx, "Successfully saved project", iris.Map{"project": project})
 		}
 	}
 }
 
-func invalidProjectRequest(ctx iris.Context) bool {
-	return ctx.FormValue("title") == "" || ctx.FormValue("description") == ""
-}
-
 func DeleteProject(ctx iris.Context) {
-	if ctx.FormValue("id") == "" {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Please include id of project"), nil, iris.Map{})
+	if !helpers.ValidInputs(ctx, []string{"id"}) {
 		return
 	}
 
 	if err := models.DeleteProject(ctx.FormValue("id")); err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg(err.Error()), nil, iris.Map{"project": nil})
+		helpers.ErrorResponse(ctx, "Failed to delete project", iris.Map{"error": err.Error()})
 	} else {
-		helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully deleted project"), iris.Map{})
+		helpers.SuccessResponse(ctx, "Successfully deleted project", iris.Map{})
 	}
+}
+
+func ListProject(ctx iris.Context) {
+	projects, err := models.GetProjects()
+	if err != nil {
+		helpers.ErrorResponse(ctx, "Failed to list projects", iris.Map{"error": err.Error()})
+	}
+	helpers.SuccessResponse(ctx, "Successfully listed projects", iris.Map{"projects": projects})
 }
