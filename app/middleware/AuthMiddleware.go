@@ -1,30 +1,62 @@
 package middleware
 
 import (
-	"app/models"
+	"app/helpers"
 	"app/services"
+	"strings"
 
 	"github.com/kataras/iris/v12"
-	"github.com/kataras/iris/v12/middleware/basicauth"
 )
 
-func AuthOpts() basicauth.Options {
-	// I use id rather than username
-	allowFunc := func(ctx iris.Context, username string, password string) (interface{}, bool) {
-		user, err := models.GetUserWithPassword(username, password)
-		return user, err == nil
+// Auth is either through token param or cookie
+func AuthRequired(ctx iris.Context) {
+	if isApiRequest(ctx) {
+		AuthApiRequest(ctx)
+	} else {
+		AuthBrowserRequest(ctx)
 	}
-
-	opts := basicauth.Options{
-		Realm:        basicauth.DefaultRealm,
-		ErrorHandler: basicauth.DefaultErrorHandler,
-		Allow:        allowFunc,
-	}
-
-	return opts
 }
 
-func AuthRequired(ctx iris.Context) {
+func AuthApiRequest(ctx iris.Context) {
+	token := ctx.GetCookie("dylank-io-auth")
+	if token == "" {
+		token = ctx.FormValue("token")
+	}
+
+	if token == "" {
+		token = ctx.GetHeader("Authentication")
+	}
+
+	if token == "" {
+		ctx.JSON(helpers.Response{
+			Success:    false,
+			Path:       ctx.Path(),
+			Error:      helpers.ErrorMsg("Token not supplied"),
+			SuccessMsg: nil,
+			Data:       iris.Map{},
+		})
+		return
+	}
+
+	_, verify_err := services.VerifyJWT(token)
+
+	if verify_err != nil {
+		// delete cookie since its not valid
+		ctx.RemoveCookie("dylank-io-auth")
+		ctx.JSON(helpers.Response{
+			Success:    false,
+			Path:       ctx.Path(),
+			Error:      helpers.ErrorMsg("Access Denied"),
+			SuccessMsg: nil,
+			Data:       iris.Map{},
+		})
+		return
+	} else {
+		ctx.Next()
+	}
+}
+
+func AuthBrowserRequest(ctx iris.Context) {
 	cookie := ctx.GetCookie("dylank-io-auth")
 
 	if cookie == "" {
@@ -42,4 +74,8 @@ func AuthRequired(ctx iris.Context) {
 	} else {
 		ctx.Next()
 	}
+}
+
+func isApiRequest(ctx iris.Context) bool {
+	return strings.Contains(ctx.Path(), "api")
 }

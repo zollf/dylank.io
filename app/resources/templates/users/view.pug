@@ -9,6 +9,7 @@ block content
         input(hidden="true" value="{{.User.ID}}" name="id")
         button(type="submit" class="btn btn-danger btn-sm m-1") Delete
   form(action='/api/users/edit', method='POST')
+    input(type="hidden" name="redirect" value="/admin/users")
     input(hidden="true" value="{{.User.ID}}" name="id")
     input(hidden="true" value="{{.User.DateCreated}}" name="dateCreated")
     .form-group.mb-3

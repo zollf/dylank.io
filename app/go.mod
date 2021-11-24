@@ -10,6 +10,8 @@ require (
 )
 
 require (
+	github.com/gosimple/slug v1.11.2
+	github.com/gosimple/unidecode v1.0.1 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/stretchr/testify v1.7.0 // indirect

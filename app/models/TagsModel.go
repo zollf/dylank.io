@@ -26,6 +26,15 @@ func CreateOrEditTag(tag *Tag) error {
 		if found {
 			return UpdateTag(tag)
 		} else {
+			tag_exist, tag_err := FindTagByTitle(tag)
+			if tag_err != nil {
+				return tag_err
+			}
+
+			if tag_exist {
+				return fmt.Errorf("Tag title already exists")
+			}
+
 			return CreateTag(tag)
 		}
 	}
@@ -48,6 +57,10 @@ func GetTags() ([]*Tag, error) {
 
 func FindTag(tag *Tag) (bool, error) {
 	return database.DocumentExist(TagCol, bson.M{"_id": tag.ID})
+}
+
+func FindTagByTitle(tag *Tag) (bool, error) {
+	return database.DocumentExist(TagCol, bson.M{"title": tag.Title})
 }
 
 func UpdateTag(tag *Tag) error {

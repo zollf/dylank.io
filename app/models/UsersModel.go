@@ -3,6 +3,7 @@ package models
 import (
 	"app/database"
 	"context"
+	"fmt"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -32,6 +33,15 @@ func CreateOrEditUser(user *User) error {
 	if found {
 		return UpdateUser(user)
 	} else {
+		username_exist, username_err := FindUserByUsername(user)
+		if username_err != nil {
+			return username_err
+		}
+
+		if username_exist {
+			return fmt.Errorf("Username already exists")
+		}
+
 		return CreateUser(user)
 	}
 }
@@ -53,6 +63,10 @@ func GetUsers() ([]*User, error) {
 
 func FindUser(user *User) (bool, error) {
 	return database.DocumentExist(UserCol, bson.M{"_id": user.ID})
+}
+
+func FindUserByUsername(user *User) (bool, error) {
+	return database.DocumentExist(UserCol, bson.M{"username": user.Username})
 }
 
 func UpdateUser(user *User) error {

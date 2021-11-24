@@ -6,6 +6,7 @@ block content
     .flex-row 
       a(href="/admin/users" class="btn btn-secondary btn-sm m-1") Back
   form(action='/api/users/create', method='POST')
+    input(type="hidden" name="redirect" value="/admin/users")
     .form-group.mb-3
       label(for="username") Username
       input(type="text" class="form-control" name="username" placeholder="Username" required=true)
