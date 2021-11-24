@@ -9,3 +9,6 @@ Tokens can be supplied in multiple ways, these will be checked in respective ord
 - Cookie `dylank-io-auth`
 - `token` in body
 - `Authentication` in header
+
+# Graphql API
+This project supports graphql api extensively, and should be used for frontend development where possible.

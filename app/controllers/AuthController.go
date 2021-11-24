@@ -9,19 +9,15 @@ import (
 )
 
 func Login(ctx iris.Context) {
-	var err_msg *string
-	var success_msg *string
-	var token_var *string
-
 	username := ctx.FormValue("username")
 	password := ctx.FormValue("password")
 
 	if user, err := models.GetUserWithPassword(username, password); err != nil {
-		err_msg = helpers.ErrorMsg("Incorrect credentials")
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Incorrect credentials"), nil, iris.Map{})
 	} else {
 		// Generate JWT Token
 		if token, err := services.GenerateJWT(user); err != nil {
-			err_msg = helpers.ErrorMsg("Failed to generate token")
+			helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to generate token"), nil, iris.Map{})
 		} else {
 			ctx.SetCookie(&iris.Cookie{
 				Name:   "dylank-io-auth",
@@ -29,14 +25,9 @@ func Login(ctx iris.Context) {
 				Secure: true,
 			}, iris.CookiePath("/"))
 
-			success_msg = helpers.SuccessMsg("Successfully created token")
-			token_var = &token
+			helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully created token"), iris.Map{"token": token})
 		}
 	}
-
-	helpers.RedirectIfExist(ctx, err_msg, success_msg, iris.Map{
-		"token": token_var,
-	})
 }
 
 func Logout(ctx iris.Context) {
