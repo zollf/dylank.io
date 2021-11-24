@@ -3,15 +3,20 @@ package controllers
 import (
 	"app/helpers"
 	"app/models"
-	"fmt"
 	"time"
 
+	"github.com/gosimple/slug"
 	"github.com/kataras/iris/v12"
 )
 
 func CreateOrEditProject(ctx iris.Context) {
+	if invalidProjectRequest(ctx) {
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Params are invalid"), nil, iris.Map{"tag": nil})
+		return
+	}
+
 	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		ctx.Redirect(fmt.Sprintf("/admin/projects?err=%s", id_err.Error()))
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to get or create id"), nil, iris.Map{"project": nil})
 	} else {
 		// Get all tags then filter
 		var checked_tags []*models.Tag
@@ -32,7 +37,7 @@ func CreateOrEditProject(ctx iris.Context) {
 		project := &models.Project{
 			ID:          id,
 			Title:       ctx.FormValue("title"),
-			Slug:        ctx.FormValue("slug"),
+			Slug:        slug.Make(ctx.FormValue("title")),
 			Description: ctx.FormValue("description"),
 			Image:       "",
 			URL:         &project_url,
@@ -43,17 +48,26 @@ func CreateOrEditProject(ctx iris.Context) {
 		}
 
 		if err := models.CreateOrEditProject(project); err != nil {
-			ctx.Redirect(fmt.Sprintf("/admin/projects?err=%s", err.Error()))
+			helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to save project"), nil, iris.Map{"project": nil})
 		} else {
-			ctx.Redirect("/admin/projects?success=true")
+			helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully saved project"), iris.Map{"project": project})
 		}
 	}
 }
 
+func invalidProjectRequest(ctx iris.Context) bool {
+	return ctx.FormValue("title") == "" || ctx.FormValue("description") == ""
+}
+
 func DeleteProject(ctx iris.Context) {
+	if ctx.FormValue("id") == "" {
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Please include id of project"), nil, iris.Map{})
+		return
+	}
+
 	if err := models.DeleteProject(ctx.FormValue("id")); err != nil {
-		ctx.Redirect(fmt.Sprintf("/admin/projects?err=%s", err.Error()))
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg(err.Error()), nil, iris.Map{"project": nil})
 	} else {
-		ctx.Redirect("/admin/projects?success=true")
+		helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully deleted project"), iris.Map{})
 	}
 }

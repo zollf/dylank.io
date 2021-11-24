@@ -6,12 +6,10 @@ block content
     .flex-row 
       a(href="/admin/projects" class="btn btn-secondary btn-sm m-1") Back
   form(action='/api/projects/create', method='POST')
+    input(type="hidden" name="redirect" value="/admin/projects")
     .form-group.mb-3
       label(for="title") Title
       input(type="text" class="form-control" name="title" placeholder="Title" required=true)
-    .form-group.mb-3
-      label(for="slug") Slug
-      input(type="text" class="form-control" name="slug" placeholder="Slug" required=true)
     .form-group.mb-3
       label(for="description") Description
       input(type="text" class="form-control" name="description" placeholder="Description" value="{{.Project.Description}}" required=true)  

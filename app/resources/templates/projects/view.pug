@@ -9,14 +9,12 @@ block content
         input(hidden="true" value="{{.Project.ID}}" name="id")
         button(type="submit" class="btn btn-danger btn-sm m-1") Delete
   form(action='/api/projects/edit', method='POST')
+    input(type="hidden" name="redirect" value="/admin/projects")
     input(hidden="true" value="{{.Project.ID}}" name="id")
     input(hidden="true" value="{{.Project.DateCreated}}" name="dateCreated")
     .form-group.mb-3
       label(for="title") Title
       input(type="text" class="form-control" name="title" placeholder="Title" value="{{.Project.Title}}" required=true)
-    .form-group.mb-3
-      label(for="slug") Slug
-      input(type="text" class="form-control" name="slug" placeholder="Slug" value="{{.Project.Slug}}" required=true)
     .form-group.mb-3
       label(for="description") Description
       input(type="text" class="form-control" name="description" placeholder="Description" value="{{.Project.Description}}" required=true)  

@@ -13,11 +13,11 @@ func Login(ctx iris.Context) {
 	password := ctx.FormValue("password")
 
 	if user, err := models.GetUserWithPassword(username, password); err != nil {
-		ctx.Redirect("/admin/login?err=Incorrect credentials")
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Incorrect credentials"), nil, iris.Map{})
 	} else {
 		// Generate JWT Token
 		if token, err := services.GenerateJWT(user); err != nil {
-			helpers.SaveRedirectIfExist(ctx, "/admin/login?err=Error occurred", "&")
+			helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to generate token"), nil, iris.Map{})
 		} else {
 			ctx.SetCookie(&iris.Cookie{
 				Name:   "dylank-io-auth",
@@ -25,12 +25,12 @@ func Login(ctx iris.Context) {
 				Secure: true,
 			}, iris.CookiePath("/"))
 
-			helpers.RedirectIfExist(ctx, "/admin?success=true")
+			helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully created token"), iris.Map{"token": token})
 		}
 	}
 }
 
 func Logout(ctx iris.Context) {
 	ctx.RemoveCookie("dylank-io-auth")
-	ctx.Redirect("/admin/login?success=Logout Successful")
+	ctx.Redirect("/admin/login?success=Logout+Successful")
 }

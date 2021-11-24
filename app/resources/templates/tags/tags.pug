@@ -7,7 +7,7 @@ block content
   if .Err
     .alert.alert-danger {{.Err}}
   if .Success
-    .alert.alert-success Success
+    .alert.alert-success {{.Success}}
   table(class="table")
     thead 
       tr 
@@ -28,5 +28,6 @@ block content
           th(class="flex-row") 
             a(href="/admin/tags/view/{{.ID}}" class="btn btn-primary btn-sm m-1") View
             form(action='/api/tags/delete', method='POST' class="mb-0")
-              input(hidden="true" value="{{.ID}}" name="id")
+              input(type="hidden" value="/admin/tags" name="redirect")
+              input(type="hidden" value="{{.ID}}" name="id")
               button(type="submit" class="btn btn-danger btn-sm m-1") Delete
