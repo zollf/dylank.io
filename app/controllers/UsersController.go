@@ -29,7 +29,8 @@ func CreateOrEditUser(ctx iris.Context) {
 		if err := models.CreateOrEditUser(user); err != nil {
 			helpers.ErrorResponse(ctx, "Failed to save user", iris.Map{"error": err.Error()})
 		} else {
-			helpers.SuccessResponse(ctx, "Successfully saved user", iris.Map{})
+			user.Password = "***"
+			helpers.SuccessResponse(ctx, "Successfully saved user", iris.Map{"user": user})
 		}
 	}
 }
@@ -44,4 +45,15 @@ func DeleteUser(ctx iris.Context) {
 	} else {
 		helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully deleted user"), iris.Map{})
 	}
+}
+
+func ListUsers(ctx iris.Context) {
+	users, err := models.GetUsers()
+	if err != nil {
+		helpers.ErrorResponse(ctx, "Failed to list users", iris.Map{"error": err.Error()})
+	}
+	for _, user := range users {
+		user.Password = "***"
+	}
+	helpers.SuccessResponse(ctx, "Successfully listed users", iris.Map{"users": users})
 }

@@ -3,6 +3,7 @@ package helpers
 import (
 	"fmt"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/kataras/iris/v12"
@@ -90,6 +91,10 @@ func GetVar(ctx iris.Context, val string) *string {
 }
 
 func ValidInputs(ctx iris.Context, inputs []string) bool {
+	if strings.Contains(ctx.Path(), "edit") {
+		inputs = append(inputs, "id")
+	}
+
 	errorMap := make(map[string]string)
 	valid := true
 	for _, input := range inputs {
