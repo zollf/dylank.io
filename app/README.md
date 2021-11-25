@@ -30,4 +30,24 @@ Tokens can be supplied in multiple ways, these will be checked in respective ord
 - `Authentication` in header
 
 # Graphql API
-This project supports graphql api extensively, and should be used for frontend development where possible.
+This project supports graphql api extensively, and should be used for frontend development where possible. Graphql Endpoints are intended to be open, no authentication needed. These should be limited to `query` operation
+
+Get Projects
+```graphql
+query {
+  projects {
+    title
+    slug
+    image
+    description
+    dateCreated
+    dateUpdated
+    url
+    git
+    tags {
+      title
+      slug
+    }
+  }
+}
+```

@@ -13,6 +13,7 @@ func GetQueries() *graphql.Object {
 			Fields: graphql.Fields{
 				"ping":     queries.PingPongQuery(),
 				"projects": queries.ProjectsQuery(),
+				"tags":     queries.TagsQuery(),
 			},
 		},
 	)
