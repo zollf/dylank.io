@@ -51,3 +51,13 @@ query {
   }
 }
 ```
+
+Get Tags
+```graphql
+query {
+  tags {
+    title
+    slug
+  }
+}
+```
