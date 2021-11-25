@@ -2,6 +2,7 @@ package database
 
 import (
 	"context"
+	"errors"
 	"os"
 	"time"
 
@@ -109,7 +110,10 @@ func GetDocument(col string, filter bson.M, callback func(res *mongo.SingleResul
 
 func DeleteDocument(col string, filter bson.M) error {
 	return GetMongo(func(ctx context.Context, client *mongo.Client) error {
-		_, err := client.Database("db").Collection(col).DeleteOne(ctx, filter)
+		res, err := client.Database("db").Collection(col).DeleteOne(ctx, filter)
+		if res.DeletedCount == 0 {
+			return errors.New("Document does not exist")
+		}
 		return err
 	})
 }

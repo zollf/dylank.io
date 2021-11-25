@@ -11,23 +11,17 @@ import (
 // Auth is either through token param or cookie
 func AuthRequired(ctx iris.Context) {
 	if isApiRequest(ctx) {
-		AuthApiRequest(ctx)
+		authApiRequest(ctx)
 	} else {
-		AuthBrowserRequest(ctx)
+		authBrowserRequest(ctx)
 	}
 }
 
-func AuthApiRequest(ctx iris.Context) {
-	token := ctx.GetCookie("dylank-io-auth")
-	if token == "" {
-		token = ctx.FormValue("token")
-	}
+func authApiRequest(ctx iris.Context) {
+	token := getToken(ctx)
 
 	if token == "" {
-		token = ctx.GetHeader("Authentication")
-	}
-
-	if token == "" {
+		ctx.StatusCode(400)
 		ctx.JSON(helpers.Response{
 			Success:    false,
 			Path:       ctx.Path(),
@@ -41,6 +35,8 @@ func AuthApiRequest(ctx iris.Context) {
 	_, verify_err := services.VerifyJWT(token)
 
 	if verify_err != nil {
+		ctx.StatusCode(401)
+
 		// delete cookie since its not valid
 		ctx.RemoveCookie("dylank-io-auth")
 		ctx.JSON(helpers.Response{
@@ -56,7 +52,7 @@ func AuthApiRequest(ctx iris.Context) {
 	}
 }
 
-func AuthBrowserRequest(ctx iris.Context) {
+func authBrowserRequest(ctx iris.Context) {
 	cookie := ctx.GetCookie("dylank-io-auth")
 
 	if cookie == "" {
@@ -78,4 +74,17 @@ func AuthBrowserRequest(ctx iris.Context) {
 
 func isApiRequest(ctx iris.Context) bool {
 	return strings.Contains(ctx.Path(), "api")
+}
+
+func getToken(ctx iris.Context) string {
+	token := ctx.GetCookie("dylank-io-auth")
+	if token == "" {
+		token = ctx.FormValue("token")
+	}
+
+	if token == "" {
+		token = ctx.GetHeader("Authentication")
+	}
+
+	return token
 }

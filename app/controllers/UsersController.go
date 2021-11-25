@@ -9,12 +9,12 @@ import (
 )
 
 func CreateOrEditUser(ctx iris.Context) {
-	if invalidUserRequest(ctx) {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Params invalid"), nil, iris.Map{})
+	if !helpers.ValidInputs(ctx, []string{"username", "password", "email"}) {
+		return
 	}
 
 	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to get or create id"), nil, iris.Map{})
+		helpers.ErrorResponse(ctx, "Failed to get or create id", iris.Map{"error": id_err.Error()})
 	} else {
 		user := &models.User{
 			ID:           id,
@@ -27,27 +27,33 @@ func CreateOrEditUser(ctx iris.Context) {
 			LastLoggedIn: "",
 		}
 		if err := models.CreateOrEditUser(user); err != nil {
-			helpers.RedirectIfExist(ctx, helpers.ErrorMsg(err.Error()), nil, iris.Map{})
-
+			helpers.ErrorResponse(ctx, "Failed to save user", iris.Map{"error": err.Error()})
 		} else {
-			helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully saved user"), iris.Map{})
+			user.Password = "***"
+			helpers.SuccessResponse(ctx, "Successfully saved user", iris.Map{"user": user})
 		}
 	}
 }
 
 func DeleteUser(ctx iris.Context) {
-	if ctx.FormValue("id") == "" {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Please include id of user"), nil, iris.Map{})
+	if !helpers.ValidInputs(ctx, []string{"id"}) {
 		return
 	}
 
 	if err := models.DeleteUser(ctx.FormValue("id")); err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to delete user"), nil, iris.Map{})
+		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to delete user"), nil, iris.Map{"error": err.Error()})
 	} else {
 		helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully deleted user"), iris.Map{})
 	}
 }
 
-func invalidUserRequest(ctx iris.Context) bool {
-	return ctx.FormValue("username") == "" || ctx.FormValue("password") == "" || ctx.FormValue("email") == ""
+func ListUsers(ctx iris.Context) {
+	users, err := models.GetUsers()
+	if err != nil {
+		helpers.ErrorResponse(ctx, "Failed to list users", iris.Map{"error": err.Error()})
+	}
+	for _, user := range users {
+		user.Password = "***"
+	}
+	helpers.SuccessResponse(ctx, "Successfully listed users", iris.Map{"users": users})
 }
