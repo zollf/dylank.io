@@ -4,4 +4,4 @@ WORKDIR /usr/app
 
 COPY . /usr/app
 
-CMD yarn --production && yarn dev
+CMD yarn && yarn dev

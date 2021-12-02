@@ -1,25 +1,25 @@
 version: "3.8"
 
 services:
-  app:
+  go:
     build:
-      context: ./app
+      context: ./backend
       dockerfile: ../docker/go.dev.Dockerfile
     ports:
       - 8080:8080
     volumes:
-      - ./app:/usr/app:cached
+      - ./backend:/usr/app:cached
     command:
       air
 
-  web:
+  node:
     build:
-      context: .
-      dockerfile: ./docker/web.dev.Dockerfile
+      context: ./frontend
+      dockerfile: ../docker/web.dev.Dockerfile
     ports:
       - 3000:3000
     volumes:
-      - ./:/usr/app:cached
+      - ./frontend:/usr/app:cached
       - node_modules:/app/node_modules:delegated
       - yarn_config:/usr/local/share/.config 
 
