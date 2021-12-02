@@ -19,7 +19,15 @@ resource "aws_ecs_task_definition" "task" {
         }
       ],
       "memory": 171,
-      "cpu": 85
+      "cpu": 85,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${aws_cloudwatch_log_group.logs.name}",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     },
     {
       "name": "${var.project}_nginx",
@@ -33,7 +41,15 @@ resource "aws_ecs_task_definition" "task" {
         }
       ],
       "memory": 170,
-      "cpu": 85
+      "cpu": 85,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${aws_cloudwatch_log_group.logs.name}",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     },
     {
       "name": "${var.project}_node",
@@ -47,7 +63,15 @@ resource "aws_ecs_task_definition" "task" {
         }
       ],
       "memory": 171,
-      "cpu": 86
+      "cpu": 86,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "${aws_cloudwatch_log_group.logs.name}",
+          "awslogs-region": "ap-southeast-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      }
     }
   ]
   DEFINITION
