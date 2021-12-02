@@ -54,6 +54,11 @@ data "aws_iam_policy_document" "iam_site_policy" {
     resources = ["*"]
   }
 
+  statement {
+    actions   = ["ec2:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
 
   statement {
     actions   = ["ecs:*"]
