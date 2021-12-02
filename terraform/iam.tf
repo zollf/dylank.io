@@ -83,6 +83,12 @@ data "aws_iam_policy_document" "iam_site_policy" {
     effect    = "Allow"
     resources = ["*"]
   }
+
+  statement {
+    actions   = ["logs:*"]
+    effect    = "Allow"
+    resources = ["*"]
+  }
 }
 
 resource "aws_iam_user_policy" "iam_policy" {
