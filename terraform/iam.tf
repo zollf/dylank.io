@@ -39,7 +39,11 @@ data "aws_iam_policy_document" "iam_site_policy" {
   statement {
     actions   = ["ecr:*"]
     effect    = "Allow"
-    resources = [aws_ecr_repository.go.arn]
+    resources = [
+      aws_ecr_repository.go.arn,
+      aws_ecr_repository.node.arn,
+      aws_ecr_repository.nginx.arn
+    ]
   }
 
   statement {
