@@ -56,38 +56,12 @@ jobs:
         with:
           go-version: '1.17.2'
       - name: Go Modules Download
-        run: cd app && go mod download
+        run: cd backend && go mod download
       - name: Go Build
-        run: cd app && go build -o server server.go
+        run: cd backend && go build -o server server.go
 
-  s3:
-    name: Sync with S3
-    runs-on: ubuntu-latest
-    needs: [react]
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-      - name: Yarn Install
-        run: yarn --production
-      - name: Yarn Build
-        run: yarn build
-      - name: Sync
-        uses: jakejarvis/s3-sync-action@master
-        with:
-          args: --follow-symlinks --delete
-        env:
-          AWS_S3_BUCKET         : "dylank.io"
-          AWS_ACCESS_KEY_ID     : ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          AWS_REGION            : "ap-southeast-2"
-          SOURCE_DIR            : "public"
-
-  ecr:
-    name: Upload to ECR
+  ecr-go:
+    name: Upload go image to ECR
     runs-on: ubuntu-latest
     needs: [go]
     steps:
@@ -97,11 +71,10 @@ jobs:
         uses: SpicyPizza/create-envfile@v1
         with:
           envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
-          envkey_GIN_MODE: prod
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           file_name: .env 
       - name: CP .env
-        run: cp .env app
+        run: cp .env backend
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -109,12 +82,44 @@ jobs:
           aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region            : "ap-southeast-2"
       - name: Upload
-        run: sh deploy.sh dylankio_go_image ${{ secrets.AWS_URL }} ap-southeast-2 docker/go.prod.Dockerfile
+        run: sh deploy.sh dylankio_go_image ${{ secrets.AWS_URL }} ap-southeast-2 docker/prod/go.Dockerfile
+  
+  ecr-node:
+    name: Upload node image to ECR
+    runs-on: ubuntu-latest
+    needs: [react]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region            : "ap-southeast-2"
+      - name: Upload
+        run: sh deploy.sh dylankio_node_image ${{ secrets.AWS_URL }} ap-southeast-2 docker/prod/node.Dockerfile
+
+  ecr-nginx:
+    name: Update nginx image to ECR
+    runs-on: ubuntu-latest
+    needs: [terraform]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id     : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region            : "ap-southeast-2"
+      - name: Upload
+        run: sh deploy.sh dylankio_nginx_image ${{ secrets.AWS_URL }} ap-southeast-2 docker/prod/nginx.Dockerfile
 
   ecs:
     name: Deploy new service
     runs-on: ubuntu-latest
-    needs: [ecr]
+    needs: [ecr-go]
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1

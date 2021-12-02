@@ -4,7 +4,7 @@ services:
   go:
     build:
       context: ./backend
-      dockerfile: ../docker/go.dev.Dockerfile
+      dockerfile: ../docker/dev/go.Dockerfile
     ports:
       - 8080:8080
     volumes:
@@ -15,7 +15,7 @@ services:
   node:
     build:
       context: ./frontend
-      dockerfile: ../docker/web.dev.Dockerfile
+      dockerfile: ../docker/dev/web.Dockerfile
     ports:
       - 3000:3000
     volumes:
@@ -39,6 +39,19 @@ services:
     depends_on:
       - go
       - node
+  
+  # Test nginx prod
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/prod/nginx.Dockerfile
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   depends_on:
+  #     - go
+  #     - node
+  
 
 volumes:
   node_modules:

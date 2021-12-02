@@ -18,8 +18,8 @@ resource "aws_ecs_task_definition" "task" {
           "protocol": "tcp"
         }
       ],
-      "memory": 512,
-      "cpu": 256
+      "memory": 171,
+      "cpu": 85
     },
     {
       "name": "${var.project}_nginx",
@@ -32,8 +32,8 @@ resource "aws_ecs_task_definition" "task" {
           "protocol": "tcp"
         }
       ],
-      "memory": 512,
-      "cpu": 256
+      "memory": 170,
+      "cpu": 85
     },
     {
       "name": "${var.project}_node",
@@ -46,8 +46,8 @@ resource "aws_ecs_task_definition" "task" {
           "protocol": "tcp"
         }
       ],
-      "memory": 512,
-      "cpu": 256
+      "memory": 171,
+      "cpu": 86
     }
   ]
   DEFINITION
@@ -78,7 +78,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
-    container_name   = "${var.project}__nginx"
+    container_name   = "${var.project}_nginx"
     container_port   = 80
   }
 }

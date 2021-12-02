@@ -1,7 +1,5 @@
 /.github
 /coverage
 /node_modules
-/public
-/src
 /terraform
-/tests
+/frontend
