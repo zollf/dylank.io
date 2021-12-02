@@ -43,7 +43,26 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = "arn:aws:acm:ap-southeast-2:703161335764:certificate/c9c241d5-4855-42ad-ae7b-d3e3b14c1003"
 
   default_action {
+    type = "fixed-response"
+
+    fixed_response {
+      status_code  = 503
+      content_type = "text/plain"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "https" {
+  listener_arn = aws_lb_listener.https.arn
+
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.target_group.arn
+  }
+
+  condition {
+    host_header {
+      values = ["dylank.io"]
+    }
   }
 }

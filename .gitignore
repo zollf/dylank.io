@@ -6,6 +6,7 @@ tmp
 node_modules/
 public/static/*.js*
 coverage/
+.next/
 
 # terraform
 .terraform

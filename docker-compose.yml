@@ -1,25 +1,25 @@
 version: "3.8"
 
 services:
-  app:
+  go:
     build:
-      context: ./app
-      dockerfile: ../docker/go.dev.Dockerfile
+      context: ./backend
+      dockerfile: ../docker/dev/go.Dockerfile
     ports:
       - 8080:8080
     volumes:
-      - ./app:/usr/app:cached
+      - ./backend:/usr/app:cached
     command:
       air
 
-  web:
+  node:
     build:
-      context: .
-      dockerfile: ./docker/web.dev.Dockerfile
+      context: ./frontend
+      dockerfile: ../docker/dev/web.Dockerfile
     ports:
       - 3000:3000
     volumes:
-      - ./:/usr/app:cached
+      - ./frontend:/usr/app:cached
       - node_modules:/app/node_modules:delegated
       - yarn_config:/usr/local/share/.config 
 
@@ -37,8 +37,21 @@ services:
       - 80:80
       - 443:443
     depends_on:
-      - web
-      - app
+      - go
+      - node
+  
+  # Test nginx prod
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: ./docker/prod/nginx.Dockerfile
+  #   ports:
+  #     - 80:80
+  #     - 443:443
+  #   depends_on:
+  #     - go
+  #     - node
+  
 
 volumes:
   node_modules:

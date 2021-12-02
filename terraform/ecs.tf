@@ -18,8 +18,36 @@ resource "aws_ecs_task_definition" "task" {
           "protocol": "tcp"
         }
       ],
-      "memory": 512,
-      "cpu": 256
+      "memory": 171,
+      "cpu": 85
+    },
+    {
+      "name": "${var.project}_nginx",
+      "image": "${aws_ecr_repository.nginx.repository_url}",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "tcp"
+        }
+      ],
+      "memory": 170,
+      "cpu": 85
+    },
+    {
+      "name": "${var.project}_node",
+      "image": "${aws_ecr_repository.node.repository_url}",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000,
+          "protocol": "tcp"
+        }
+      ],
+      "memory": 171,
+      "cpu": 86
     }
   ]
   DEFINITION
@@ -50,7 +78,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group.arn
-    container_name   = "${var.project}_go"
-    container_port   = 8080
+    container_name   = "${var.project}_nginx"
+    container_port   = 80
   }
 }
