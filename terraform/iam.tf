@@ -37,8 +37,8 @@ data "aws_iam_policy_document" "iam_site_policy" {
   }
 
   statement {
-    actions   = ["ecr:*"]
-    effect    = "Allow"
+    actions = ["ecr:*"]
+    effect  = "Allow"
     resources = [
       aws_ecr_repository.go.arn,
       aws_ecr_repository.node.arn,
@@ -54,17 +54,6 @@ data "aws_iam_policy_document" "iam_site_policy" {
     resources = ["*"]
   }
 
-  statement {
-    actions   = ["cloudfront:*"]
-    effect    = "Allow"
-    resources = ["*"]
-  }
-
-  statement {
-    actions   = ["ec2:*"]
-    effect    = "Allow"
-    resources = ["*"]
-  }
 
   statement {
     actions   = ["ecs:*"]
