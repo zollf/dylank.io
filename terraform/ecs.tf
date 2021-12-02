@@ -9,7 +9,6 @@ resource "aws_ecs_task_definition" "task" {
   [
     {
       "name": "${var.project}_go",
-      "hostname": "go",
       "image": "${aws_ecr_repository.go.repository_url}",
       "essential": true,
       "portMappings": [
@@ -32,7 +31,6 @@ resource "aws_ecs_task_definition" "task" {
     },
     {
       "name": "${var.project}_nginx",
-      "hostname": "nginx",
       "image": "${aws_ecr_repository.nginx.repository_url}",
       "essential": true,
       "portMappings": [
@@ -54,18 +52,17 @@ resource "aws_ecs_task_definition" "task" {
       },
       "dependsOn": [
         {
-          "containerName": "${aws_ecr_repository.go.repository_url}",
+          "containerName": "${var.project}_go",
           "condition": "START"
         },
         {
-          "containerName": "${aws_ecr_repository.go.repository_url}",
+          "containerName": "${var.project}_node",
           "condition": "START"
         }
       ]
     },
     {
       "name": "${var.project}_node",
-      "hostname": "node",
       "image": "${aws_ecr_repository.node.repository_url}",
       "essential": true,
       "portMappings": [

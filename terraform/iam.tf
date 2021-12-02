@@ -31,6 +31,7 @@ data "aws_iam_policy_document" "iam_site_policy" {
       "iam:GetRole",
       "iam:ListRolePolicies",
       "iam:ListAttachedRolePolicies",
+      "iam:PassRole",
     ]
     resources = [aws_iam_user.iam_user.arn, aws_iam_role.ecs_task_execution_role.arn]
     effect    = "Allow"
