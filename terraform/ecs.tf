@@ -58,10 +58,10 @@ resource "aws_ecs_task_definition" "task" {
           "condition": "START"
         },
         {
-          "containerName": "${aws_ecr_repository.node.repository_url}",
+          "containerName": "${aws_ecr_repository.go.repository_url}",
           "condition": "START"
         }
-      ],
+      ]
     },
     {
       "name": "${var.project}_node",
