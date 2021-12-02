@@ -119,7 +119,7 @@ jobs:
   ecs:
     name: Deploy new service
     runs-on: ubuntu-latest
-    needs: [ecr-go]
+    needs: [ecr-go, ecr-node, ecr-nginx]
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
