@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "task" {
           "awslogs-region": "ap-southeast-2",
           "awslogs-stream-prefix": "ecs"
         }
-      }
+      },
       "dependsOn": [
         {
           "containerName": "${aws_ecr_repository.go.repository_url}",
