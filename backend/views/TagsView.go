@@ -1,6 +1,7 @@
 package views
 
 import (
+	"app/helpers"
 	"app/models"
 	"time"
 
@@ -9,7 +10,6 @@ import (
 
 func Tags(ctx iris.Context) {
 	err := ctx.URLParam("err")
-	success := ctx.URLParam("success")
 	type TagData struct {
 		ID          string
 		Index       int
@@ -42,11 +42,11 @@ func Tags(ctx iris.Context) {
 		})
 	}
 
-	ctx.View("tags/tags.pug", iris.Map{"Err": err, "Success": success, "Tags": tag_data})
+	helpers.RenderTemplate(ctx, "tags/tags", "admin", iris.Map{"Err": err, "Tags": tag_data})
 }
 
 func NewTag(ctx iris.Context) {
-	ctx.View("tags/create.pug")
+	helpers.RenderTemplate(ctx, "tags/create", "admin", iris.Map{})
 }
 
 func EditTag(ctx iris.Context) {
@@ -63,7 +63,7 @@ func EditTag(ctx iris.Context) {
 	tag, not_found := models.GetTag(id)
 
 	if not_found != nil {
-		ctx.View("404.pug")
+		ctx.View("404")
 		return
 	}
 
@@ -74,5 +74,5 @@ func EditTag(ctx iris.Context) {
 		DateCreated: tag.DateCreated,
 	}
 
-	ctx.View("tags/view.pug", iris.Map{"Tag": tag_data})
+	helpers.RenderTemplate(ctx, "tags/view", "admin", iris.Map{"Tag": tag_data})
 }

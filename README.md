@@ -1,8 +1,6 @@
 # dylank.io
 https://dylank.io
 
-Front end is served through s3, and backend AWS Fargate.
-
 ## Startup
 Create env file (only needed for backend app)
 ```bash
@@ -17,18 +15,6 @@ docker-compose up
 ```
 
 Open http://localhost
-
-## Running backend scripts
-```bash
-cd app
-go run server.go help
-go run server.go help <command> 
-```
-
-Commands
-```bash
-go run server.go create_user <username> <password> <email>
-```
 
 ## Test
 ```bash

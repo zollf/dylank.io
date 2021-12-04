@@ -1,4 +1,4 @@
-main > .sidebar {
+.admin > .sidebar {
   border-right: 1px solid var(--gray-colors-gray-6);
   padding: 24px;
 }
@@ -14,8 +14,8 @@ main > .sidebar {
   flex-direction: column;
 }
 
-.sidebar_main {
-  font-weight: bold;
+.sidebar_inner > a {
+  margin-bottom: 12px;
 }
 
 .sidebar_sub {

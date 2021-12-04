@@ -1,6 +1,7 @@
 package views
 
 import (
+	"app/helpers"
 	"app/models"
 	"time"
 
@@ -9,7 +10,6 @@ import (
 
 func Projects(ctx iris.Context) {
 	err := ctx.URLParam("err")
-	success := ctx.URLParam("success")
 	type ProjectData struct {
 		ID          string
 		Index       int
@@ -42,14 +42,14 @@ func Projects(ctx iris.Context) {
 		})
 	}
 
-	ctx.View("projects/projects.pug", iris.Map{"Err": err, "Success": success, "Projects": project_data})
+	helpers.RenderTemplate(ctx, "projects/projects", "admin", iris.Map{"Projects": project_data, "Err": err})
 }
 
 func NewProject(ctx iris.Context) {
 	if tags, tags_err := models.GetTags(); tags_err != nil {
-		ctx.View("projects/create.pug", iris.Map{"Tags": []models.Tag{}, "Err": tags_err.Error()})
+		helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{"Tags": []models.Tag{}, "Err": tags_err.Error()})
 	} else {
-		ctx.View("projects/create.pug", iris.Map{"Tags": tags})
+		helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{"Tags": tags})
 	}
 }
 
@@ -77,7 +77,7 @@ func EditProject(ctx iris.Context) {
 	project, project_err := models.GetProject(id)
 
 	if project_err != nil {
-		ctx.View("404.pug")
+		ctx.View("404")
 		return
 	}
 
@@ -113,5 +113,5 @@ func EditProject(ctx iris.Context) {
 		})
 	}
 
-	ctx.View("projects/view.pug", iris.Map{"Project": project_data, "Tags": tags_data})
+	helpers.RenderTemplate(ctx, "projects/view", "admin", iris.Map{"Project": project_data, "Tags": tags_data})
 }

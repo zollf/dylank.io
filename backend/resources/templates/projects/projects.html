@@ -1,0 +1,38 @@
+{{ define "content" }}
+  <div class="space-between">
+    <h1>Projects</h1>
+    <a href="/admin/projects/create" class="btn btn-success">Create</a>
+  </div>
+  {{ partial "partials/alerts" . }}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Date Created</th>
+        <th scope="col">Date Updated</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range $project := .Projects}}
+        <tr>
+          <th scope="row" class="align-middle">{{$project.Index}}</th>
+          <th class="align-middle">{{$project.Title}}</th>
+          <th class="align-middle">{{$project.Description}}</th>
+          <th class="align-middle">{{$project.DateCreated}}</th>
+          <th class="align-middle">{{$project.DateUpdated}}</th>
+          <th class="flex-row">
+            <a href="/admin/projects/view/{{$project.ID}}" class="btn btn-primary btn-sm m-1">View</a>
+            <form action="/api/projects/delete" method="POST" class="mb-0">
+              <input type="hidden" value="/admin/projects" name="redirect" />
+              <input type="hidden" value="{{$project.ID}}" name="id" />
+              <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
+            </form>
+          </th>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+{{ end }}

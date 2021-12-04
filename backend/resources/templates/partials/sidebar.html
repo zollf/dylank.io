@@ -1,0 +1,24 @@
+<div class="sidebar_inner">
+  <a 
+    href="/admin/users" 
+    class="sidebar_main" 
+    data-active='{{ if eq .EndPath "users" }}true{{ else }}false{{ end }}'
+  >
+    Users
+  </a>
+  <a 
+    href="/admin/projects" 
+    class="sidebar_main"
+    data-active='{{ if eq .EndPath "projects" }}true{{ else }}false{{ end }}'
+  >
+    Projects
+  </a>
+  <a 
+    href="/admin/tags" 
+    class="sidebar_main"
+    data-active='{{ if eq .EndPath "tags" }}true{{ else }}false{{ end }}'
+  >
+    Tags
+  </a>
+</div>
+

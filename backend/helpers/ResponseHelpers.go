@@ -62,14 +62,12 @@ func RedirectIfExist(ctx iris.Context, errMsg *string, successMsg *string, data 
 }
 
 func SuccessMsg(msg string) *string {
-	var success_msg *string
-	success_msg = &msg
+	success_msg := &msg
 	return success_msg
 }
 
 func ErrorMsg(msg string) *string {
-	var error_msg *string
-	error_msg = &msg
+	error_msg := &msg
 	return error_msg
 }
 

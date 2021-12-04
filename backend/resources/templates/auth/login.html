@@ -1,0 +1,22 @@
+{{ define "head" }}
+  <link href="/admin/styles/login.css" rel="stylesheet" type="text/css">
+{{ end }}
+
+{{ define "content" }}
+  <div class="login">
+    {{ partial "partials/alerts" . }}
+    <form action="/api/login" method="POST" class="login-form">
+      <h1>Login</h1>
+      <input type="hidden" name="redirect" value="/admin"/>
+      <div class="form-group mb-3">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" placeholder="Username" required="true"/>
+      </div>
+      <div class="form-group mb-3">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>
+      </div>
+      <button type="submit" class="btn btn-primary">Login</button>
+    </form>
+  </div>
+{{ end }}

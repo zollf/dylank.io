@@ -54,9 +54,15 @@ func authApiRequest(ctx iris.Context) {
 
 func authBrowserRequest(ctx iris.Context) {
 	cookie := ctx.GetCookie("dylank-io-auth")
+	err := ctx.URLParam("err")
+	success := ctx.URLParam("success")
 
 	if cookie == "" {
-		ctx.View("auth/login.pug", iris.Map{"Redirect": ctx.Path()})
+		helpers.RenderTemplate(ctx, "auth/login", "base", iris.Map{
+			"Redirect": ctx.Path(),
+			"Err":      err,
+			"Success":  success,
+		})
 		return
 	}
 
@@ -65,7 +71,11 @@ func authBrowserRequest(ctx iris.Context) {
 	if verify_err != nil {
 		// delete cookie since its not valid
 		ctx.RemoveCookie("dylank-io-auth")
-		ctx.View("auth/login.pug", iris.Map{"Redirect": ctx.Path()})
+		helpers.RenderTemplate(ctx, "auth/login", "base", iris.Map{
+			"Redirect": ctx.Path(),
+			"Err":      err,
+			"Success":  success,
+		})
 		return
 	} else {
 		ctx.Next()

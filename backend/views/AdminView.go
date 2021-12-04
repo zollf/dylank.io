@@ -1,6 +1,7 @@
 package views
 
 import (
+	"app/helpers"
 	"app/services"
 
 	"github.com/kataras/iris/v12"
@@ -8,5 +9,5 @@ import (
 
 func AdminIndex(ctx iris.Context) {
 	username, _ := services.GetAndVerifyCookie(ctx)
-	ctx.View("index.pug", iris.Map{"Username": username})
+	helpers.RenderTemplate(ctx, "index", "admin", iris.Map{"Username": username})
 }

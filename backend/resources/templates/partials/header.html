@@ -1,0 +1,11 @@
+<header class="header">
+  <div class="logo">
+    <a href="/">d.io</a>
+  </div>
+  <div class="header_text">
+    Admin Panel
+    {{ if .LoggedIn }}
+      <a href="/api/logout" class="btn btn-primary">Logout</a>
+    {{ end }}
+  </div>
+</header>

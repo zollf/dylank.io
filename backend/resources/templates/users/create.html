@@ -1,0 +1,24 @@
+{{ define "content" }}
+  <div class="space-between">
+    <h1>Create User</h1>
+    <div class="flex-row">
+      <a href="/admin/users" class="btn btn-secondary btn-sm m-1">Back</a>
+    </div>
+  </div>
+  <form action="/api/user/create" method="POST">
+    <input type="hidden" name="redirect" value="/admin/users" />
+    <div class="form-group mb-3">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" name="username" placeholder="Username" required="true"/>
+    </div>
+    <div class="form-group mb-3">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>
+    </div>
+    <div class="form-group mb-3">
+      <label for="email">Email</label>
+      <input type="text" class="form-control" name="email" placeholder="Email" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+{{ end }}

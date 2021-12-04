@@ -1,0 +1,11 @@
+.admin {
+  display: grid;
+  grid-template-columns: 15% auto;
+  min-height: calc(100vh - 70px);
+}
+
+.admin > .content {
+  padding: 24px;
+  width: 100%;
+  height: 100%;
+}

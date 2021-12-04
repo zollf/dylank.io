@@ -1,6 +1,7 @@
 package views
 
 import (
+	"app/helpers"
 	"app/models"
 	"time"
 
@@ -9,7 +10,6 @@ import (
 
 func Users(ctx iris.Context) {
 	err := ctx.URLParam("err")
-	success := ctx.URLParam("success")
 	type UserData struct {
 		ID          string
 		Index       int
@@ -38,11 +38,11 @@ func Users(ctx iris.Context) {
 		})
 	}
 
-	ctx.View("users/users.pug", iris.Map{"Err": err, "Success": success, "Users": users_data})
+	helpers.RenderTemplate(ctx, "users/users", "admin", iris.Map{"Err": err, "Users": users_data})
 }
 
 func NewUser(ctx iris.Context) {
-	ctx.View("users/create.pug")
+	helpers.RenderTemplate(ctx, "users/create", "admin", iris.Map{})
 }
 
 func EditUser(ctx iris.Context) {
@@ -57,7 +57,7 @@ func EditUser(ctx iris.Context) {
 	user, user_err := models.GetUser(id)
 
 	if user_err != nil {
-		ctx.View("404.pug")
+		ctx.View("404")
 		return
 	}
 
@@ -68,5 +68,5 @@ func EditUser(ctx iris.Context) {
 		DateCreated: user.DateCreated,
 	}
 
-	ctx.View("users/view.pug", iris.Map{"User": user_data})
+	helpers.RenderTemplate(ctx, "users/view", "admin", iris.Map{"User": user_data})
 }
