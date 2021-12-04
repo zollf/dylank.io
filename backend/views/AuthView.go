@@ -1,19 +1,17 @@
 package views
 
 import (
+	"app/helpers"
 	"app/services"
 
 	"github.com/kataras/iris/v12"
 )
 
 func Login(ctx iris.Context) {
-	err := ctx.URLParam("err")
-	success := ctx.URLParam("success")
-
 	_, verify_err := services.GetAndVerifyCookie(ctx)
 
 	if verify_err != nil {
-		ctx.View("auth/login.pug", iris.Map{"Err": err, "Success": success})
+		helpers.RenderTemplate(ctx, "auth/login", "base", iris.Map{})
 		return
 	} else {
 		ctx.Redirect("/admin/logout")
@@ -28,7 +26,7 @@ func Logout(ctx iris.Context) {
 		ctx.Redirect("/admin/login")
 		return
 	} else {
-		ctx.View("auth/logout.pug", iris.Map{"Username": username})
+		helpers.RenderTemplate(ctx, "auth/logout", "base", iris.Map{"Username": username})
 		return
 	}
 }

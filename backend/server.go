@@ -18,8 +18,7 @@ func main() {
 	if len(os.Args) == 1 || os.Args[1] == "runserver" {
 		app := iris.New()
 
-		e := iris.Pug("./resources/templates", ".pug").Reload(true)
-		app.RegisterView(e)
+		app.RegisterView(iris.Blocks("./resources/templates", ".html").Reload(true))
 		app.HandleDir("/admin/styles", iris.Dir("./resources/static/styles"))
 
 		app.Post("/api/graphql", graphql.ExecuteGraphqlQuery)

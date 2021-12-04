@@ -61,3 +61,15 @@ query {
   }
 }
 ```
+
+## Running backend scripts
+```bash
+cd app
+go run server.go help
+go run server.go help <command> 
+```
+
+Commands
+```bash
+go run server.go create_user <username> <password> <email>
+```

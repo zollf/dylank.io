@@ -1,0 +1,38 @@
+{{ define "content" }}
+  <div class="space-between">
+    <h1>Tags</h1>
+    <a href="/admin/tags/create" class="btn btn-success">Create</a>
+  </div>
+  {{ partial "partials/alerts" . }}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Slug</th>
+        <th scope="col">Date Created</th>
+        <th scope="col">Date Updated</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range $tag := .Tags}}
+        <tr>
+          <th scope="row" class="align-middle">{{$tag.Index}}</th>
+          <th class="align-middle">{{$tag.Title}}</th>
+          <th class="align-middle">{{$tag.Slug}}</th>
+          <th class="align-middle">{{$tag.DateCreated}}</th>
+          <th class="align-middle">{{$tag.DateUpdated}}</th>
+          <th class="flex-row">
+            <a href="/admin/tags/view/{{$tag.ID}}" class="btn btn-primary btn-sm m-1">View</a>
+            <form action="/api/tags/delete" method="POST" class="mb-0">
+              <input type="hidden" value="/admin/tags" name="redirect" />
+              <input type="hidden" value="{{$tag.ID}}" name="id" />
+              <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
+            </form>
+          </th>
+        </tr>
+      {{end}}
+    </tbody>
+  </table>
+{{ end }}

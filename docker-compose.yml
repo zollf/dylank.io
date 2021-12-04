@@ -15,7 +15,7 @@ services:
   node:
     build:
       context: ./frontend
-      dockerfile: ../docker/dev/web.Dockerfile
+      dockerfile: ../docker/dev/node.Dockerfile
     ports:
       - 3000:3000
     volumes:
@@ -36,7 +36,10 @@ services:
     ports:
       - 80:80
       - 443:443
-  
+    depends_on:
+      - go
+      - node
+      
 volumes:
   node_modules:
   yarn_config:
