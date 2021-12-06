@@ -1,38 +1,27 @@
 # dylank.io
-https://dylank.io
+🚧 https://dylank.io 🚧
 
 ## Startup
-Create env file (only needed for backend app)
+Create env file (only needed for backend)
 ```bash
-cp app/.env.example .env
+cp backend/.env.example .env
 ```
 
 Build + Start
 ```bash
-yarn
+cd frontend && yarn && cd ../
 docker-compose build
 docker-compose up
 ```
 
 Open http://localhost
 
-## Test
-```bash
-yarn test
-```
-
-## Lint
-```bash
-yarn lint
-terraform -chdir=terraform fmt -check 
-```
-
 ## Tech Stack
-- Frontend - Typescript, React, Webpack, SCSS 
+- Frontend - Typescript, React, Nextjs, SCSS 
 - API Gateway - Graphql
 - Backend - Golang, Iris
 - Database - MongoDB
-- Infra - AWS, Terraform, Docker, Nginx 
+- Infra - AWS (ECS + Fargate), Terraform, Docker, Nginx 
 
 ## Credits
 - Penguin Model - https://sketchfab.com/ZhangWanqing

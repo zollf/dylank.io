@@ -1,8 +1,18 @@
 # Frontend
 Frontend uses Nextjs, Typescript, Graphql and React.
 
-Start up (You will need other services if just using this on its own)
+## Start up
 ```
 yarn
 yarn dev
+```
+
+## Testing
+```bash
+yarn test
+```
+
+## Lint
+```bash
+yarn lint
 ```
