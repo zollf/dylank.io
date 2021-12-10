@@ -3,8 +3,6 @@ package scripts
 import (
 	"app/models"
 	"time"
-
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 // Used to create admin user on startup
@@ -22,14 +20,13 @@ func CreateAdminUserCommand(args []string) error {
 	email := args[2]
 
 	err := models.CreateUser(&models.User{
-		ID:           primitive.NewObjectID(),
 		Username:     username,
 		Password:     password,
 		Email:        email,
 		Locked:       false,
-		DateCreated:  time.Now().UTC().String(),
-		DateUpdated:  time.Now().UTC().String(),
-		LastLoggedIn: "",
+		CreatedAt:    time.Now(),
+		UpdatedAt:    time.Now(),
+		LastLoggedIn: nil,
 	})
 
 	return err

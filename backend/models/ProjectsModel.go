@@ -2,83 +2,67 @@ package models
 
 import (
 	"app/database"
-	"fmt"
-
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"time"
 )
 
 type Project struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-	Slug        string             `json:"slug" bson:"slug"`
-	Title       string             `json:"title" bson:"title"`
-	Description string             `json:"description" bson:"description"`
-	Image       string             `json:"image" bson:"image"`
-	URL         *string            `json:"url" bson:"url"`
-	Git         *string            `json:"git" bson:"git"`
-	DateCreated string             `json:"dateCreated" bson:"dateCreated"`
-	DateUpdated string             `json:"dateUpdated" bson:"dateUpdated"`
-	Tags        []*Tag             `json:"tags" bson:"tags"`
-}
-
-const ProjCol = "project"
-
-func CreateOrEditProject(project *Project) error {
-	if found, err := FindProject(project); err != nil {
-		return fmt.Errorf("error occurred when trying to find if project exists")
-	} else {
-		if found {
-			return UpdateProject(project)
-		} else {
-			return CreateProject(project)
-		}
-	}
+	ID          uint64    `json:"id"`
+	Slug        string    `json:"slug" gorm:"index:idx_project_slug,unique"`
+	Title       string    `json:"title" gorm:"index:idx_project_title,unique"`
+	Description string    `json:"description"`
+	Image       string    `json:"image"`
+	URL         *string   `json:"url"`
+	Git         *string   `json:"git"`
+	CreatedAt   time.Time `json:"createdAt"`
+	UpdatedAt   time.Time `json:"updatedAt"`
+	Tags        []*Tag    `json:"tags" gorm:"many2many:project_tags"`
 }
 
 func GetProjects() ([]*Project, error) {
 	var projects []*Project
-	err := database.GetDocuments(ProjCol, func(cur *mongo.Cursor) error {
-		var project *Project
-		if err := cur.Decode(&project); err != nil {
-			return err
-		} else {
-			projects = append(projects, project)
-			return nil
-		}
-	})
-
-	return projects, err
+	if db, err := database.Open(); err == nil {
+		results := db.Preload("Tags").Find(&projects)
+		return projects, results.Error
+	} else {
+		return nil, err
+	}
 }
 
 func FindProject(project *Project) (bool, error) {
-	return database.DocumentExist(ProjCol, bson.M{"_id": project.ID})
+	return database.RecordExist(&Project{}, "id = ?", project.ID)
 }
 
-func UpdateProject(project *Project) error {
-	return database.UpdateDocument(ProjCol, bson.M{"_id": project.ID}, bson.M{"$set": project})
+func UpdateProject(project *Project, id string) error {
+	projectRecord, err := GetProject(id)
+	if err != nil {
+		return err
+	}
+
+	projectRecord.Title = project.Title
+	projectRecord.Slug = project.Slug
+	projectRecord.Description = project.Description
+	projectRecord.Image = project.Image
+	projectRecord.URL = project.URL
+	projectRecord.Git = project.Git
+	projectRecord.Tags = project.Tags
+
+	return database.UpdateRecord(&projectRecord)
 }
 
 func CreateProject(project *Project) error {
-	return database.CreateDocument(ProjCol, project)
+	return database.CreateRecord(project)
 }
 
 func GetProject(id string) (*Project, error) {
-	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
-		return nil, pid_err
+	var project *Project
+	if db, err := database.Open(); err == nil {
+		results := db.Preload("Tags").Where("id = ?", id).Find(&project)
+		return project, results.Error
 	} else {
-		var project *Project
-		err := database.GetDocument(ProjCol, bson.M{"_id": pid}, func(res *mongo.SingleResult) error {
-			return res.Decode(&project)
-		})
-		return project, err
+		return nil, err
 	}
 }
 
 func DeleteProject(id string) error {
-	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
-		return pid_err
-	} else {
-		return database.DeleteDocument(ProjCol, bson.M{"_id": pid})
-	}
+	return database.DeleteRecord(&Project{}, id)
 }

@@ -21,8 +21,8 @@
           <th scope="row" class="align-middle">{{$project.Index}}</th>
           <th class="align-middle">{{$project.Title}}</th>
           <th class="align-middle">{{$project.Description}}</th>
-          <th class="align-middle">{{$project.DateCreated}}</th>
-          <th class="align-middle">{{$project.DateUpdated}}</th>
+          <th class="align-middle">{{$project.CreatedAt}}</th>
+          <th class="align-middle">{{$project.UpdatedAt}}</th>
           <th class="flex-row">
             <a href="/admin/projects/view/{{$project.ID}}" class="btn btn-primary btn-sm m-1">View</a>
             <form action="/api/projects/delete" method="POST" class="mb-0">

@@ -2,93 +2,55 @@ package models
 
 import (
 	"app/database"
-	"fmt"
-
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/bson/primitive"
-	"go.mongodb.org/mongo-driver/mongo"
+	"time"
 )
 
 type Tag struct {
-	ID          primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-	Slug        string             `json:"slug" bson:"slug"`
-	Title       string             `json:"title" bson:"title"`
-	DateCreated string             `json:"dateCreated" bson:"dateCreated"`
-	DateUpdated string             `json:"dateUpdated" bson:"dateUpdated"`
-}
-
-const TagCol = "tag"
-
-func CreateOrEditTag(tag *Tag) error {
-	if found, err := FindTag(tag); err != nil {
-		return fmt.Errorf("error occurred when trying to find if tag exists")
-	} else {
-		if found {
-			return UpdateTag(tag)
-		} else {
-			tag_exist, tag_err := FindTagByTitle(tag)
-			if tag_err != nil {
-				return tag_err
-			}
-
-			if tag_exist {
-				return fmt.Errorf("Tag title already exists")
-			}
-
-			return CreateTag(tag)
-		}
-	}
+	ID        uint64    `json:"id"`
+	Slug      string    `json:"slug" gorm:"index:idx_tag_slug,unique"`
+	Title     string    `json:"title" gorm:"index:idx_tag_title,unique"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 func GetTags() ([]*Tag, error) {
 	var tags []*Tag
-	err := database.GetDocuments(TagCol, func(cur *mongo.Cursor) error {
-		var tag *Tag
-		if err := cur.Decode(&tag); err != nil {
-			return err
-		} else {
-			tags = append(tags, tag)
-			return nil
-		}
-	})
-
+	err := database.GetRecords(&tags)
 	return tags, err
 }
 
 func FindTag(tag *Tag) (bool, error) {
-	return database.DocumentExist(TagCol, bson.M{"_id": tag.ID})
+	return database.RecordExist(&Tag{}, "id = ?", tag.ID)
 }
 
 func FindTagByTitle(tag *Tag) (bool, error) {
-	return database.DocumentExist(TagCol, bson.M{"title": tag.Title})
+	return database.RecordExist(&Tag{}, "title = ?", tag.Title)
 }
 
-func UpdateTag(tag *Tag) error {
-	return database.UpdateDocument(TagCol, bson.M{"_id": tag.ID}, bson.M{"$set": tag})
+func UpdateTag(tag *Tag, id string) error {
+	tagRecord, err := GetTag(id)
+	if err != nil {
+		return err
+	}
+
+	tagRecord.Title = tag.Title
+	tagRecord.Slug = tag.Slug
+
+	return database.UpdateRecord(&tagRecord)
 }
 
 func CreateTag(tag *Tag) error {
-	return database.CreateDocument(TagCol, tag)
+	return database.CreateRecord(tag)
 }
 
 func GetTag(id string) (*Tag, error) {
-	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
-		return nil, pid_err
-	} else {
-		var tag *Tag
-		err := database.GetDocument(TagCol, bson.M{"_id": pid}, func(res *mongo.SingleResult) error {
-			return res.Decode(&tag)
-		})
-		return tag, err
-	}
+	var tag *Tag
+	err := database.GetRecord(&tag, "id = ?", id)
+	return tag, err
 }
 
 func DeleteTag(id string) error {
-	if pid, pid_err := primitive.ObjectIDFromHex(id); pid_err != nil {
-		return pid_err
-	} else {
-		return database.DeleteDocument(TagCol, bson.M{"_id": pid})
-	}
+	return database.DeleteRecord(&Tag{}, id)
 }
 
 // Given a tag, check it exists amongst an array of tags

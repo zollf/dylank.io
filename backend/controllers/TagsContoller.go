@@ -3,34 +3,43 @@ package controllers
 import (
 	"app/helpers"
 	"app/models"
-	"time"
 
 	"github.com/gosimple/slug"
 
 	"github.com/kataras/iris/v12"
 )
 
-func CreateOrEditTag(ctx iris.Context) {
+func CreateTag(ctx iris.Context) {
 	if !helpers.ValidInputs(ctx, []string{"title"}) {
 		return
 	}
 
-	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		helpers.ErrorResponse(ctx, "Failed to get or create id", iris.Map{"tag": nil, "error": id_err.Error()})
-	} else {
-		tag := &models.Tag{
-			ID:          id,
-			Title:       ctx.FormValue("title"),
-			Slug:        slug.Make(ctx.FormValue("title")),
-			DateCreated: helpers.GetOrCreateDate(ctx),
-			DateUpdated: time.Now().UTC().String(),
-		}
+	tag := &models.Tag{
+		Title: ctx.FormValue("title"),
+		Slug:  slug.Make(ctx.FormValue("title")),
+	}
 
-		if err := models.CreateOrEditTag(tag); err != nil {
-			helpers.ErrorResponse(ctx, "Failed to save tag", iris.Map{"tag": nil, "error": err.Error()})
-		} else {
-			helpers.SuccessResponse(ctx, "Successfully saved tag", iris.Map{"tag": tag})
-		}
+	if err := models.CreateTag(tag); err != nil {
+		helpers.ErrorResponse(ctx, "Failed to created tag", iris.Map{"error": err.Error()})
+	} else {
+		helpers.SuccessResponse(ctx, "Successfully created tag", iris.Map{"tag": tag})
+	}
+}
+
+func EditTag(ctx iris.Context) {
+	if !helpers.ValidInputs(ctx, []string{"id", "title"}) {
+		return
+	}
+
+	tag := &models.Tag{
+		Title: ctx.FormValue("title"),
+		Slug:  slug.Make(ctx.FormValue("title")),
+	}
+
+	if err := models.UpdateTag(tag, ctx.FormValue("id")); err != nil {
+		helpers.ErrorResponse(ctx, "Failed to update tag", iris.Map{"error": err.Error()})
+	} else {
+		helpers.SuccessResponse(ctx, "Successfully updated tag", iris.Map{"tag": tag})
 	}
 }
 

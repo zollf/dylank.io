@@ -3,51 +3,76 @@ package controllers
 import (
 	"app/helpers"
 	"app/models"
-	"time"
 
 	"github.com/gosimple/slug"
 	"github.com/kataras/iris/v12"
 )
 
-func CreateOrEditProject(ctx iris.Context) {
+func CreateProject(ctx iris.Context) {
 	if !helpers.ValidInputs(ctx, []string{"title", "description"}) {
 		return
 	}
 
-	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		helpers.ErrorResponse(ctx, "Failed to get or create id", iris.Map{"project": nil, "error": id_err.Error()})
-	} else {
-		// Get all tags then filter
-		var checked_tags []*models.Tag
-		tags, _ := models.GetTags()
-		input_tags := ctx.FormValues()["tags"]
+	var checkedTags []*models.Tag
+	tags, _ := models.GetTags()
+	inputTags := ctx.FormValues()["tags"]
 
-		for _, tag := range tags {
-			for _, input_tag := range input_tags {
-				if tag.Slug == input_tag {
-					checked_tags = append(checked_tags, tag)
-				}
+	for _, tag := range tags {
+		for _, inputTag := range inputTags {
+			if tag.Slug == inputTag {
+				checkedTags = append(checkedTags, tag)
 			}
 		}
+	}
 
-		project := &models.Project{
-			ID:          id,
-			Title:       ctx.FormValue("title"),
-			Slug:        slug.Make(ctx.FormValue("title")),
-			Description: ctx.FormValue("description"),
-			Image:       "",
-			URL:         helpers.GetVar(ctx, "url"),
-			Git:         helpers.GetVar(ctx, "git"),
-			Tags:        checked_tags,
-			DateCreated: helpers.GetOrCreateDate(ctx),
-			DateUpdated: time.Now().UTC().String(),
-		}
+	project := &models.Project{
+		Title:       ctx.FormValue("title"),
+		Slug:        slug.Make(ctx.FormValue("title")),
+		Description: ctx.FormValue("description"),
+		Image:       "",
+		URL:         helpers.GetVar(ctx, "url"),
+		Git:         helpers.GetVar(ctx, "git"),
+		Tags:        checkedTags,
+	}
 
-		if err := models.CreateOrEditProject(project); err != nil {
-			helpers.ErrorResponse(ctx, "Failed to save project", iris.Map{"project": nil, "error": err.Error()})
-		} else {
-			helpers.SuccessResponse(ctx, "Successfully saved project", iris.Map{"project": project})
+	if err := models.CreateProject(project); err != nil {
+		helpers.ErrorResponse(ctx, "Failed to created project", iris.Map{"error": err.Error()})
+	} else {
+		helpers.SuccessResponse(ctx, "Successfully created project", iris.Map{"project": project})
+	}
+}
+
+func EditProject(ctx iris.Context) {
+	if !helpers.ValidInputs(ctx, []string{"id", "title", "description"}) {
+		return
+	}
+
+	var checkedTags []*models.Tag
+	tags, _ := models.GetTags()
+	inputTags := ctx.FormValues()["tags"]
+
+	for _, tag := range tags {
+		for _, inputTag := range inputTags {
+			if tag.Slug == inputTag {
+				checkedTags = append(checkedTags, tag)
+			}
 		}
+	}
+
+	project := &models.Project{
+		Title:       ctx.FormValue("title"),
+		Slug:        slug.Make(ctx.FormValue("title")),
+		Description: ctx.FormValue("description"),
+		Image:       "",
+		URL:         helpers.GetVar(ctx, "url"),
+		Git:         helpers.GetVar(ctx, "git"),
+		Tags:        checkedTags,
+	}
+
+	if err := models.UpdateProject(project, ctx.FormValue("id")); err != nil {
+		helpers.ErrorResponse(ctx, "Failed to update project", iris.Map{"error": err.Error()})
+	} else {
+		helpers.SuccessResponse(ctx, "Successfully updated project", iris.Map{"project": project})
 	}
 }
 

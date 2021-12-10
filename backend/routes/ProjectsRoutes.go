@@ -13,7 +13,7 @@ func ProjectsRoutes(app *iris.Application) {
 	app.Get("/admin/projects/view/{id}", views.EditProject)
 
 	app.Get("/api/projects", controllers.ListProject)
-	app.Post("/api/projects/create", controllers.CreateOrEditProject)
-	app.Post("/api/projects/edit", controllers.CreateOrEditProject)
+	app.Post("/api/projects/create", controllers.CreateProject)
+	app.Post("/api/projects/edit", controllers.EditProject)
 	app.Post("/api/projects/delete", controllers.DeleteProject)
 }

@@ -112,7 +112,7 @@ func DeleteDocument(col string, filter bson.M) error {
 	return GetMongo(func(ctx context.Context, client *mongo.Client) error {
 		res, err := client.Database("db").Collection(col).DeleteOne(ctx, filter)
 		if res.DeletedCount == 0 {
-			return errors.New("Document does not exist")
+			return errors.New("document does not exist")
 		}
 		return err
 	})

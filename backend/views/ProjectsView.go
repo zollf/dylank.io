@@ -11,12 +11,12 @@ import (
 func Projects(ctx iris.Context) {
 	err := ctx.URLParam("err")
 	type ProjectData struct {
-		ID          string
+		ID          uint64
 		Index       int
 		Title       string
 		Description string
-		DateCreated string
-		DateUpdated string
+		CreatedAt   string
+		UpdatedAt   string
 	}
 
 	projects, projects_err := models.GetProjects()
@@ -25,20 +25,16 @@ func Projects(ctx iris.Context) {
 	}
 
 	var project_data []*ProjectData
-	layout := "2006-01-02 15:04:05 -0700 MST"
 	zone, _ := time.LoadLocation("Australia/Perth")
 
 	for i, project := range projects {
-		DateCreated, _ := time.Parse(layout, project.DateCreated)
-		DateUpdated, _ := time.Parse(layout, project.DateUpdated)
-
 		project_data = append(project_data, &ProjectData{
-			ID:          project.ID.Hex(),
+			ID:          project.ID,
 			Index:       i + 1,
 			Title:       project.Title,
 			Description: project.Description,
-			DateCreated: DateCreated.In(zone).Format(time.RFC822),
-			DateUpdated: DateUpdated.In(zone).Format(time.RFC822),
+			CreatedAt:   project.CreatedAt.In(zone).Format(time.RFC822),
+			UpdatedAt:   project.UpdatedAt.In(zone).Format(time.RFC822),
 		})
 	}
 
@@ -61,7 +57,7 @@ func EditProject(ctx iris.Context) {
 	}
 
 	type ProjectData struct {
-		ID          string
+		ID          uint64
 		Title       string
 		Slug        string
 		Description string
@@ -69,8 +65,8 @@ func EditProject(ctx iris.Context) {
 		URL         string
 		Git         string
 		Tags        []*models.Tag
-		DateCreated string
-		DateUpdated string
+		CreatedAt   string
+		UpdatedAt   string
 	}
 
 	id := ctx.Params().Get("id")
@@ -91,8 +87,10 @@ func EditProject(ctx iris.Context) {
 		git_url = *project.Git
 	}
 
+	zone, _ := time.LoadLocation("Australia/Perth")
+
 	project_data := ProjectData{
-		ID:          project.ID.Hex(),
+		ID:          project.ID,
 		Title:       project.Title,
 		Slug:        project.Slug,
 		Image:       project.Image,
@@ -100,7 +98,7 @@ func EditProject(ctx iris.Context) {
 		Git:         git_url,
 		Tags:        project.Tags,
 		Description: project.Description,
-		DateCreated: project.DateCreated,
+		CreatedAt:   project.CreatedAt.In(zone).Format(time.RFC822),
 	}
 
 	var tags_data []*TagData

@@ -21,8 +21,8 @@
           <th scope="row" class="align-middle">{{$user.Index}}</th>
           <th class="align-middle">{{$user.Username}}</th>
           <th class="align-middle">{{$user.Email}}</th>
-          <th class="align-middle">{{$user.DateCreated}}</th>
-          <th class="align-middle">{{$user.DateUpdated}}</th>
+          <th class="align-middle">{{$user.CreatedAt}}</th>
+          <th class="align-middle">{{$user.UpdatedAt}}</th>
           <th class="flex-row">
             <a href="/admin/users/view/{{$user.ID}}" class="btn btn-primary btn-sm m-1">View</a>
             <form action="/api/users/delete" method="POST" class="mb-0">

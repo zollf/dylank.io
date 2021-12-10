@@ -1,5 +1,5 @@
 # Backend
-Backend application, connects to mongodb and uses graphql to send responses to frontend. There is also REST api but not really needed for frontend applications. I opted for mongodb, as I'll rarely be using structured data with projects I have in mind. Preferably i would use mysql, just easier + faster to setup + use in regards to what this project serves. 
+Backend application, connects to mysql db and uses graphql to send responses to frontend. There is also REST api but not really needed for frontend applications.
 
 A lot of concepts already have existing packages, however I want to do most of it on my own so I can learn.
 
@@ -22,7 +22,8 @@ go run server.go
 ```
 
 ## Environment Variables
-- `MONGO_URI` - url to connect to mongodb
+- `ENV` - what environment you are in (testing, development, production)
+- `MYSQL_DSN` - url to connect to mysql db
 - `JWT_SECRET` - hashing secret for json web token
 
 ## Running backend scripts
@@ -35,6 +36,7 @@ go run server.go help <command>
 Commands
 ```bash
 go run server.go create_user <username> <password> <email>
+go run server.go migrate
 ```
 
 ## Endpoints
