@@ -59,6 +59,8 @@ jobs:
           envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
           envkey_ENV: production
           file_name: .env 
+      - name: CP .env
+        run: cp .env backend
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
