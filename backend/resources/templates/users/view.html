@@ -12,7 +12,6 @@
   <form action="/api/user/edit" method="POST">
     <input type="hidden" name="redirect" value="/admin/users" />
     <input type="hidden" name="id" value="{{.User.ID}}" />
-    <input type="hidden" name="dateCreated" value="{{.User.DateCreated}}" />
     <div class="form-group mb-3">
       <label for="username">Username</label>
       <input type="text" class="form-control" name="username" placeholder="Username" value="{{.User.Username}}" required="true"/>
