@@ -14,7 +14,7 @@ func GenerateJWT(user *models.User) (string, error) {
 	hmacSampleSecret := []byte(os.Getenv("JWT_SECRET"))
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"name":        user.Username,
-		"id":          user.ID.Hex(),
+		"id":          user.ID,
 		"date_issued": time.Now().UTC().String(),
 		"expiry":      time.Now().Add(time.Hour * 24 * 7).UTC().String(), // expires after 7 days
 	})

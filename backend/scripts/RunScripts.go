@@ -26,6 +26,7 @@ func (command ServerCommand) RunCommand(args []string) {
 // We don't put help as registered command as help uses descriptions from all registered command
 var RegisteredCommands = map[string]ServerCommand{
 	CreateAdminUser.CommandName: CreateAdminUser,
+	Migrate.CommandName:         Migrate,
 }
 
 /*

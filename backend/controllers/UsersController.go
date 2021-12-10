@@ -3,35 +3,49 @@ package controllers
 import (
 	"app/helpers"
 	"app/models"
-	"time"
 
 	"github.com/kataras/iris/v12"
 )
 
-func CreateOrEditUser(ctx iris.Context) {
+func CreateUser(ctx iris.Context) {
 	if !helpers.ValidInputs(ctx, []string{"username", "password", "email"}) {
 		return
 	}
 
-	if id, id_err := helpers.GetOrCreateID(ctx); id_err != nil {
-		helpers.ErrorResponse(ctx, "Failed to get or create id", iris.Map{"error": id_err.Error()})
+	user := &models.User{
+		Username:     ctx.FormValue("username"),
+		Password:     ctx.FormValue("password"),
+		Email:        ctx.FormValue("email"),
+		Locked:       false,
+		LastLoggedIn: nil,
+	}
+
+	if err := models.CreateUser(user); err != nil {
+		helpers.ErrorResponse(ctx, "Failed to created user", iris.Map{"error": err.Error()})
 	} else {
-		user := &models.User{
-			ID:           id,
-			Username:     ctx.FormValue("username"),
-			Password:     ctx.FormValue("password"),
-			Email:        ctx.FormValue("email"),
-			Locked:       false,
-			DateCreated:  helpers.GetOrCreateDate(ctx),
-			DateUpdated:  time.Now().UTC().String(),
-			LastLoggedIn: "",
-		}
-		if err := models.CreateOrEditUser(user); err != nil {
-			helpers.ErrorResponse(ctx, "Failed to save user", iris.Map{"error": err.Error()})
-		} else {
-			user.Password = "***"
-			helpers.SuccessResponse(ctx, "Successfully saved user", iris.Map{"user": user})
-		}
+		user.Password = "***"
+		helpers.SuccessResponse(ctx, "Successfully created user", iris.Map{"user": user})
+	}
+}
+
+func EditUser(ctx iris.Context) {
+	if !helpers.ValidInputs(ctx, []string{"username", "password", "email", "id"}) {
+		return
+	}
+
+	user := &models.User{
+		Username:     ctx.FormValue("username"),
+		Password:     ctx.FormValue("password"),
+		Email:        ctx.FormValue("email"),
+		Locked:       false,
+		LastLoggedIn: nil,
+	}
+
+	if err := models.UpdateUser(user, ctx.FormValue("id")); err != nil {
+		helpers.ErrorResponse(ctx, "Failed to update user", iris.Map{"error": err.Error()})
+	} else {
+		user.Password = "***"
+		helpers.SuccessResponse(ctx, "Successfully updated user", iris.Map{"user": user})
 	}
 }
 

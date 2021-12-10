@@ -21,8 +21,8 @@
           <th scope="row" class="align-middle">{{$tag.Index}}</th>
           <th class="align-middle">{{$tag.Title}}</th>
           <th class="align-middle">{{$tag.Slug}}</th>
-          <th class="align-middle">{{$tag.DateCreated}}</th>
-          <th class="align-middle">{{$tag.DateUpdated}}</th>
+          <th class="align-middle">{{$tag.CreatedAt}}</th>
+          <th class="align-middle">{{$tag.UpdatedAt}}</th>
           <th class="flex-row">
             <a href="/admin/tags/view/{{$tag.ID}}" class="btn btn-primary btn-sm m-1">View</a>
             <form action="/api/tags/delete" method="POST" class="mb-0">

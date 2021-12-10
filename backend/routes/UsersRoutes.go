@@ -13,7 +13,7 @@ func UserRoutes(app *iris.Application) {
 	app.Get("/admin/users", views.Users)
 
 	app.Get("/api/users", controllers.ListUsers)
-	app.Post("/api/user/create", controllers.CreateOrEditUser)
-	app.Post("/api/user/edit", controllers.CreateOrEditUser)
+	app.Post("/api/user/create", controllers.CreateUser)
+	app.Post("/api/user/edit", controllers.EditUser)
 	app.Post("/api/user/delete", controllers.DeleteUser)
 }

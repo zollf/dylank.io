@@ -45,12 +45,20 @@ jobs:
         run: cd frontend && yarn build
         
   go:
-    name: Go Test
+    name: Go Test + DB Migrate
     runs-on: ubuntu-latest
     needs: [terraform]
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Make Environment File
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
+          envkey_ENV: production
+          file_name: .env 
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
@@ -59,6 +67,8 @@ jobs:
         run: cd backend && go mod download
       - name: Go Build
         run: cd backend && go build -o server server.go
+      - name: DB Migrate
+        run: cd backend && go run server.go migrate
 
   ecr-go:
     name: Upload go image to ECR
@@ -72,6 +82,8 @@ jobs:
         with:
           envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
+          envkey_ENV: production
           file_name: .env 
       - name: CP .env
         run: cp .env backend

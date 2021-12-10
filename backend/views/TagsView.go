@@ -11,12 +11,12 @@ import (
 func Tags(ctx iris.Context) {
 	err := ctx.URLParam("err")
 	type TagData struct {
-		ID          string
-		Index       int
-		Title       string
-		Slug        string
-		DateCreated string
-		DateUpdated string
+		ID        uint64
+		Index     int
+		Title     string
+		Slug      string
+		CreatedAt string
+		UpdatedAt string
 	}
 
 	tags, t_err := models.GetTags()
@@ -25,20 +25,16 @@ func Tags(ctx iris.Context) {
 	}
 
 	var tag_data []*TagData
-	layout := "2006-01-02 15:04:05 -0700 MST"
 	zone, _ := time.LoadLocation("Australia/Perth")
 
 	for i, tag := range tags {
-		DateCreated, _ := time.Parse(layout, tag.DateCreated)
-		DateUpdated, _ := time.Parse(layout, tag.DateUpdated)
-
 		tag_data = append(tag_data, &TagData{
-			ID:          tag.ID.Hex(),
-			Index:       i + 1,
-			Title:       tag.Title,
-			Slug:        tag.Slug,
-			DateCreated: DateCreated.In(zone).Format(time.RFC822),
-			DateUpdated: DateUpdated.In(zone).Format(time.RFC822),
+			ID:        tag.ID,
+			Index:     i + 1,
+			Title:     tag.Title,
+			Slug:      tag.Slug,
+			CreatedAt: tag.CreatedAt.In(zone).Format(time.RFC822),
+			UpdatedAt: tag.UpdatedAt.In(zone).Format(time.RFC822),
 		})
 	}
 
@@ -51,7 +47,7 @@ func NewTag(ctx iris.Context) {
 
 func EditTag(ctx iris.Context) {
 	type TagData struct {
-		ID          string
+		ID          uint64
 		Index       int
 		Title       string
 		Slug        string
@@ -68,10 +64,9 @@ func EditTag(ctx iris.Context) {
 	}
 
 	tag_data := TagData{
-		ID:          tag.ID.Hex(),
-		Title:       tag.Title,
-		Slug:        tag.Slug,
-		DateCreated: tag.DateCreated,
+		ID:    tag.ID,
+		Title: tag.Title,
+		Slug:  tag.Slug,
 	}
 
 	helpers.RenderTemplate(ctx, "tags/view", "admin", iris.Map{"Tag": tag_data})
