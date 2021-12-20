@@ -1,21 +1,31 @@
 {{ define "content" }}
-  <div class="space-between">
-    <h1>Edit Tag - {{.Tag.Title}}</h1>
-    <div class="flex-row">
-      <a href="/admin/tags" class="btn btn-secondary btn-sm m-1">Back</a>
-      <form action="/api/tags/delete" method="POST" class="mb-0">
-        <input type="hidden" value="{{.Tag.ID}}" name="id"/>
-        <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
-      </form>
+  <div class="block">
+    <div class="space-between">
+      <h1>Edit Tag - {{.Tag.Title}}</h1>
+      <div class="flex-row">
+        <a href="/admin/tags" class="button is-info is-outlined">Back</a>
+        <form action="/api/tags/delete" method="POST" class="mb-0">
+          <input type="hidden" value="{{.Tag.ID}}" name="id"/>
+          <button type="submit" class="button is-danger is-outlined">Delete</button>
+        </form>
+      </div>
     </div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/admin/tags">Tags</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{.Tag.Title}}</a></li>
+      </ul>
+    </nav>
   </div>
-  <form action="/api/tags/edit" method="POST">
+  <form action="/api/tags/edit" method="POST" class="box">
     <input type="hidden" name="redirect" value="/admin/tags" />
     <input type="hidden" name="id" value="{{.Tag.ID}}" />
-    <div class="form-group mb-3">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" name="title" placeholder="Title" value="{{.Tag.Title}}" required="true"/>
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <div class="control">
+        <input type="text" class="input" name="title" placeholder="Title" value="{{.Tag.Title}}" required="true"/>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="button is-success is-outlined">Save</button>
   </form>
 {{ end }}

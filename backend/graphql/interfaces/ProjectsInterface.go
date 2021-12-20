@@ -31,10 +31,10 @@ func ProjectsInterface() *graphql.List {
 					"git": &graphql.Field{
 						Type: graphql.String,
 					},
-					"dateCreated": &graphql.Field{
+					"createdAt": &graphql.Field{
 						Type: graphql.String,
 					},
-					"dateUpdated": &graphql.Field{
+					"updatedAt": &graphql.Field{
 						Type: graphql.String,
 					},
 					"tags": &graphql.Field{

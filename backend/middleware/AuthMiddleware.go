@@ -18,7 +18,7 @@ func AuthRequired(ctx iris.Context) {
 }
 
 func authApiRequest(ctx iris.Context) {
-	token := getToken(ctx)
+	token := helpers.GetToken(ctx)
 
 	if token == "" {
 		ctx.StatusCode(400)
@@ -84,17 +84,4 @@ func authBrowserRequest(ctx iris.Context) {
 
 func isApiRequest(ctx iris.Context) bool {
 	return strings.Contains(ctx.Path(), "api")
-}
-
-func getToken(ctx iris.Context) string {
-	token := ctx.GetCookie("dylank-io-auth")
-	if token == "" {
-		token = ctx.FormValue("token")
-	}
-
-	if token == "" {
-		token = ctx.GetHeader("Authentication")
-	}
-
-	return token
 }

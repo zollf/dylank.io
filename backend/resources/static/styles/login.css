@@ -7,11 +7,12 @@
   align-items: center;
   flex-direction: column;
   min-height: calc(100vh - 70px);
-  padding: 100px 0 !important;
+  padding-top: 100px;
+  padding-bottom: 170px;
 
 }
 
-.alert {
+.notification {
   position: absolute;
   top: 70px;
   margin: 24px !important;

@@ -20,7 +20,7 @@ Open http://localhost
 - Frontend - Typescript, React, Nextjs, SCSS 
 - API Gateway - Graphql
 - Backend - Golang, Iris
-- Database - MongoDB
+- Database - MySql
 - Infra - AWS (ECS + Fargate), Terraform, Docker, Nginx 
 
 ## Credits

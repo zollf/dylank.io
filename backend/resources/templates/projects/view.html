@@ -1,50 +1,88 @@
 {{ define "content" }}
-  <div class="space-between">
-    <h1>Edit Project - {{.Project.Title}}</h1>
-    <div class="flex-row">
-      <a href="/admin/projects" class="btn btn-secondary btn-sm m-1">Back</a>
-      <form action="/api/projects/delete" method="POST" class="mb-0">
-        <input type="hidden" name="redirect" value="/admin/projects"/>
-        <input type="hidden" value="{{.Project.ID}}" name="id"/>
-        <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
-      </form>
+  <div class="block">
+    <div class="space-between">
+      <h1>Edit Project - {{.Project.Title}}</h1>
+      <div class="flex-row">
+        <a href="/admin/projects" class="button is-info is-outlined">Back</a>
+        <form action="/api/projects/delete" method="POST">
+          <input type="hidden" name="redirect" value="/admin/projects"/>
+          <input type="hidden" value="{{.Project.ID}}" name="id"/>
+          <button type="submit" class="button is-danger is-outlined">Delete</button>
+        </form>
+      </div>
     </div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/admin/projects">Projects</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{.Project.Title}}</a></li>
+      </ul>
+    </nav>
   </div>
-  <form action="/api/projects/edit" method="POST">
+  <form action="/api/projects/edit" method="POST" class="box">
     <input type="hidden" name="redirect" value="/admin/projects" />
     <input type="hidden" name="id" value="{{.Project.ID}}" />
-    <div class="form-group mb-3">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" name="title" placeholder="Title" value="{{.Project.Title}}" required="true"/>
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <div class="control">
+        <input type="text" class="input" name="title" placeholder="Title" value="{{.Project.Title}}" required="true"/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="title">Description</label>
-      <input type="text" class="form-control" name="description" placeholder="Title" value="{{.Project.Description}}" required="true"/>
+    <div class="field">
+      <label for="title" class="label">Description</label>
+      <div class="control">
+        <textarea class="textarea" name="description" placeholder="Description" required="true">{{.Project.Description}}</textarea>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="current_image_url">Image Url</label>
-      <input type="text" class="form-control" name="current_image_url" value="{{.Project.Image}}" disabled=true/>
+    <div class="field">
+      <label for="current_image_url" class="label">Image Url</label>
+      <div class="control">
+        <input type="text" class="input" name="current_image_url" value="{{.Project.Image}}" disabled=true/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="image">Image</label><br/>
-      <input type="file" class="form-control-file" name="image"/>
+    <div class="field">
+      <label for="image" class="label">Image</label>
+      <div class="file has-name is-boxed block">
+        <label class="file-label">
+          <input class="file-input" type="file" name="image">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name">
+            Screen Shot 2017-07-29 at 15.54.25.png
+          </span>
+        </label>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="url">URL</label>
-      <input type="text" class="form-control" name="url" placeholder="Url" value="{{.Project.URL}}"/>
+    <div class="field">
+      <label for="url" class="label">URL</label>
+      <div class="control">
+        <input type="text" class="input" name="url" placeholder="Url" value="{{.Project.URL}}"/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="git">Git</label>
-      <input type="text" class="form-control" name="git" placeholder="Git" value="{{.Project.Git}}"/>
+    <div class="field">
+      <label for="git" class="label">Git</label>
+      <div class="control">
+        <input type="text" class="input" name="git" placeholder="Git" value="{{.Project.Git}}"/>
+      </div>
     </div>
-    {{ range $tag := .Tags }}
-      {{ if $tag.Checked }}
-        <input type="checkbox" id="{{$tag.Slug}}" name="tags" class="m-2" value="{{$tag.Slug}}" checked="true"/>
-      {{ else }}
-        <input type="checkbox" id="{{$tag.Slug}}" name="tags" class="m-2" value="{{$tag.Slug}}" />
+    <div class="block">
+      {{ range $tag := .Tags }}
+        <label for="{{$tag.Slug}}" class="checkbox">
+          {{ if $tag.Checked }}
+            <input type="checkbox" id="{{$tag.Slug}}" name="tags" class="m-2" value="{{$tag.Slug}}" checked="true"/>
+          {{ else }}
+            <input type="checkbox" id="{{$tag.Slug}}" name="tags" class="m-2" value="{{$tag.Slug}}" />
+          {{ end }}
+          {{$tag.Title}}
+        </label>
+        <br/>
       {{ end }}
-      <label for="{{$tag.Slug}}">{{$tag.Title}}</label>
-    {{ end }}
-    <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+    <button type="submit" class="button is-success is-outlined">Save</button>
   </form>
 {{ end }}

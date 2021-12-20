@@ -17,7 +17,7 @@ const Hero = () => {
             <HeroModel />
           </Suspense>
         </Canvas>
-        <div className={styles.stub} />
+        <div className={styles.background} />
       </div>
       <div className={styles.right}>
         <h2>software developer</h2>

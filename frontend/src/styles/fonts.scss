@@ -6,8 +6,8 @@
 	line-height:56px;
 	text-decoration:none;
 }
-@mixin text-style-10-font-size {
-	font-size:10px;
+@mixin text-style-12-font-size {
+	font-size:12px;
 	font-family:"Ubuntu";
 	font-weight:normal;
 	font-style:normal;
@@ -33,7 +33,7 @@
 }
 @mixin text-style-ubuntu-medium-18-font-size {
 	font-size:18px;
-	font-family:"Dexa Pro";
+	font-family:"Ubuntu";
 	font-weight:$medium;
 	font-style:normal;
 	line-height:22px;

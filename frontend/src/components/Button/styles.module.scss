@@ -50,4 +50,24 @@
   &.full {
     width: 100%;
   }
+
+  &.icon {
+    > svg {
+      height: 24px;
+      margin-right: $margin * 0.25;
+
+      path {
+        transition: 0.2s all ease;
+        fill: white;
+      }
+    }
+
+    &:hover {
+      > svg {
+        path {
+          fill: $color-brand-colors-primary;
+        }
+      }
+    }
+  }
 }

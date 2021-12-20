@@ -19,11 +19,14 @@ func TagsInterface() *graphql.List {
 					"title": &graphql.Field{
 						Type: graphql.String,
 					},
-					"dateCreated": &graphql.Field{
+					"createdAt": &graphql.Field{
 						Type: graphql.String,
 					},
-					"dateUpdated": &graphql.Field{
+					"updatedAt": &graphql.Field{
 						Type: graphql.String,
+					},
+					"count": &graphql.Field{
+						Type: graphql.Int,
 					},
 				},
 			},

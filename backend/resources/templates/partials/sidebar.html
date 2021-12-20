@@ -1,24 +1,33 @@
-<div class="sidebar_inner">
-  <a 
-    href="/admin/users" 
-    class="sidebar_main" 
-    data-active='{{ if eq .EndPath "users" }}true{{ else }}false{{ end }}'
-  >
-    Users
-  </a>
-  <a 
-    href="/admin/projects" 
-    class="sidebar_main"
-    data-active='{{ if eq .EndPath "projects" }}true{{ else }}false{{ end }}'
-  >
-    Projects
-  </a>
-  <a 
-    href="/admin/tags" 
-    class="sidebar_main"
-    data-active='{{ if eq .EndPath "tags" }}true{{ else }}false{{ end }}'
-  >
-    Tags
-  </a>
-</div>
+<aside class="menu">
+  <p class="menu-label">
+    Singles
+  </p>
+  <ul class="menu-list">
+    <li>
+      <a href="#" class="sidebar_main {{ if eq .EndPath "work" }}is-active{{ end }}">
+        Home
+      </a>
+    </li>
+  </ul>
+  <p class="menu-label">
+    Entries
+  </p>
+  <ul class="menu-list">
+    <li>
+      <a href="/admin/users" class="sidebar_main {{ if eq .EndPath "users" }}is-active{{ end }}">
+        Users
+      </a>
+    </li>
+    <li>
+      <a href="/admin/projects" class="sidebar_main {{ if eq .EndPath "projects" }}is-active{{ end }}">
+        Projects
+      </a>
+    </li>
+    <li>
+      <a href="/admin/tags" class="sidebar_main {{ if eq .EndPath "tags" }}is-active{{ end }}">
+        Tags
+      </a>
+    </li>
+  </ul>
+</aside>
 

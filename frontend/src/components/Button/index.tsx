@@ -7,6 +7,7 @@ interface BaseProps {
   children?: React.ReactNode;
   theme: 'blue' | 'white';
   size: 'small' | 'large';
+  icon?: boolean;
   full?: boolean;
 }
 
@@ -33,12 +34,13 @@ interface SubmitButtonProps
 
 type Props = (AnchorProps | ButtonProps | SubmitButtonProps) & BaseProps;
 
-const Button = ({ children, type, theme, size, full, ...props }: Props) => {
+const Button = ({ children, type, theme, size, full, icon, ...props }: Props) => {
   const Wrapper = props.href ? 'a' : 'button';
 
   let classNames = cc({
     [styles.button]: true,
     [styles.full]: full,
+    [styles.icon]: icon,
   });
 
   if (theme && styles[theme]) {

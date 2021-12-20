@@ -1,36 +1,72 @@
 {{ define "content" }}
-  <div class="space-between">
-    <h1>Create Project</h1>
-    <div class="flex-row">
-      <a href="/admin/projects" class="btn btn-secondary btn-sm m-1">Back</a>
+  <div class="block">
+    <div class="space-between">
+      <h1>Create Project</h1>
+      <div class="flex-row">
+        <a href="/admin/projects" class="button is-info is-outlined">Back</a>
+      </div>
     </div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/admin/projects">Projects</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Create</a></li>
+      </ul>
+    </nav>
   </div>
-  <form action="/api/projects/create" method="POST">
+  <form action="/api/projects/create" method="POST" class="box">
     <input type="hidden" name="redirect" value="/admin/projects" />
-    <div class="form-group mb-3">
-      <label for="title">Title</label>
-      <input type="text" class="form-control" name="title" placeholder="Title" required="true"/>
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <div class="control">
+        <input type="text" class="input" name="title" placeholder="Title" required="true"/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="description">Description</label>
-      <input type="text" class="form-control" name="description" placeholder="Description" required="true"/>
+    <div class="field">
+      <label for="description" class="label">Description</label>
+      <div class="control">
+        <textarea class="textarea" name="description" placeholder="Description" required="true"></textarea>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="image">Image</label><br/>
-      <input type="file" class="form-control-file" name="image"/>
+    <div class="field">
+      <label for="image" class="label">Image</label>
+      <div class="file has-name is-boxed block">
+        <label class="file-label">
+          <input class="file-input" type="file" name="image">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a file…
+            </span>
+          </span>
+          <span class="file-name">
+            Screen Shot 2017-07-29 at 15.54.25.png
+          </span>
+        </label>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="url">URL</label>
-      <input type="text" class="form-control" name="url" placeholder="Url"/>
+    <div class="field">
+      <label for="url" class="label">URL</label>
+      <div class="control">
+        <input type="text" class="input" name="url" placeholder="Url"/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="git">Git</label>
-      <input type="text" class="form-control" name="git" placeholder="Git"/>
+    <div class="field">
+      <label for="git" class="label">Git</label>
+      <div class="control">
+        <input type="text" class="input" name="git" placeholder="Git"/>
+      </div>
     </div>
-    {{ range $tag := .Tags }}
-      <input type="checkbox" id="{{$tag.Slug}}" name="tags" class="m-2" value="false"/>
-      <label for="{{$tag.Slug}}">{{$tag.Title}}</label>
-    {{ end }}
-    <button type="submit" class="btn btn-primary">Save</button>
+    <div class="block">
+      {{ range $tag := .Tags }}
+        <label for="{{$tag.Slug}}" class="checkbox">
+          <input type="checkbox" id="{{$tag.Slug}}" name="tags" value="false"/>
+          {{$tag.Title}}
+        </label>
+        <br/>
+      {{ end }}
+    </div>
+    <button type="submit" class="button is-success is-outlined">Save</button>
   </form>
 {{ end }}
