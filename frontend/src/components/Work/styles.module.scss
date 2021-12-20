@@ -4,10 +4,10 @@
   display: flex;
   align-items: center;
   flex-direction: column;
+  padding-bottom: $margin * 2;
 
   @include mobile {
     min-height: unset;
-    padding-bottom: $margin * 2;
   }
 
   .top {
@@ -40,23 +40,20 @@
   .tags {
     max-width: 920px;
     width: 100%;
-    padding: $margin * 0.5 $margin;
+    padding: $margin * 0.5 0;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
+    flex-direction: row;
     border-top: 1px solid $color-brand-colors-secondary-3;
     border-bottom: 1px solid $color-brand-colors-secondary-3;
+    overflow-x: scroll;
+    align-items: center;
+    height: auto;
 
+    @include NoScrollbar;
     @include mobile {
       margin: 0 $margin;
-      height: 48px;
-      display: flex;
-      padding: 0 $margin;
-      flex-direction: column;
-      overflow-x: scroll;
+      padding: $margin * 0.25 0;
       width: calc(100% - $margin * 2);
-      padding: 0;
     }
   }
 
@@ -64,9 +61,11 @@
     margin-top: $margin * 2;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
     column-gap: $margin * 2;
     row-gap: $margin * 2;
 
+    @include NoScrollbar;
     @include mobile {
       display: flex;
       padding: 0 $margin;
@@ -82,4 +81,6 @@
       }
     }
   }
+
+  @include Pagination;
 }

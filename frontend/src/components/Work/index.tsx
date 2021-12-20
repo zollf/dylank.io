@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import ReactPaginate from 'react-paginate';
 import Project from '@/components/Project';
 import Tag from '@/components/Tag';
 import useIsMobile from '@/hooks/useIsMobile';
+import { ChevronLeft, ChevronRight } from '@/images';
 import { useQuery } from '@apollo/client';
 import { xor } from 'lodash';
 
@@ -14,17 +16,40 @@ interface WorkQuery {
 }
 
 export default function Work() {
+  const itemsPerPage = 6;
   const [activeFilters, setActiveFilters] = useState<Array<string>>(['all']);
+
+  const [itemOffset, setItemOffset] = useState(0);
+  const [pageCount, setPageCount] = useState(0);
+  const [currentItems, setCurrentItems] = useState<Array<Project>>([]);
+
   const [isMobile] = useIsMobile(768);
   const { data, loading, error } = useQuery<WorkQuery>(query);
-
-  if (!data || loading || error) {
-    return null;
-  }
 
   const setActiveFilter = (name: string) => {
     setActiveFilters(xor([name], activeFilters));
   };
+
+  const handlePageClick = (event: { selected: number }) => {
+    const newOffset = (event.selected * itemsPerPage) % (data?.projects.length || 1);
+    setItemOffset(newOffset);
+  };
+
+  useEffect(() => {
+    if (!!data?.projects?.length) {
+      if (isMobile) {
+        setCurrentItems(data.projects);
+      } else {
+        const endOffset = itemOffset + itemsPerPage;
+        setCurrentItems(data.projects.slice(itemOffset, endOffset));
+        setPageCount(Math.ceil(data.projects.length / itemsPerPage));
+      }
+    }
+  }, [itemOffset, itemsPerPage, data?.projects, isMobile]);
+
+  if (!data || loading || error) {
+    return null;
+  }
 
   return (
     <div className={styles.work}>
@@ -48,10 +73,26 @@ export default function Work() {
         ))}
       </div>
       <div className={styles.projects}>
-        {data.projects.map((project) => (
+        {currentItems.map((project) => (
           <Project project={project} />
         ))}
       </div>
+      {!isMobile && (
+        <ReactPaginate
+          className={styles.pagination}
+          breakLabel="..."
+          nextLabel={<ChevronRight />}
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={5}
+          pageCount={pageCount}
+          previousLabel={<ChevronLeft />}
+          pageClassName={styles.paginationPage}
+          nextClassName={styles.paginationNext}
+          previousClassName={styles.paginationPrev}
+          activeClassName={styles.paginationActive}
+          disabledClassName={styles.paginationDisabled}
+        />
+      )}
     </div>
   );
 }
