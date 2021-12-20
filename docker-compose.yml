@@ -20,6 +20,9 @@ services:
       dockerfile: ../docker/dev/node.Dockerfile
     ports:
       - 3000:3000
+    environment:
+      NEXT_TELEMETRY_DISABLED: 1
+      NGINX_HOST: 'nginx'
     volumes:
       - ./frontend:/usr/app:cached
       - node_modules:/app/node_modules:delegated

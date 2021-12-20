@@ -1,0 +1,85 @@
+.work {
+  background: $color-gray-colors-white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  @include mobile {
+    min-height: unset;
+    padding-bottom: $margin * 2;
+  }
+
+  .top {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 92px;
+
+    @include mobile {
+      padding-top: $margin;
+    }
+
+    h1 {
+      margin: 0;
+      margin-bottom: $margin * 0.5;
+      @include text-style-ubuntu-medium-32-font-size;
+    }
+
+    p {
+      margin: 0;
+      max-width: 474px;
+      margin-bottom: $margin * 0.5;
+      @include text-style-ubuntu-light-16-font-size;
+    }
+  }
+
+  .tags {
+    max-width: 920px;
+    width: 100%;
+    padding: $margin * 0.5 $margin;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    border-top: 1px solid $color-brand-colors-secondary-3;
+    border-bottom: 1px solid $color-brand-colors-secondary-3;
+
+    @include mobile {
+      margin: 0 $margin;
+      height: 48px;
+      display: flex;
+      padding: 0 $margin;
+      flex-direction: column;
+      overflow-x: scroll;
+      width: calc(100% - $margin * 2);
+      padding: 0;
+    }
+  }
+
+  .projects {
+    margin-top: $margin * 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: $margin * 2;
+    row-gap: $margin * 2;
+
+    @include mobile {
+      display: flex;
+      padding: 0 $margin;
+      flex-direction: row;
+      overflow-x: scroll;
+      width: calc(100% - $margin * 2);
+      padding: 0;
+      row-gap: 0;
+      column-gap: 0;
+
+      > div {
+        margin-right: $margin * 0.5;
+      }
+    }
+  }
+}

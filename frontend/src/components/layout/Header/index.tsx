@@ -1,9 +1,9 @@
+import React from 'react';
 import { Discord, Github, LinkedIn } from '@/images';
 
-import React from 'react';
 import styles from './styles.module.scss';
 
-const Header = () => {
+export default function Header() {
   return (
     <header className={styles.header}>
       <div className={styles.inner}>
@@ -15,13 +15,17 @@ const Header = () => {
           <a href="#contact">Contact</a>
         </nav>
         <div className={styles.socials}>
-          <Discord />
-          <LinkedIn />
-          <Github />
+          <a href="#">
+            <Discord />
+          </a>
+          <a href="#">
+            <LinkedIn />
+          </a>
+          <a href="#">
+            <Github />
+          </a>
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

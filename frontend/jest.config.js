@@ -12,6 +12,7 @@ module.exports = {
     '\\.(scss)': 'identity-obj-proxy',
   },
   transform: {
+    '\\.(gql|graphql)$': 'jest-transform-graphql',
     '^.+\\.tsx?$': ['babel-jest', { presets: ['next/babel'] }],
   },
 };

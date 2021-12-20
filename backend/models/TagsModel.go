@@ -62,3 +62,16 @@ func CheckTagExistsInTags(needle *Tag, haystack []*Tag) bool {
 	}
 	return false
 }
+
+func TagOccurrencesInProjects(projects []*Project, tag *Tag) int {
+	count := 0
+	for _, project := range projects {
+		for _, projectTag := range project.Tags {
+			if projectTag.ID == tag.ID {
+				count = count + 1
+			}
+		}
+	}
+
+	return count
+}

@@ -1,7 +1,11 @@
 {{ if .Err }}
-<div class="alert alert-danger">{{ .Err }}</div>
+<div class="notification is-danger">
+  {{ .Err }}
+</div>
 {{ end }}
 
 {{ if .Success }}
-<div class="alert alert-success">{{ .Success }}</div>
+<div class="notification is-primary">
+  {{ .Success }}
+</div>
 {{ end }}

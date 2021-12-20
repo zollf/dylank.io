@@ -9,3 +9,15 @@
   width: 100%;
   height: 100%;
 }
+
+.content li + li {
+  margin-top: 0 !important;
+}
+
+.content ul {
+  margin-left: 0 !important;
+}
+
+.content h1 {
+  margin-bottom: 0 !important;
+}

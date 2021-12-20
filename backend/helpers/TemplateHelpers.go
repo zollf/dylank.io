@@ -21,7 +21,12 @@ func RenderTemplate(ctx iris.Context, template string, layout string, data iris.
 
 	pathSliced := strings.Split(ctx.Path(), "/")
 	data["EndPath"] = pathSliced[len(pathSliced)-1]
-	data["LoggedIn"] = true
+
+	if token := GetToken(ctx); token != "" {
+		data["LoggedIn"] = true
+	} else {
+		data["LoggedIn"] = false
+	}
 
 	ctx.ViewLayout(layout)
 	ctx.View(template, data)

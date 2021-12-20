@@ -1,29 +1,43 @@
 {{ define "content" }}
-  <div class="space-between">
-    <h1>Edit User - {{.User.Username}}</h1>
-    <div class="flex-row">
-      <a href="/admin/users" class="btn btn-secondary btn-sm m-1">Back</a>
-      <form action="/api/user/delete" method="POST" class="mb-0">
-        <input type="hidden" value="{{.User.ID}}" name="id"/>
-        <button type="submit" class="btn btn-danger btn-sm m-1">Delete</button>
-      </form>
+  <div class="block">
+    <div class="space-between">
+      <h1>Edit User - {{.User.Username}}</h1>
+      <div class="flex-row">
+        <a href="/admin/users" class="button is-info is-outlined">Back</a>
+        <form action="/api/user/delete" method="POST">
+          <input type="hidden" value="{{.User.ID}}" name="id"/>
+          <button type="submit" class="button is-danger is-outlined">Delete</button>
+        </form>
+      </div>
     </div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/admin/users">Users</a></li>
+        <li class="is-active"><a href="#" aria-current="page">{{.User.Username}}</a></li>
+      </ul>
+    </nav>
   </div>
-  <form action="/api/user/edit" method="POST">
+  <form action="/api/user/edit" method="POST" class="box">
     <input type="hidden" name="redirect" value="/admin/users" />
     <input type="hidden" name="id" value="{{.User.ID}}" />
-    <div class="form-group mb-3">
-      <label for="username">Username</label>
-      <input type="text" class="form-control" name="username" placeholder="Username" value="{{.User.Username}}" required="true"/>
+    <div class="field">
+      <label for="username" class="label">Username</label>
+      <div class="control">
+        <input type="text" class="input" name="username" placeholder="Username" value="{{.User.Username}}" required="true"/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="password">Password</label>
-      <input type="password" class="form-control" name="password" placeholder="Password" required="true"/>
+    <div class="field">
+      <label for="password" class="label">Password</label>
+      <div class="control">
+        <input type="password" class="input" name="password" placeholder="Password" required="true"/>
+      </div>
     </div>
-    <div class="form-group mb-3">
-      <label for="email">Email</label>
-      <input type="text" class="form-control" name="email" placeholder="Email" value="{{.User.Email}}"/>
+    <div class="field">
+      <label for="email" class="label">Email</label>
+      <div class="control">
+        <input type="text" class="input" name="email" placeholder="Email" value="{{.User.Email}}"/>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="submit" class="button is-success is-outlined">Save</button>
   </form>
 {{ end }}
