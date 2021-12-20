@@ -11,6 +11,8 @@ interface Props {
 }
 
 export default function Project({ project }: Props) {
+  const extraCount = Math.max(project.tags.length - 2, 0);
+
   return (
     <div className={styles.project}>
       <div className={styles.stub}></div>
@@ -19,7 +21,8 @@ export default function Project({ project }: Props) {
         {project.tags.slice(0, 2).map((tag) => (
           <Tag small>{tag.title}</Tag>
         ))}
-        <Tag small>{Math.max(project.tags.length - 2, 0)}+</Tag>
+        {!!extraCount && <Tag small>{extraCount}+</Tag>}
+        {!project.tags.length && <Tag small>None</Tag>}
       </div>
       <div className={styles.desc}>{project.description}</div>
       <div className={styles.buttons}>

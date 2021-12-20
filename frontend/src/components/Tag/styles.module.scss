@@ -8,6 +8,7 @@
   border-radius: 65px;
   margin: $margin * 0.25;
   transition: 0.2s all ease;
+  white-space: nowrap;
 
   @include text-style-ubuntu-medium-16-font-size;
 

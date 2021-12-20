@@ -3,3 +3,77 @@
   background: none;
   padding: 0;
 }
+
+@mixin NoScrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@mixin Pagination {
+  .pagination {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    list-style-type: none;
+  }
+
+  .paginationPage > a, .paginationNext > a, .paginationPrev > a {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s all ease;
+    cursor: pointer;
+
+    @include text-style-ubuntu-medium-16-font-size;
+  }
+
+  .paginationPage, .paginationNext, .paginationPrev {
+    transition: 0.2s all ease;
+    border-radius: 7px;
+    color: $color-gray-colors-gray-5;
+
+    &:hover {
+      background: $color-brand-colors-primary;
+      color: $color-gray-colors-white;
+      
+      svg path {
+        stroke: $color-gray-colors-white;
+      }
+    }
+  }
+  
+  .paginationDisabled {
+    opacity: 0.5;
+
+    > a {
+      cursor: not-allowed;
+    }
+
+    &:hover {
+      background: unset;
+
+      svg path {
+        stroke: $color-gray-colors-gray-5;
+      }
+    }
+  }
+
+  .paginationNext {
+    margin-left: $margin;
+  }
+
+  .paginationPrev {
+    margin-right: $margin;
+  }
+
+  .paginationActive {
+    background: $color-brand-colors-primary;
+    color: $color-gray-colors-white;
+  }
+}
