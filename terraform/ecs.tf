@@ -1,8 +1,3 @@
-// My main cluster
-resource "aws_ecs_cluster" "cluster" {
-  name = var.cluster
-}
-
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.project}_task"
   container_definitions    = <<DEFINITION
@@ -89,12 +84,12 @@ resource "aws_ecs_task_definition" "task" {
   network_mode             = "awsvpc"
   memory                   = 512
   cpu                      = 256
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = "arn:aws:iam::703161335764:role/main_cluster_execution_role"
 }
 
 resource "aws_ecs_service" "ecs_service" {
   name                              = "${var.project}_service"
-  cluster                           = aws_ecs_cluster.cluster.id
+  cluster                           = "arn:aws:ecs:ap-southeast-2:703161335764:cluster/Main_Cluster"
   task_definition                   = aws_ecs_task_definition.task.arn
   launch_type                       = "FARGATE"
   desired_count                     = 1

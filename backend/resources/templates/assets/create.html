@@ -1,0 +1,56 @@
+{{ define "content" }}
+  <div class="block">
+    <div class="space-between">
+      <h1>Create Asset</h1>
+      <div class="flex-row">
+        <a href="/admin/assets" class="button is-info is-outlined">Back</a>
+      </div>
+    </div>
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+      <ul>
+        <li><a href="/admin/assets">Assets</a></li>
+        <li class="is-active"><a href="#" aria-current="page">Create</a></li>
+      </ul>
+    </nav>
+  </div>
+  <form action="/api/assets/create" method="POST" class="box" enctype="multipart/form-data">
+    <input type="hidden" name="redirect" value="/admin/assets" />
+    <div class="field">
+      <label for="title" class="label">Title</label>
+      <div class="control">
+        <input type="text" class="input" name="title" placeholder="Title" required="true"/>
+      </div>
+    </div>
+    <div class="field" id="upload-image">
+      <label for="image" class="label">Image</label>
+      <div class="file has-name is-boxed block">
+        <label class="file-label">
+          <input class="file-input" type="file" name="image" required="true" accept="image/*">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Choose a Image...
+            </span>
+          </span>
+          <span class="file-name"></span>
+        </label>
+      </div>
+    </div>
+    <button type="submit" class="button is-success is-outlined">Save</button>
+  </form>
+
+  <script>
+    const fileInput = document.querySelector('#upload-image input[type=file]');
+    fileInput.onchange = () => {
+      if (fileInput.files.length > 0) {
+        const fileName = document.querySelector('#upload-image .file-name');
+        fileName.textContent = fileInput.files[0].name;
+        if (!document.querySelector('input[name="title"]').value) {
+          document.querySelector('input[name="title"]').value = fileInput.files[0].name.split('.')[0];
+        }
+      }
+    }
+  </script>
+{{end}}

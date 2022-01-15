@@ -11,4 +11,5 @@ func Install() {
 	db.AutoMigrate(&models.Project{})
 	db.AutoMigrate(&models.User{})
 	db.AutoMigrate(&models.Tag{})
+	db.AutoMigrate(&models.Asset{})
 }
