@@ -13,7 +13,7 @@ resource "aws_ecs_task_definition" "task" {
           "protocol": "tcp"
         }
       ],
-      "memory": 128,
+      "memory": 256,
       "cpu": 85,
       "logConfiguration": {
         "logDriver": "awslogs",
@@ -67,7 +67,7 @@ resource "aws_ecs_task_definition" "task" {
           "protocol": "tcp"
         }
       ],
-      "memory": 256,
+      "memory": 128,
       "cpu": 86,
       "logConfiguration": {
         "logDriver": "awslogs",
