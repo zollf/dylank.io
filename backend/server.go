@@ -31,6 +31,7 @@ func main() {
 		routes.UserRoutes(app)
 		routes.ProjectsRoutes(app)
 		routes.TagsRoutes(app)
+		routes.AssetsRoutes(app)
 
 		app.Listen(":8080")
 	} else {

@@ -1,8 +1,10 @@
 package helpers
 
 import (
+	"app/services"
 	"fmt"
 	"net/url"
+	"strings"
 	"time"
 
 	"github.com/kataras/iris/v12"
@@ -104,4 +106,51 @@ func ValidInputs(ctx iris.Context, inputs []string) bool {
 	}
 
 	return valid
+}
+
+type FileResponse struct {
+	Title   string
+	Url     string
+	Success bool
+	Error   string
+}
+
+func UploadImages(ctx iris.Context, name string) ([]*FileResponse, error) {
+	maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
+	mp_err := ctx.Request().ParseMultipartForm(maxSize)
+	if mp_err != nil {
+		return nil, mp_err
+	}
+
+	form := ctx.Request().MultipartForm
+	files := form.File[name]
+	failures := 0
+	var uploadedFiles []*FileResponse
+
+	for _, file := range files {
+		title := strings.Split(file.Filename, ".")[0]
+
+		url, err := services.UploadImageToS3(file, file.Filename)
+		success := true
+		errorMsg := ""
+
+		if err != nil {
+			success = false
+			failures = failures + 1
+			errorMsg = err.Error()
+		}
+
+		uploadedFiles = append(uploadedFiles, &FileResponse{
+			Title:   title,
+			Url:     url,
+			Success: success,
+			Error:   errorMsg,
+		})
+	}
+
+	if failures != 0 {
+		return uploadedFiles, fmt.Errorf("a file failed to upload")
+	} else {
+		return uploadedFiles, nil
+	}
 }

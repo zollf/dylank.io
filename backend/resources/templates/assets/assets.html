@@ -1,0 +1,54 @@
+{{ define "content" }}
+  <div class="space-between block">
+    <h1>Assets</h1>
+    <a href="/admin/assets/create" class="button is-success is-outlined">Create</a>
+  </div>
+  {{ partial "partials/alerts" . }}
+  <div class="box">
+    <table class="table is-hoverable is-fullwidth">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Date Created</th>
+          <th>Date Updated</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range $asset := .Assets}}
+          <tr>
+            <td>{{$asset.Index}}</td>
+            <td>{{$asset.Title}}</td>
+            <td>{{$asset.Url}}</td>
+            <td>{{$asset.CreatedAt}}</td>
+            <td>{{$asset.UpdatedAt}}</td>
+            <td class="flex-row">
+              <div class="columns is-1 is-variable bd-klmn-columns">
+                <div class="column align-center">
+                  <a href="/admin/assets/view/{{$asset.ID}}" class="button is-info is-outlined">
+                    <span class="icon">
+                      <i class="fas fa-eye"></i>
+                    </span>
+                  </a>
+                </div>
+                <div class="column">
+                  <form action="/api/assets/delete" method="POST">
+                    <input type="hidden" value="/admin/assets" name="redirect" />
+                    <input type="hidden" value="{{$asset.ID}}" name="id" />
+                    <button type="submit" class="button is-danger is-outlined">
+                      <span class="icon">
+                        <i class="fas fa-trash"></i>
+                      </span>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </td>
+          </tr>
+        {{end}}
+      </tbody>
+    </table>
+  </div>
+{{ end }}

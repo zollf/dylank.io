@@ -42,11 +42,7 @@ func Projects(ctx iris.Context) {
 }
 
 func NewProject(ctx iris.Context) {
-	if tags, tags_err := models.GetTags(); tags_err != nil {
-		helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{"Tags": []models.Tag{}, "Err": tags_err.Error()})
-	} else {
-		helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{"Tags": tags})
-	}
+	helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{})
 }
 
 func EditProject(ctx iris.Context) {
@@ -77,25 +73,15 @@ func EditProject(ctx iris.Context) {
 		return
 	}
 
-	project_url := ""
-	if project.URL != nil {
-		project_url = *project.URL
-	}
-
-	git_url := ""
-	if project.Git != nil {
-		git_url = *project.Git
-	}
-
 	zone, _ := time.LoadLocation("Australia/Perth")
 
-	project_data := ProjectData{
+	project_data := &ProjectData{
 		ID:          project.ID,
 		Title:       project.Title,
 		Slug:        project.Slug,
 		Image:       project.Image,
-		URL:         project_url,
-		Git:         git_url,
+		URL:         helpers.StringLike(project.URL),
+		Git:         helpers.StringLike(project.Git),
 		Tags:        project.Tags,
 		Description: project.Description,
 		CreatedAt:   project.CreatedAt.In(zone).Format(time.RFC822),

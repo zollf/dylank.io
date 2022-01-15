@@ -18,7 +18,7 @@
       </ul>
     </nav>
   </div>
-  <form action="/api/projects/edit" method="POST" class="box">
+  <form action="/api/projects/edit" method="POST" class="box" enctype="multipart/form-data">
     <input type="hidden" name="redirect" value="/admin/projects" />
     <input type="hidden" name="id" value="{{.Project.ID}}" />
     <div class="field">
@@ -37,25 +37,6 @@
       <label for="current_image_url" class="label">Image Url</label>
       <div class="control">
         <input type="text" class="input" name="current_image_url" value="{{.Project.Image}}" disabled=true/>
-      </div>
-    </div>
-    <div class="field">
-      <label for="image" class="label">Image</label>
-      <div class="file has-name is-boxed block">
-        <label class="file-label">
-          <input class="file-input" type="file" name="image">
-          <span class="file-cta">
-            <span class="file-icon">
-              <i class="fas fa-upload"></i>
-            </span>
-            <span class="file-label">
-              Choose a file…
-            </span>
-          </span>
-          <span class="file-name">
-            Screen Shot 2017-07-29 at 15.54.25.png
-          </span>
-        </label>
       </div>
     </div>
     <div class="field">
