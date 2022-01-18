@@ -34,6 +34,12 @@ jobs:
         uses: actions/setup-go@v2
         with:
           go-version: '1.17.2'
+      - name: Make Environment File
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          envkey_ENV: production
+          file_name: .env 
       - name: Go Modules Download
         run: cd backend && go mod download
       - name: Go Tests

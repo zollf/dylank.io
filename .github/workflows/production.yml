@@ -54,7 +54,6 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
           envkey_ENV: production
@@ -84,7 +83,6 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
           envkey_AWS_ACCESS_KEY_ID: ${{ secrets.SITE_AWS_ACCESS_KEY_ID }}
