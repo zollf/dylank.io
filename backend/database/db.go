@@ -17,10 +17,8 @@ var TEST_DB *gorm.DB
 func Open() (db *gorm.DB, err error) {
 	if os.Getenv("ENV") == "test" {
 		if TEST_DB != nil {
-			log.Printf("Using current sqlite db connection")
 			return TEST_DB, nil
 		}
-		log.Printf("Open new sqlite3 db connection")
 		db, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
 		DB = db
 		return db, err

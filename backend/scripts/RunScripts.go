@@ -1,6 +1,10 @@
 package scripts
 
-import "log"
+import (
+	"app/config"
+	"log"
+	"os"
+)
 
 type ServerCommand struct {
 	CommandName  string
@@ -11,12 +15,16 @@ type ServerCommand struct {
 
 func (command ServerCommand) RunCommand(args []string) {
 	if len(args) >= len(command.RequiredArgs) {
-		log.Printf("Running command %s", command.CommandName)
+		if os.Getenv("ENV") != "test" {
+			log.Printf("Running command %s", command.CommandName)
+		}
 		err := command.Command(args)
 		if err != nil {
 			log.Fatalf("Error running command %s, error: %s", command.CommandName, err)
 		} else {
-			log.Printf("Finished running command %s", command.CommandName)
+			if os.Getenv("ENV") != "test" {
+				log.Printf("Finished running command %s", command.CommandName)
+			}
 		}
 	} else {
 		log.Fatalf("Command %s requires params: %v", command.CommandName, command.RequiredArgs)
@@ -27,6 +35,7 @@ func (command ServerCommand) RunCommand(args []string) {
 var RegisteredCommands = map[string]ServerCommand{
 	CreateAdminUser.CommandName: CreateAdminUser,
 	Migrate.CommandName:         Migrate,
+	Destroy.CommandName:         Destroy,
 }
 
 /*
@@ -36,6 +45,8 @@ List of MainCommands
 - create_user
 */
 func RunScripts(args []string) {
+	config.DotEnv()
+
 	MainCommand := args[0]
 
 	switch MainCommand {
@@ -45,7 +56,9 @@ func RunScripts(args []string) {
 		if rCommand, ok := RegisteredCommands[MainCommand]; ok {
 			rCommand.RunCommand(args[1:])
 		} else {
-			log.Println("Please supply a main command.")
+			if os.Getenv("ENV") != "test" {
+				log.Println("Please supply a main command.")
+			}
 		}
 	}
 }
