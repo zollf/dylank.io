@@ -40,6 +40,8 @@ jobs:
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           envkey_ENV: production
           file_name: .env 
+      - name: CP .env
+        run: cp .env backend
       - name: Go Modules Download
         run: cd backend && go mod download
       - name: Go Tests
