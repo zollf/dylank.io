@@ -1,6 +1,7 @@
 .DS_Store
 tmp
 .env
+*.db
 
 # node 
 node_modules/

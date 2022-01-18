@@ -54,7 +54,6 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
           envkey_ENV: production
@@ -67,6 +66,8 @@ jobs:
           go-version: '1.17.2'
       - name: Go Modules Download
         run: cd backend && go mod download
+      - name: Go Tests
+        run: cd backend && go test ./tests --v
       - name: Go Build
         run: cd backend && go build -o server server.go
       - name: DB Migrate
@@ -82,7 +83,6 @@ jobs:
       - name: Make Environment File
         uses: SpicyPizza/create-envfile@v1
         with:
-          envkey_MONGO_URI: ${{ secrets.MONGO_URI }}
           envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
           envkey_MYSQL_DSN: ${{ secrets.MYSQL_DSN }}
           envkey_AWS_ACCESS_KEY_ID: ${{ secrets.SITE_AWS_ACCESS_KEY_ID }}
