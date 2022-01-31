@@ -16,7 +16,7 @@ $chevronWidth: 20px;
     flex-direction: row;
     border-top: 1px solid $color-brand-colors-secondary-3;
     border-bottom: 1px solid $color-brand-colors-secondary-3;
-    overflow-x: hidden;
+    overflow-x: scroll;
     align-items: center;
     height: auto;
     scroll-behavior: smooth;
