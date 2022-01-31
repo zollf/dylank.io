@@ -29,11 +29,6 @@
       height: 425px;
       width: 280px;
       background: $color-brand-colors-primary;
-
-      @include mobile {
-        height: 450px;
-        width: 300px;
-      }
     }
 
     .model {

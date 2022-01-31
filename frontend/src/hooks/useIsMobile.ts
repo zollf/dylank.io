@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useWindowSize } from 'react-use';
 
-export default function (...cutoffParams: number[]) {
+export default function useIsMobile(...cutoffParams: number[]) {
   const { width: x } = useWindowSize();
   const [isMobile, setIsMobile] = useState<Array<boolean>>([]);
   const [cutoffs] = useState(cutoffParams || [768]);

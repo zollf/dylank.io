@@ -8,7 +8,7 @@
 
   .desc {
     height: 60px;
-    overflow-y: scroll;
+    overflow-y: hidden;
     margin-bottom: $margin * 0.25;
     @include text-style-12-font-size;
   }

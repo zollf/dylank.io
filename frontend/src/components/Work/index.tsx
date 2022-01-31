@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import Project from '@/components/Project';
-import Tag from '@/components/Tag';
 import useIsMobile from '@/hooks/useIsMobile';
 import { ChevronLeft, ChevronRight } from '@/images';
 import { useQuery } from '@apollo/client';
 import { xor } from 'lodash';
 
+import Tags from '../Tags';
 import query from './query.graphql';
 import styles from './styles.module.scss';
 
@@ -27,13 +27,26 @@ export default function Work() {
   const { data, loading, error } = useQuery<WorkQuery>(query);
 
   const setActiveFilter = (name: string) => {
-    setActiveFilters(xor([name], activeFilters));
+    if (name === 'all') {
+      setActiveFilters(['all']);
+      return;
+    }
+
+    let currentFilters = activeFilters;
+    if (currentFilters[0] === 'all') currentFilters = [];
+    setActiveFilters(xor([name], currentFilters));
   };
 
   const handlePageClick = (event: { selected: number }) => {
     const newOffset = (event.selected * itemsPerPage) % (data?.projects.length || 1);
     setItemOffset(newOffset);
   };
+
+  useEffect(() => {
+    if (!activeFilters.length) {
+      setActiveFilters(['all']);
+    }
+  }, [activeFilters]);
 
   useEffect(() => {
     if (!!data?.projects?.length) {
@@ -62,16 +75,12 @@ export default function Work() {
           </p>
         )}
       </div>
-      <div className={styles.tags}>
-        <Tag onClick={() => setActiveFilter('all')} active={activeFilters.includes('all')}>
-          All ({data.projects.length})
-        </Tag>
-        {data.tags.map((tag) => (
-          <Tag onClick={() => setActiveFilter(tag.id)} active={activeFilters.includes(tag.id)}>
-            {tag.title} ({tag.count})
-          </Tag>
-        ))}
-      </div>
+      <Tags
+        totalProjects={data.projects.length}
+        tags={data.tags}
+        setActiveFilter={setActiveFilter}
+        activeFilters={activeFilters}
+      />
       <div className={styles.projects}>
         {currentItems.map((project) => (
           <Project project={project} />

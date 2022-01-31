@@ -1,0 +1,85 @@
+$chevronHeight: 20px;
+$chevronWidth: 20px;
+
+.tagsWrapper {
+  position: relative;
+  max-width: 920px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  .tags {
+    width: 100%;
+    padding: $margin * 0.5 0;
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid $color-brand-colors-secondary-3;
+    border-bottom: 1px solid $color-brand-colors-secondary-3;
+    overflow-x: hidden;
+    align-items: center;
+    height: auto;
+    scroll-behavior: smooth;
+    
+    @include NoScrollbar;
+    @include mobile {
+      margin: 0 $margin * 0.25;
+      padding: $margin * 0.25 0;
+      width: calc(100% - $margin * 0.5);
+    }
+  }
+
+  .next, .prev {
+    @include ClearButton;
+    position: absolute;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    width: 40px;
+    background: none;
+    flex-direction: column;
+    cursor: pointer;
+    transition: 0.5s all ease;
+
+    @include mobile {
+      width: 30px;
+    }
+
+    svg {
+      height: 20px;
+      width: 20px;
+    } 
+    
+    &.hidden {
+      opacity: 0;
+    }
+  }
+
+  .prev {
+    background-image: linear-gradient(to left, rgba(255, 255, 255, 0), $color-gray-colors-white 40%);
+    left: 0;
+
+    @include mobile {
+      left: 5px;
+    }
+
+    svg {
+      align-self: flex-start;
+    }
+  }
+  
+  .next {
+    background-image: linear-gradient(to right, rgba(255, 255, 255, 0), $color-gray-colors-white 40%);
+    right: 0;
+
+    @include mobile {
+      right: 5px;
+    }
+
+    svg {
+      align-self: flex-end;
+    }
+  }
+}
