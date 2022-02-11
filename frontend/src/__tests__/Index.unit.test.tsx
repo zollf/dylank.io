@@ -1,7 +1,7 @@
 import React from 'react';
 import Project from '@/tests/mocks/Project';
 import Tag from '@/tests/mocks/Tag';
-import query from '@/components/Work/query.graphql';
+import query from '@/components/Projects/query.graphql';
 import { MockedProvider } from '@apollo/client/testing';
 import { render } from '@testing-library/react';
 import { setMobile } from '@/tests/utils';

@@ -1,0 +1,38 @@
+schema:
+  - 'http://localhost/api/graphql'
+generates:
+  ./src/typings/graphql/generated/schema.d.ts:
+    plugins:
+      - typescript
+    config:
+      dedupeFragments: true
+      dedupeOperationSuffix: true
+      disableDescriptions: true
+      exportFragmentSpreadSubTypes: true
+      inlineFragmentTypes: combine
+      namingConvention:
+        transformUnderscore: true
+      noExport: true
+  ./src/typings/graphql/generated/operations.d.ts:
+    documents:
+      - ./src/test/graphql/!(public-)schema.graphql
+      - ./src/**/*.graphql
+      - ./src/**/*!(.public).graphql
+    plugins:
+      - typescript-operations
+    config:
+      dedupeFragments: true
+      dedupeOperationSuffix: true
+      exportFragmentSpreadSubTypes: true
+      inlineFragmentTypes: combine
+      maybeType: T | null
+      namingConvention:
+        transformUnderscore: true
+      noExport: true
+      skipTypename: true
+config:
+  preResolveTypes: false
+  scalars:
+    DateTime: date
+    Number: number
+    QueryArgument: number | string

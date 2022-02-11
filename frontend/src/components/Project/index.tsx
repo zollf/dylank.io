@@ -11,18 +11,20 @@ interface Props {
 }
 
 export default function Project({ project }: Props) {
-  const extraCount = Math.max(project.tags.length - 2, 0);
+  const extraCount = project.tags ? Math.max(project.tags.length - 2, 0) : 0;
 
   return (
     <div className={styles.project}>
       <div className={styles.stub}></div>
       <div className={styles.title}>{project.title}</div>
       <div className={styles.tags}>
-        {project.tags.slice(0, 2).map((tag) => (
-          <Tag small>{tag.title}</Tag>
+        {project?.tags?.slice(0, 2).map((tag) => (
+          <Tag small key={`${project.id}-${tag?.id}`}>
+            {tag?.title}
+          </Tag>
         ))}
         {!!extraCount && <Tag small>{extraCount}+</Tag>}
-        {!project.tags.length && <Tag small>None</Tag>}
+        {!project?.tags?.length && <Tag small>None</Tag>}
       </div>
       <div className={styles.desc}>{project.description}</div>
       <div className={styles.buttons}>
