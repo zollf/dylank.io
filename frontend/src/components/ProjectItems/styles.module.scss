@@ -1,0 +1,24 @@
+.projects {
+  margin-top: $margin;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  column-gap: $margin;
+  row-gap: $margin;
+
+  @include NoScrollbar;
+  @include mobile {
+    display: flex;
+    padding: 0 $margin;
+    flex-direction: row;
+    overflow-x: scroll;
+    width: calc(100% - $margin);
+    padding: 0;
+    row-gap: 0;
+    column-gap: 0;
+
+    > div {
+      margin-right: $margin * 0.5;
+    }
+  }
+}

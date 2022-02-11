@@ -9,18 +9,21 @@ import (
 )
 
 type RequestBody struct {
-	Query string `json:"query"`
+	Query     string                 `json:"query"`
+	Variables map[string]interface{} `json:"variables"`
 }
 
 func ExecuteGraphqlQuery(ctx iris.Context) {
 	var request RequestBody
+
 	if err := ctx.UnmarshalBody(&request, iris.UnmarshalerFunc(json.Unmarshal)); err != nil {
 		fmt.Printf("wrong result, unexpected errors: %v", err)
 	}
 
 	result := graphql.Do(graphql.Params{
-		Schema:        GetSchema(),
-		RequestString: request.Query,
+		Schema:         GetSchema(),
+		RequestString:  request.Query,
+		VariableValues: request.Variables,
 	})
 
 	if len(result.Errors) > 0 {

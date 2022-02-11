@@ -1,0 +1,32 @@
+query WorkQuery($tags: [String], $offset: Int, $limit: Int) {
+	projects(tags: $tags, offset: $offset, limit: $limit) {
+		items {
+      id
+			title
+			slug
+			image
+			description
+			createdAt
+			updatedAt
+			url
+    	git
+			tags {
+				id
+				slug
+				title
+				createdAt
+				updatedAt
+			}
+		}
+    tags {
+    	id
+			slug
+			title
+			createdAt
+			updatedAt
+			count
+		}
+		total
+		items_total
+	}
+}

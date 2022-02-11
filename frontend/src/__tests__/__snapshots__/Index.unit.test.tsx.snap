@@ -201,6 +201,34 @@ exports[`matches its mobile snapshot 1`] = `
           </div>
         </div>
       </div>
+      <div
+        class="work"
+      >
+        <div
+          class="top"
+        >
+          <h1>
+            Work
+          </h1>
+        </div>
+        <div
+          class="tagsWrapper"
+        >
+          <div
+            class="tags"
+          >
+            Loading
+          </div>
+        </div>
+        <div
+          class="projects"
+        >
+          Loading
+        </div>
+        <div
+          class="paginationWrapper"
+        />
+      </div>
     </div>
   </div>
 </body>
@@ -387,6 +415,111 @@ exports[`matches its snapshot 1`] = `
               Check my work
             </a>
           </div>
+        </div>
+      </div>
+      <div
+        class="work"
+      >
+        <div
+          class="top"
+        >
+          <h1>
+            Work
+          </h1>
+          <p>
+            Check my commercial and non commercial projects. If you have any questions feel free to ask me for more information.
+          </p>
+        </div>
+        <div
+          class="tagsWrapper"
+        >
+          <div
+            class="tags"
+          >
+            Loading
+          </div>
+        </div>
+        <div
+          class="projects"
+        >
+          Loading
+        </div>
+        <div
+          class="paginationWrapper"
+        >
+          <ul
+            class="pagination"
+          >
+            <li
+              class="paginationPrev paginationDisabled"
+            >
+              <a
+                aria-disabled="true"
+                aria-label="Previous page"
+                class=" "
+                rel="prev"
+                role="button"
+                tabindex="-1"
+              >
+                <svg
+                  fill="none"
+                  height="11"
+                  viewBox="0 0 7 11"
+                  width="7"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5.5 1L1 5.25L5.5 9.5"
+                    stroke="#9CA3AF"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </a>
+            </li>
+            <li
+              class="paginationPage paginationActive"
+            >
+              <a
+                aria-current="page"
+                aria-label="Page 1 is your current page"
+                rel="canonical"
+                role="button"
+                tabindex="-1"
+              >
+                1
+              </a>
+            </li>
+            <li
+              class="paginationNext paginationDisabled"
+            >
+              <a
+                aria-disabled="true"
+                aria-label="Next page"
+                class=" "
+                rel="next"
+                role="button"
+                tabindex="-1"
+              >
+                <svg
+                  fill="none"
+                  height="11"
+                  viewBox="0 0 7 11"
+                  width="7"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M1 9.5L5.5 5.25L1 1"
+                    stroke="#9CA3AF"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                  />
+                </svg>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </div>

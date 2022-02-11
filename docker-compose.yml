@@ -8,6 +8,11 @@ services:
     ports:
       - 8080:8080
     environment: &app_environment
+      MYSQL_HOSTNAME: mysql
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: db
       ENV: development
     volumes:
       - ./backend:/usr/app:cached

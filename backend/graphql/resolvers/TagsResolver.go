@@ -2,22 +2,12 @@ package resolvers
 
 import (
 	"app/models"
-	"time"
 
 	"github.com/graphql-go/graphql"
 )
 
-type TagInterface struct {
-	ID        uint64    `json:"id"`
-	Slug      string    `json:"slug"`
-	Title     string    `json:"title"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-	Count     int       `json:"count"`
-}
-
 func TagsResolver(p graphql.ResolveParams) (interface{}, error) {
-	var TagsInterface []*TagInterface
+	var TagsInterface []*models.TagInterface
 
 	tags, tags_error := models.GetTags()
 
@@ -32,7 +22,7 @@ func TagsResolver(p graphql.ResolveParams) (interface{}, error) {
 	}
 
 	for _, tag := range tags {
-		TagsInterface = append(TagsInterface, &TagInterface{
+		TagsInterface = append(TagsInterface, &models.TagInterface{
 			ID:        tag.ID,
 			Slug:      tag.Slug,
 			Title:     tag.Title,

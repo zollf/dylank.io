@@ -2,6 +2,7 @@ package models
 
 import (
 	"app/database"
+	"sort"
 	"time"
 )
 
@@ -11,6 +12,15 @@ type Tag struct {
 	Title     string    `json:"title" gorm:"index:idx_tag_title,unique"`
 	CreatedAt time.Time `json:"createdAt"`
 	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type TagInterface struct {
+	ID        uint64    `json:"id"`
+	Slug      string    `json:"slug"`
+	Title     string    `json:"title"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+	Count     int       `json:"count"`
 }
 
 func GetTags() ([]*Tag, error) {
@@ -74,4 +84,37 @@ func TagOccurrencesInProjects(projects []*Project, tag *Tag) int {
 	}
 
 	return count
+}
+
+func TagsOccurrencesInProjects(projects []*Project) []*TagInterface {
+	var tags []*TagInterface
+	tagsMap := make(map[string]*TagInterface)
+	for _, project := range projects {
+		for _, tag := range project.Tags {
+			if tagInterface, ok := tagsMap[tag.Slug]; ok {
+				tagInterface.Count = tagInterface.Count + 1
+			} else {
+				tagsMap[tag.Slug] = &TagInterface{
+					ID:        tag.ID,
+					Slug:      tag.Slug,
+					Title:     tag.Title,
+					CreatedAt: tag.CreatedAt,
+					UpdatedAt: tag.UpdatedAt,
+					Count:     1,
+				}
+			}
+		}
+	}
+
+	keys := make([]string, 0, len(tagsMap))
+	for key := range tagsMap {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+
+	for _, key := range keys {
+		tags = append(tags, tagsMap[key])
+	}
+
+	return tags
 }

@@ -5,6 +5,7 @@ faker.seed(1);
 export default function Project(): Project {
   const title = faker.random.word();
   return {
+    id: faker.datatype.uuid(),
     title,
     slug: faker.helpers.slugify(title),
     image: faker.image.imageUrl(),
