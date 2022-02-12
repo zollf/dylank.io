@@ -20,6 +20,7 @@ $chevronWidth: 20px;
     align-items: center;
     height: auto;
     scroll-behavior: smooth;
+    height: 60px;
     
     @include NoScrollbar;
     @include mobile {
@@ -81,5 +82,12 @@ $chevronWidth: 20px;
     svg {
       align-self: flex-end;
     }
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
   }
 }

@@ -31,7 +31,6 @@ generates:
       noExport: true
       skipTypename: true
 config:
-  preResolveTypes: false
   scalars:
     DateTime: date
     Number: number

@@ -1,13 +1,19 @@
 import React, { useContext } from 'react';
 
+import Loading from '../Loading';
 import Project from '../Project';
 import styles from './styles.module.scss';
 import { ProjectsContext } from '../Projects';
+
 export default function ProjectItems() {
   const { projects, loading } = useContext<ProjectsContext>(ProjectsContext);
 
   if (loading) {
-    return <div className={styles.projects}>Loading</div>;
+    return (
+      <div className={styles.projects}>
+        <Loading size="xlarge" className={styles.loading} />
+      </div>
+    );
   }
 
   return (
