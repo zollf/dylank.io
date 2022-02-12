@@ -217,13 +217,53 @@ exports[`matches its mobile snapshot 1`] = `
           <div
             class="tags"
           >
-            Loading
+            <div
+              class="spinner loading"
+            >
+              <span
+                class="css-119qjy3"
+              >
+                <svg
+                  class="css-ozkbo8"
+                  height="24"
+                  viewBox="0 0 16 16"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="7"
+                  />
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
         <div
           class="projects"
         >
-          Loading
+          <div
+            class="spinner loading"
+          >
+            <span
+              class="css-1oxe20p"
+            >
+              <svg
+                class="css-ozkbo8"
+                height="96"
+                viewBox="0 0 16 16"
+                width="96"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
         <div
           class="paginationWrapper"
@@ -436,13 +476,53 @@ exports[`matches its snapshot 1`] = `
           <div
             class="tags"
           >
-            Loading
+            <div
+              class="spinner loading"
+            >
+              <span
+                class="css-119qjy3"
+              >
+                <svg
+                  class="css-ozkbo8"
+                  height="24"
+                  viewBox="0 0 16 16"
+                  width="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <circle
+                    cx="8"
+                    cy="8"
+                    r="7"
+                  />
+                </svg>
+              </span>
+            </div>
           </div>
         </div>
         <div
           class="projects"
         >
-          Loading
+          <div
+            class="spinner loading"
+          >
+            <span
+              class="css-1oxe20p"
+            >
+              <svg
+                class="css-ozkbo8"
+                height="96"
+                viewBox="0 0 16 16"
+                width="96"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="8"
+                  cy="8"
+                  r="7"
+                />
+              </svg>
+            </span>
+          </div>
         </div>
         <div
           class="paginationWrapper"

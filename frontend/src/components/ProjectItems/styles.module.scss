@@ -21,4 +21,17 @@
       margin-right: $margin * 0.5;
     }
   }
+
+  .loading {
+    grid-column: 2;
+    width: 230px;
+    height: 333px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include mobile {
+      width: 100%;
+    }
+  }
 }

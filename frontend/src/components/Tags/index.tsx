@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from '@/images';
 import cc from 'classcat';
 import styles from './styles.module.scss';
 import { ProjectsContext } from '../Projects';
+import Loading from '@/components/Loading';
 
 export default function Tags() {
   const [start, setStart] = useState(true);
@@ -37,7 +38,7 @@ export default function Tags() {
     return (
       <div className={styles.tagsWrapper}>
         <div className={styles.tags} ref={slider}>
-          Loading
+          <Loading size="medium" className={styles.loading} />
         </div>
       </div>
     );
