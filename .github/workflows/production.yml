@@ -45,7 +45,7 @@ jobs:
         run: cd frontend && yarn build
         
   go:
-    name: Go Test + DB Migrate
+    name: Go Test
     runs-on: ubuntu-latest
     needs: [terraform]
     steps:
@@ -70,9 +70,7 @@ jobs:
         run: cd backend && go test ./tests --v
       - name: Go Build
         run: cd backend && go build -o server server.go
-      - name: DB Migrate
-        run: cd backend && go run server.go migrate
-
+        
   ecr-go:
     name: Upload go image to ECR
     runs-on: ubuntu-latest

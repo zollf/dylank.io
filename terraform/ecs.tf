@@ -79,35 +79,10 @@ resource "aws_ecs_task_definition" "task" {
       }
     }
   ]
-  DEFINITION
-  requires_compatibilities = ["FARGATE"]
+  DEFINITION 
+  requires_compatibilities = ["EC2"]
   network_mode             = "awsvpc"
   memory                   = 512
   cpu                      = 256
   execution_role_arn       = "arn:aws:iam::703161335764:role/main_cluster_execution_role"
-}
-
-resource "aws_ecs_service" "ecs_service" {
-  name                              = "${var.project}_service"
-  cluster                           = "arn:aws:ecs:ap-southeast-2:703161335764:cluster/Main_Cluster"
-  task_definition                   = aws_ecs_task_definition.task.arn
-  launch_type                       = "FARGATE"
-  desired_count                     = 1
-  health_check_grace_period_seconds = 30
-
-  network_configuration {
-    subnets = [
-      "${aws_default_subnet.default_subnet_a.id}",
-      "${aws_default_subnet.default_subnet_b.id}",
-      "${aws_default_subnet.default_subnet_c.id}"
-    ]
-    assign_public_ip = true
-    security_groups  = ["${aws_security_group.service_security_group.id}"]
-  }
-
-  load_balancer {
-    target_group_arn = aws_lb_target_group.target_group.arn
-    container_name   = "${var.project}_nginx"
-    container_port   = 80
-  }
 }
