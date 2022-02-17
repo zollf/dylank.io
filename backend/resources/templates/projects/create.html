@@ -42,7 +42,7 @@
     <div class="block">
       {{ range $tag := .Tags }}
         <label for="{{$tag.Slug}}" class="checkbox">
-          <input type="checkbox" id="{{$tag.Slug}}" name="tags" value="false"/>
+          <input type="checkbox" id="{{$tag.Slug}}" name="tags" value="{{$tag.Slug}}" />
           {{$tag.Title}}
         </label>
         <br/>

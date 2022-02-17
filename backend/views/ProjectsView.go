@@ -10,6 +10,7 @@ import (
 
 func Projects(ctx iris.Context) {
 	err := ctx.URLParam("err")
+
 	type ProjectData struct {
 		ID          uint64
 		Index       int
@@ -42,7 +43,21 @@ func Projects(ctx iris.Context) {
 }
 
 func NewProject(ctx iris.Context) {
-	helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{})
+	type TagData struct {
+		Title string
+		Slug  string
+	}
+
+	var tags_data []*TagData
+	tags, _ := models.GetTags()
+	for _, tag := range tags {
+		tags_data = append(tags_data, &TagData{
+			Title: tag.Title,
+			Slug:  tag.Slug,
+		})
+	}
+
+	helpers.RenderTemplate(ctx, "projects/create", "admin", iris.Map{"Tags": tags_data})
 }
 
 func EditProject(ctx iris.Context) {
