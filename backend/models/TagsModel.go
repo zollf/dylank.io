@@ -23,6 +23,21 @@ type TagInterface struct {
 	Count     int       `json:"count"`
 }
 
+type TagData struct {
+	ID        uint64
+	Index     int
+	Title     string
+	Slug      string
+	CreatedAt string
+	UpdatedAt string
+}
+
+type ProjectTagData struct {
+	Title   string
+	Slug    string
+	Checked bool
+}
+
 func GetTags() ([]*Tag, error) {
 	var tags []*Tag
 	err := database.GetRecords(&tags)
@@ -117,4 +132,43 @@ func TagsOccurrencesInProjects(projects []*Project) []*TagInterface {
 	}
 
 	return tags
+}
+
+func GetTagsData() ([]*TagData, error) {
+	tags, t_err := GetTags()
+	if t_err != nil {
+		return nil, t_err
+	}
+
+	var tag_data []*TagData
+	zone, _ := time.LoadLocation("Australia/Perth")
+
+	for i, tag := range tags {
+		tag_data = append(tag_data, &TagData{
+			ID:        tag.ID,
+			Index:     i + 1,
+			Title:     tag.Title,
+			Slug:      tag.Slug,
+			CreatedAt: tag.CreatedAt.In(zone).Format(time.RFC822),
+			UpdatedAt: tag.UpdatedAt.In(zone).Format(time.RFC822),
+		})
+	}
+
+	return tag_data, nil
+}
+
+func GetTagData(id string) (*TagData, error) {
+	tag, not_found := GetTag(id)
+
+	if not_found != nil {
+		return nil, not_found
+	}
+
+	tag_data := &TagData{
+		ID:    tag.ID,
+		Title: tag.Title,
+		Slug:  tag.Slug,
+	}
+
+	return tag_data, nil
 }

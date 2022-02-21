@@ -19,11 +19,18 @@
   }
 
   .stub {
+    background: $color-brand-colors-secondary-2;
+  }
+
+  .image, .stub {
     margin-bottom: $margin * 0.25;
     border-radius: 18px;
     width: 230px;
     height: 160px;
-    background: $color-brand-colors-secondary-2;
+  }
+
+  .image {
+    object-fit: cover;
   }
 
   .buttons {

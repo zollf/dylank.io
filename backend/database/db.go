@@ -83,6 +83,14 @@ func DeleteRecord(value interface{}, id string) error {
 	}
 }
 
+func DeleteMany(value interface{}, id []string) error {
+	if db, err := Open(); err == nil {
+		return db.Delete(value, id).Error
+	} else {
+		return err
+	}
+}
+
 func UpdateRecord(value interface{}) error {
 	if db, err := Open(); err == nil {
 		return db.Save(value).Error

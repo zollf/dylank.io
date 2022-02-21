@@ -6,12 +6,12 @@ import (
 	"github.com/graphql-go/graphql"
 )
 
-func TagsInterface() *graphql.List {
-	return utils.CreateList("Tag", graphql.NewList(
+func AssetsInterface() *graphql.List {
+	return utils.CreateList("Asset", graphql.NewList(
 		graphql.NewObject(
 			graphql.ObjectConfig{
-				Name:        "Tag",
-				Description: "Singular Tag that can describe a langauge a project is written in.",
+				Name:        "Asset",
+				Description: "Asset",
 				Fields: graphql.Fields{
 					"id": &graphql.Field{
 						Type: graphql.NewNonNull(graphql.String),
@@ -28,8 +28,8 @@ func TagsInterface() *graphql.List {
 					"updatedAt": &graphql.Field{
 						Type: graphql.NewNonNull(graphql.String),
 					},
-					"count": &graphql.Field{
-						Type: graphql.Int,
+					"url": &graphql.Field{
+						Type: graphql.NewNonNull(graphql.String),
 					},
 				},
 			},

@@ -3,10 +3,20 @@ package controllers
 import (
 	"app/helpers"
 	"app/models"
+	"log"
 
 	"github.com/gosimple/slug"
 	"github.com/kataras/iris/v12"
 )
+
+func ListAssets(ctx iris.Context) {
+	assets, err := models.GetAssetsData()
+	if err != nil {
+		helpers.ErrorResponse(ctx, "Failed to list assets", iris.Map{"error": err.Error()})
+	}
+
+	helpers.SuccessResponse(ctx, "Successfully created project", iris.Map{"asset": assets})
+}
 
 func CreateAsset(ctx iris.Context) {
 	if !helpers.ValidInputs(ctx, []string{"title"}) {
@@ -15,6 +25,7 @@ func CreateAsset(ctx iris.Context) {
 
 	files, files_err := helpers.UploadImage(ctx, "image")
 	if files_err != nil {
+		log.Printf("%s", files_err.Error())
 		helpers.ErrorResponse(ctx, "Failed to upload files to s3", iris.Map{"error": files_err.Error(), "files": files})
 		return
 	}

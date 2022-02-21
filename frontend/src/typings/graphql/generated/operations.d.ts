@@ -5,12 +5,6 @@ type WorkQueryVariables = Exact<{
 }>;
 
 
-type WorkQuery = { projects?: Maybe<(
-    Pick<Projects, 'total' | 'items_total'>
-    & { items?: Maybe<Array<Maybe<(
-      Pick<Project, 'id' | 'title' | 'slug' | 'image' | 'description' | 'createdAt' | 'updatedAt' | 'url' | 'git'>
-      & { tags?: Maybe<Array<Maybe<Pick<Tag, 'id' | 'slug' | 'title' | 'createdAt' | 'updatedAt'>>>> }
-    )>>>, tags?: Maybe<Array<Maybe<Pick<Tag, 'id' | 'slug' | 'title' | 'createdAt' | 'updatedAt' | 'count'>>>> }
-  )> };
+type WorkQuery = { projects?: { total: number, items_total: number, items?: Array<{ id: string, title: string, slug: string, description: string, createdAt: string, updatedAt: string, url?: string | null, git?: string | null, assets?: Array<{ id: string, slug: string, title: string, createdAt: string, updatedAt: string, url: string } | null> | null, tags?: Array<{ id: string, slug: string, title: string, createdAt: string, updatedAt: string } | null> | null } | null> | null, tags?: Array<{ id: string, slug: string, title: string, createdAt: string, updatedAt: string, count?: number | null } | null> | null } | null };
 
-type TagFragment = Pick<Tag, 'id' | 'slug' | 'title' | 'createdAt' | 'updatedAt'>;
+type TagFragment = { id: string, slug: string, title: string, createdAt: string, updatedAt: string };
