@@ -21,6 +21,7 @@ $chevronWidth: 20px;
     height: auto;
     scroll-behavior: smooth;
     height: 60px;
+    overflow-y: hidden;
     
     @include NoScrollbar;
     @include mobile {

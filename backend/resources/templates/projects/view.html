@@ -34,12 +34,6 @@
       </div>
     </div>
     <div class="field">
-      <label for="current_image_url" class="label">Image Url</label>
-      <div class="control">
-        <input type="text" class="input" name="current_image_url" value="{{.Project.Image}}" disabled=true/>
-      </div>
-    </div>
-    <div class="field">
       <label for="url" class="label">URL</label>
       <div class="control">
         <input type="text" class="input" name="url" placeholder="Url" value="{{.Project.URL}}"/>
@@ -51,6 +45,8 @@
         <input type="text" class="input" name="git" placeholder="Git" value="{{.Project.Git}}"/>
       </div>
     </div>
+
+    <h6>Tags</h3>
     <div class="block">
       {{ range $tag := .Tags }}
         <label for="{{$tag.Slug}}" class="checkbox">
@@ -64,6 +60,22 @@
         <br/>
       {{ end }}
     </div>
+
+    <h6>Assets</h3>
+    <div class="block">
+      {{ range $asset := .Assets }}
+      <label for="{{$asset.Slug}}" class="checkbox">
+        {{ if $asset.Checked }}
+          <input type="checkbox" id="{{$asset.Slug}}" name="assets" class="m-2" value="{{$asset.Slug}}" checked="true"/>
+        {{ else }}
+          <input type="checkbox" id="{{$asset.Slug}}" name="assets" class="m-2" value="{{$asset.Slug}}"/>
+        {{ end }}
+        {{$asset.Title}}
+      </label>
+      <br/>
+      {{ end }}
+    </div>
+
     <button type="submit" class="button is-success is-outlined">Save</button>
   </form>
 {{ end }}

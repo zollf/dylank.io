@@ -50,8 +50,8 @@ func ProjectInterface() *graphql.Object {
 				"description": &graphql.Field{
 					Type: graphql.NewNonNull(graphql.String),
 				},
-				"image": &graphql.Field{
-					Type: graphql.String,
+				"assets": &graphql.Field{
+					Type: AssetsInterface(),
 				},
 				"url": &graphql.Field{
 					Type: graphql.String,

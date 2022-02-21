@@ -9,8 +9,8 @@
       <thead>
         <tr>
           <th>#</th>
+          <th>Image</th>
           <th>Title</th>
-          <th>Url</th>
           <th>Date Created</th>
           <th>Date Updated</th>
           <th>Action</th>
@@ -20,8 +20,10 @@
         {{range $asset := .Assets}}
           <tr>
             <td>{{$asset.Index}}</td>
+            <td>
+              <img src="{{$asset.Url}}" alt="{{$asset.Title}}" height="40" width="40" ></img>
+            </td>
             <td>{{$asset.Title}}</td>
-            <td>{{$asset.Url}}</td>
             <td>{{$asset.CreatedAt}}</td>
             <td>{{$asset.UpdatedAt}}</td>
             <td class="flex-row">
@@ -33,7 +35,7 @@
                     </span>
                   </a>
                 </div>
-                <div class="column">
+                <div class="column align-center">
                   <form action="/api/assets/delete" method="POST">
                     <input type="hidden" value="/admin/assets" name="redirect" />
                     <input type="hidden" value="{{$asset.ID}}" name="id" />

@@ -39,6 +39,8 @@
         <input type="text" class="input" name="git" placeholder="Git"/>
       </div>
     </div>
+
+    <h6>Tags</h3>
     <div class="block">
       {{ range $tag := .Tags }}
         <label for="{{$tag.Slug}}" class="checkbox">
@@ -48,6 +50,18 @@
         <br/>
       {{ end }}
     </div>
+    
+    <h6>Assets</h3>
+    <div class="block">
+      {{ range $asset := .Assets }}
+      <label for="{{$asset.Slug}}" class="checkbox">
+        <input type="checkbox" id="{{$asset.Slug}}" name="assets" value="{{$asset.Slug}}" />
+        {{$asset.Title}}
+      </label>
+      <br/>
+      {{ end }}
+    </div>
+    
     <button type="submit" class="button is-success is-outlined">Save</button>
   </form>
 {{ end }}

@@ -20,7 +20,7 @@ func ProjectsResolver(p graphql.ResolveParams) (interface{}, error) {
 	if db, err := database.Open(); err == nil {
 		var total int64
 		db.Model(&models.Project{}).Count(&total)
-		query := db.Preload("Tags")
+		query := db.Preload("Tags").Preload("Assets")
 
 		if tags, ok := p.Args["tags"].([]interface{}); ok {
 			if len(tags) > 0 && tags[0] != "all" {

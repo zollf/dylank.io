@@ -1,5 +1,7 @@
 import faker from 'faker';
 
+import Asset from './Asset';
+
 faker.seed(1);
 
 export default function Project(): Project {
@@ -8,7 +10,7 @@ export default function Project(): Project {
     id: faker.datatype.uuid(),
     title,
     slug: faker.helpers.slugify(title),
-    image: faker.image.imageUrl(),
+    assets: [...new Array(5)].map(() => Asset()),
     description: faker.random.words(),
     createdAt: faker.date.soon().toString(),
     updatedAt: faker.date.soon().toString(),

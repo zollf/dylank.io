@@ -87,6 +87,7 @@ jobs:
           envkey_AWS_SECRET_ACCESS_KEY: ${{ secrets.SITE_AWS_SECRET_ACCESS_KEY }}
           envkey_AWS_REGION: ap-southeast-2
           envkey_S3_BUCKET: ${{ secrets.SITE_S3_BUCKET }}
+          envkey_MIGRATE: "Yes"
           envkey_ENV: production
           file_name: .env 
       - name: CP .env

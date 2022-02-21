@@ -25,11 +25,23 @@ func CreateProject(ctx iris.Context) {
 		}
 	}
 
+	var checkAssets []*models.Asset
+	assets, _ := models.GetAssets()
+	inputAssets := ctx.FormValues()["assets"]
+
+	for _, asset := range assets {
+		for _, inputAsset := range inputAssets {
+			if asset.Slug == inputAsset {
+				checkAssets = append(checkAssets, asset)
+			}
+		}
+	}
+
 	project := &models.Project{
 		Title:       ctx.FormValue("title"),
 		Slug:        slug.Make(ctx.FormValue("title")),
 		Description: ctx.FormValue("description"),
-		Image:       "",
+		Assets:      checkAssets,
 		URL:         helpers.GetVar(ctx, "url"),
 		Git:         helpers.GetVar(ctx, "git"),
 		Tags:        checkedTags,
@@ -59,11 +71,23 @@ func EditProject(ctx iris.Context) {
 		}
 	}
 
+	var checkAssets []*models.Asset
+	assets, _ := models.GetAssets()
+	inputAssets := ctx.FormValues()["assets"]
+
+	for _, asset := range assets {
+		for _, inputAsset := range inputAssets {
+			if asset.Slug == inputAsset {
+				checkAssets = append(checkAssets, asset)
+			}
+		}
+	}
+
 	project := &models.Project{
 		Title:       ctx.FormValue("title"),
 		Slug:        slug.Make(ctx.FormValue("title")),
 		Description: ctx.FormValue("description"),
-		Image:       "",
+		Assets:      checkAssets,
 		URL:         helpers.GetVar(ctx, "url"),
 		Git:         helpers.GetVar(ctx, "git"),
 		Tags:        checkedTags,

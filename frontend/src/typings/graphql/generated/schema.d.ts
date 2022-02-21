@@ -12,13 +12,23 @@ type Scalars = {
   Float: number;
 };
 
+type Asset = {
+  __typename?: 'Asset';
+  createdAt: Scalars['String'];
+  id: Scalars['String'];
+  slug: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt: Scalars['String'];
+  url: Scalars['String'];
+};
+
 type Project = {
   __typename?: 'Project';
+  assets?: Maybe<Array<Maybe<Asset>>>;
   createdAt: Scalars['String'];
   description: Scalars['String'];
   git?: Maybe<Scalars['String']>;
   id: Scalars['String'];
-  image?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
   tags?: Maybe<Array<Maybe<Tag>>>;
   title: Scalars['String'];

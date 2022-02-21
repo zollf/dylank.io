@@ -4,14 +4,19 @@ import (
 	"app/graphql"
 	"app/helpers"
 	"app/middleware"
+	"app/migrations"
 	"app/routes"
 	"fmt"
+	"os"
 
 	"github.com/kataras/iris/v12"
 )
 
 func Main() *iris.Application {
 	DotEnv()
+	if os.Getenv("MIGRATE") == "Yes" {
+		migrations.Install()
+	}
 	root := helpers.RootDir()
 	app := iris.New()
 

@@ -8,6 +8,15 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
+func ListAssets(ctx iris.Context) {
+	assets, err := models.GetAssetsData()
+	if err != nil {
+		helpers.ErrorResponse(ctx, "Failed to list assets", iris.Map{"error": err.Error()})
+	}
+
+	helpers.SuccessResponse(ctx, "Successfully created project", iris.Map{"asset": assets})
+}
+
 func CreateAsset(ctx iris.Context) {
 	if !helpers.ValidInputs(ctx, []string{"title"}) {
 		return

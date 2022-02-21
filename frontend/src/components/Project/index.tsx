@@ -15,7 +15,11 @@ export default function Project({ project }: Props) {
 
   return (
     <div className={styles.project}>
-      <div className={styles.stub}></div>
+      {!!project.assets?.length ? (
+        <img className={styles.image} src={project.assets[0]?.url} alt={project.assets[0]?.slug} />
+      ) : (
+        <div className={styles.stub}></div>
+      )}
       <div className={styles.title}>{project.title}</div>
       <div className={styles.tags}>
         {project?.tags?.slice(0, 2).map((tag) => (
