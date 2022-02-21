@@ -14,7 +14,7 @@ import (
 
 func Main() *iris.Application {
 	DotEnv()
-	if os.Getenv("migrate") == "Yes" {
+	if os.Getenv("MIGRATE") == "Yes" {
 		migrations.Install()
 	}
 	root := helpers.RootDir()
