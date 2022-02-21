@@ -3,7 +3,6 @@ package controllers
 import (
 	"app/helpers"
 	"app/models"
-	"log"
 
 	"github.com/gosimple/slug"
 	"github.com/kataras/iris/v12"
@@ -25,7 +24,6 @@ func CreateAsset(ctx iris.Context) {
 
 	files, files_err := helpers.UploadImage(ctx, "image")
 	if files_err != nil {
-		log.Printf("%s", files_err.Error())
 		helpers.ErrorResponse(ctx, "Failed to upload files to s3", iris.Map{"error": files_err.Error(), "files": files})
 		return
 	}
