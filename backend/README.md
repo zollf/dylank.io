@@ -74,20 +74,43 @@ This project supports graphql api extensively, and should be used for frontend d
 Get Projects
 ```graphql
 query {
-  projects {
-    title
-    slug
-    image
-    description
-    dateCreated
-    dateUpdated
-    url
-    git
+  projects(tags: $tags, offset: $offset, limit: $limit) {
+		items {
+      id
+			title
+			slug
+			assets {
+				id
+				slug
+				title
+				createdAt
+				updatedAt
+				url
+			}
+			description
+			createdAt
+			updatedAt
+			url
+    	git
+			tags {
+				id
+				slug
+				title
+				createdAt
+				updatedAt
+			}
+		}
     tags {
-      title
-      slug
-    }
-  }
+    	id
+			slug
+			title
+			createdAt
+			updatedAt
+			count
+		}
+		total
+		items_total
+	}
 }
 ```
 
