@@ -18,7 +18,6 @@ func GetSession() (*session.Session, error) {
 	aws_access_key_id := os.Getenv("AWS_ACCESS_KEY_ID")
 	aws_secret_access_key := os.Getenv("AWS_SECRET_ACCESS_KEY")
 
-	log.Printf("%s", aws_access_key_id)
 	return session.NewSession(&aws.Config{
 		Region: aws.String(aws_region),
 		Credentials: credentials.NewStaticCredentials(
@@ -31,9 +30,11 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	bucket := os.Getenv("S3_BUCKET")
 	session, err := GetSession()
 
-	log.Printf("Uploading file to s3")
+	log.Printf("Preparing to upload file")
 
 	uploader := s3manager.NewUploader(session)
+
+	log.Printf("Opening files content")
 
 	body, err := file.Open()
 	defer body.Close()
@@ -42,11 +43,15 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 		return "", err
 	}
 
+	log.Printf("Uploading file to s3")
+
 	upload, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket: aws.String(bucket),
 		Key:    aws.String(title),
 		Body:   body,
 	})
+
+	log.Printf("Finished Uploading")
 
 	if err != nil {
 		return "", err
