@@ -1,6 +1,7 @@
 package services
 
 import (
+	"bytes"
 	"log"
 	"mime/multipart"
 	"os"
@@ -30,10 +31,6 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	bucket := os.Getenv("S3_BUCKET")
 	session, err := GetSession()
 
-	if err != nil {
-		return "", err
-	}
-
 	log.Printf("Preparing to upload file")
 
 	uploader := s3manager.NewUploader(session)
@@ -42,6 +39,9 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 
 	body, err := file.Open()
 	defer body.Close()
+
+	buffer := make([]byte, file.Size)
+	body.Read(buffer)
 
 	if err != nil {
 		return "", err
@@ -52,7 +52,7 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	upload, err := uploader.Upload(&s3manager.UploadInput{
 		Bucket:      aws.String(bucket),
 		Key:         aws.String(title),
-		Body:        body,
+		Body:        bytes.NewReader(buffer),
 		ContentType: aws.String(file.Header.Get("Content-Type")),
 	})
 
