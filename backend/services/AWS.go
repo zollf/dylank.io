@@ -46,9 +46,10 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	log.Printf("Uploading file to s3")
 
 	upload, err := uploader.Upload(&s3manager.UploadInput{
-		Bucket: aws.String(bucket),
-		Key:    aws.String(title),
-		Body:   body,
+		Bucket:      aws.String(bucket),
+		Key:         aws.String(title),
+		Body:        body,
+		ContentType: aws.String(file.Header.Get("Content-Type")),
 	})
 
 	log.Printf("Finished Uploading")

@@ -2,7 +2,6 @@ package models
 
 import (
 	"app/database"
-	"log"
 	"time"
 )
 
@@ -43,7 +42,6 @@ func GetAssets() ([]*Asset, error) {
 }
 
 func CreateAsset(asset *Asset) error {
-	log.Printf("%v", asset)
 	return database.CreateRecord(asset)
 }
 
