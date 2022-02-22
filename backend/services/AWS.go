@@ -30,6 +30,10 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	bucket := os.Getenv("S3_BUCKET")
 	session, err := GetSession()
 
+	if err != nil {
+		return "", err
+	}
+
 	log.Printf("Preparing to upload file")
 
 	uploader := s3manager.NewUploader(session)
