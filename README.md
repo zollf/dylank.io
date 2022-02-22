@@ -21,7 +21,5 @@ Open http://localhost
 - API Gateway - Graphql
 - Backend - Golang, Iris
 - Database - MySql
-- Infra - AWS (ECS + Fargate), Terraform, Docker, Nginx 
+- Infra - AWS (ECS + EC2), Terraform, Docker, Nginx 
 
-## Credits
-- Penguin Model - https://sketchfab.com/ZhangWanqing
