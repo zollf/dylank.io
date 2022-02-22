@@ -2,6 +2,7 @@ package services
 
 import (
 	"bytes"
+	"fmt"
 	"log"
 	"mime/multipart"
 	"os"
@@ -9,7 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
-	"github.com/aws/aws-sdk-go/service/s3/s3manager"
+	"github.com/aws/aws-sdk-go/service/s3"
 )
 
 func GetSession() (*session.Session, error) {
@@ -29,11 +30,12 @@ func GetSession() (*session.Session, error) {
 
 func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	bucket := os.Getenv("S3_BUCKET")
+	region := os.Getenv("AWS_REGION")
 	session, err := GetSession()
 
 	log.Printf("Preparing to upload file")
 
-	uploader := s3manager.NewUploader(session)
+	s3Client := s3.New(session)
 
 	log.Printf("Opening files content")
 
@@ -49,7 +51,7 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 
 	log.Printf("Uploading file to s3")
 
-	upload, err := uploader.Upload(&s3manager.UploadInput{
+	upload, err := s3Client.PutObject(&s3.PutObjectInput{
 		Bucket:      aws.String(bucket),
 		Key:         aws.String(title),
 		Body:        bytes.NewReader(buffer),
@@ -62,5 +64,7 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 		return "", err
 	}
 
-	return upload.Location, nil
+	log.Printf("%v", upload)
+
+	return fmt.Sprintf("https://%s.s3.%s.amazonaws.com/%s", bucket, region, title), nil
 }
