@@ -2,7 +2,7 @@
   @include ClearButton;
 
   cursor: pointer;
-  border-radius: 7px;
+  border-radius: 12px;
   width: max-content;
   display: flex;
   justify-content: center;
@@ -17,6 +17,8 @@
   }
 
   &.small {
+    border-radius: 10px;
+
     padding: 0 $margin * 0.5;
     min-height: 30px;
 
@@ -29,6 +31,7 @@
     border: 2px solid $color-brand-colors-primary;
 
     &:hover {
+      transform: scale(1.02);
       color: $color-brand-colors-primary;
       background: $color-gray-colors-white;
       border-color: $color-brand-colors-primary;
@@ -41,6 +44,7 @@
     border: 2px solid $color-brand-colors-primary;
 
     &:hover {
+      transform: scale(1.02);
       color: $color-gray-colors-white;
       background: $color-brand-colors-primary;
       border-color: $color-brand-colors-primary;

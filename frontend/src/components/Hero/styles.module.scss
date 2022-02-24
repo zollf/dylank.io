@@ -17,18 +17,26 @@
   .left {
     position: relative;
     justify-self: flex-end;
-    margin-right: $margin * 2;
+    margin-right: $margin * 3;
+    margin-left: $margin;
 
     @include mobile {
       justify-self: center;
       margin-right: 0;
+      margin-left: 0;
       margin-bottom: $margin * 0.5;
     }
 
     .background {
       height: 425px;
-      width: 280px;
+      width: 425px;
       background: $color-brand-colors-primary;
+      border-radius: 50%;
+
+      @include mobile {
+        width: 90vw;
+        height: 90vw;
+      }
     }
 
     .model {

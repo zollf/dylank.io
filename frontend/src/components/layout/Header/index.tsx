@@ -4,16 +4,17 @@ import useIsScrollingUp from '@/hooks/useIsScrollingUp';
 import { Discord, Github, LinkedIn } from '@/images';
 
 import styles from './styles.module.scss';
+import { useWindowScroll } from 'react-use';
 
 export default function Header() {
   const isScrollingUp = useIsScrollingUp();
-  const isTop = typeof window != 'undefined' ? window.pageYOffset === 0 : true;
+  const { y } = useWindowScroll();
 
   return (
     <header
       className={cc({
         [styles.header]: true,
-        [styles.hideHeader]: !isScrollingUp && !isTop,
+        [styles.hideHeader]: !isScrollingUp && y !== 0,
       })}
     >
       <div className={styles.inner}>

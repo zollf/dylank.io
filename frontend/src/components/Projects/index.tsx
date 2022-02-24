@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPaginate from 'react-paginate';
 import useIsMobile from '@/hooks/useIsMobile';
 import { ChevronLeft, ChevronRight } from '@/images';
@@ -23,12 +23,22 @@ export default function Projects() {
   const [activeFilters, setActiveFilters] = useState<Array<string>>([]);
   const [pageCount, setPageCount] = useState(0);
   const [isMobile] = useIsMobile(768);
-  const { data, loading, error } = useQuery<WorkQuery>(query, {
+  const [data, setData] = useState<WorkQuery>();
+  const {
+    data: _data,
+    loading,
+    error,
+  } = useQuery<WorkQuery>(query, {
     variables: { tags: activeFilters, offset: pageCount * itemsPerPage, limit: itemsPerPage },
     fetchPolicy: 'no-cache',
   });
 
+  useEffect(() => {
+    if (!loading) setData(_data);
+  }, [loading, _data, data]);
+
   const setActiveFilter = (name: string) => {
+    setPageCount(0);
     setActiveFilters(xor([name], activeFilters));
   };
   const clearFilters = () => setActiveFilters([]);
@@ -39,7 +49,7 @@ export default function Projects() {
 
   return (
     <ProjectsContext.Provider
-      value={{ projects: data?.projects, loading, clearFilters, setActiveFilter, activeFilters }}
+      value={{ projects: data?.projects, loading: loading, clearFilters, setActiveFilter, activeFilters }}
     >
       <Tags />
       <ProjectItems />

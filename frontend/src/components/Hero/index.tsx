@@ -1,9 +1,7 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import useIsMobile from '@/hooks/useIsMobile';
-import { Canvas } from '@react-three/fiber';
 
 import Button from '../Button';
-import HeroModel from '../HeroModel';
 import styles from './styles.module.scss';
 
 const Hero = () => {
@@ -12,11 +10,6 @@ const Hero = () => {
   return (
     <div className={styles.hero}>
       <div className={styles.left}>
-        <Canvas className={styles.model}>
-          <Suspense fallback={null}>
-            <HeroModel />
-          </Suspense>
-        </Canvas>
         <div className={styles.background} />
       </div>
       <div className={styles.right}>
