@@ -25,7 +25,7 @@
             <td>{{$user.CreatedAt}}</td>
             <td>{{$user.UpdatedAt}}</td>
             <td class="flex-row">
-              <div class="columns is-1 is-variable bd-klmn-columns">
+              <div class="columns is-1 is-variable bd-klmn-columns is-narrow">
                 <div class="column align-center">
                   <a href="/admin/users/view/{{$user.ID}}" class="button is-info is-outlined">
                     <span class="icon">
@@ -33,7 +33,7 @@
                     </span>
                   </a>
                 </div>
-                <div class="column">
+                <div class="column is-narrow">
                   <form action="/api/users/delete" method="POST">
                     <input type="hidden" value="/admin/users" name="redirect" />
                     <input type="hidden" value="{{$user.ID}}" name="id" />
