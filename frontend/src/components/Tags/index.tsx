@@ -6,23 +6,23 @@ import cc from 'classcat';
 import styles from './styles.module.scss';
 import { ProjectsContext } from '../Projects';
 import Loading from '@/components/Loading';
+import { sortBy } from 'lodash';
 
 export default function Tags() {
   const [start, setStart] = useState(true);
   const [end, setEnd] = useState(false);
-  const { projects, loading, setActiveFilter, clearFilters, activeFilters } =
-    useContext<ProjectsContext>(ProjectsContext);
+  const { projects, setActiveFilter, clearFilters, activeFilters } = useContext<ProjectsContext>(ProjectsContext);
   const slider = useRef<HTMLDivElement>(null);
   const { x } = useScroll(slider);
   function next() {
     if (slider.current) {
-      slider.current.scrollLeft += slider.current.clientWidth;
+      slider.current.scrollLeft += slider.current.clientWidth * 0.8;
     }
   }
 
   function prev() {
     if (slider.current) {
-      slider.current.scrollLeft -= slider.current.clientWidth;
+      slider.current.scrollLeft -= slider.current.clientWidth * 0.8;
     }
   }
 
@@ -32,17 +32,7 @@ export default function Tags() {
       setEnd(Math.floor(x) === Math.floor(maxScroll));
       setStart(x === 0);
     }
-  }, [x, slider]);
-
-  if (loading) {
-    return (
-      <div className={styles.tagsWrapper}>
-        <div className={styles.tags} ref={slider}>
-          <Loading size="medium" className={styles.loading} />
-        </div>
-      </div>
-    );
-  }
+  }, [x, slider, projects?.tags]);
 
   return (
     <div className={styles.tagsWrapper}>
@@ -51,15 +41,18 @@ export default function Tags() {
       </button>
       <div className={styles.tags} ref={slider}>
         <Tag onClick={clearFilters} active={!activeFilters.length}>
-          All ({projects?.total})
+          All ({projects?.total || 0})
         </Tag>
-        {projects?.tags?.map(
-          (tag) =>
-            tag && (
+        {!!projects?.tags?.length ? (
+          sortBy(projects.tags, ['count'])
+            .reverse()
+            .map((tag: Tag) => (
               <Tag onClick={() => setActiveFilter(tag.slug)} active={activeFilters.includes(tag.slug)} key={tag.id}>
                 {tag.title} ({tag.count})
               </Tag>
-            ),
+            ))
+        ) : (
+          <Loading size="medium" className={styles.loading} />
         )}
       </div>
       <button className={cc({ [styles.next]: true, [styles.hidden]: end })} onClick={next}>
