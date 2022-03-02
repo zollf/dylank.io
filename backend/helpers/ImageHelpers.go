@@ -7,40 +7,30 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
-func UploadImage(ctx iris.Context, name string) ([]*FileResponse, error) {
+func UploadImage(ctx iris.Context, handle string, title string) (*FileResponse, error) {
 	maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
-	mp_err := ctx.Request().ParseMultipartForm(maxSize)
-	if mp_err != nil {
-		return nil, mp_err
+	multip_parse_err := ctx.Request().ParseMultipartForm(maxSize)
+	if multip_parse_err != nil {
+		return nil, multip_parse_err
 	}
 
-	form := ctx.Request().MultipartForm
-	files := form.File[name]
-	var uploadedFiles []*FileResponse
+	file := ctx.Request().MultipartForm.File[handle][0]
 
-	file := files[0]
-
-	title := ctx.FormValue("title")
-
-	url, err := services.UploadImageToS3(file, title)
+	url, s3_upload_err := services.UploadImageToS3(file, title)
 	success := true
-	errorMsg := ""
 
-	if err != nil {
-		success = false
-		errorMsg = err.Error()
+	if s3_upload_err != nil {
+		return nil, s3_upload_err
 	}
-
-	uploadedFiles = append(uploadedFiles, &FileResponse{
-		Title:   title,
-		Url:     url,
-		Success: success,
-		Error:   errorMsg,
-	})
 
 	if !success {
-		return uploadedFiles, fmt.Errorf("a file failed to upload")
+		return nil, fmt.Errorf("a file failed to upload")
 	} else {
-		return uploadedFiles, nil
+		return &FileResponse{
+			Title:   title,
+			Url:     url,
+			Success: success,
+			Error:   "",
+		}, nil
 	}
 }

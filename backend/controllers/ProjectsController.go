@@ -1,21 +1,42 @@
 package controllers
 
 import (
-	"app/helpers"
-	"app/models"
+	"app/helpers/res"
+	"app/helpers/serialize"
+	"app/models/assets"
+	"app/models/projects"
+	"app/models/tags"
+	"strconv"
 
 	"github.com/gosimple/slug"
 	"github.com/kataras/iris/v12"
 )
 
 func CreateProject(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"title", "description"}) {
+	type Req struct {
+		Title       string   `json:"title" validate:"required"`
+		Description string   `json:"description" validate:"required"`
+		Tags        []string `json:"tags"`
+		Assets      []string `json:"assets"`
+		Url         *string  `json:"url"`
+		Git         *string  `json:"git"`
+		Redirect    string   `json:"redirect"`
+	}
+	var req Req
+	invalid_req, invalid_body := serialize.Body(ctx, &req)
+	if invalid_req != nil {
+		res.PROJECTS_CREATE.Error(ctx, invalid_req)
 		return
 	}
 
-	var checkedTags []*models.Tag
-	tags, _ := models.GetTags()
-	inputTags := ctx.FormValues()["tags"]
+	if invalid_body != nil {
+		res.PROJECTS_DELETE.ValidationError(ctx, invalid_body)
+		return
+	}
+
+	var checkedTags []*tags.Tag
+	tags, _ := tags.All()
+	inputTags := req.Tags
 
 	for _, tag := range tags {
 		for _, inputTag := range inputTags {
@@ -25,9 +46,9 @@ func CreateProject(ctx iris.Context) {
 		}
 	}
 
-	var checkAssets []*models.Asset
-	assets, _ := models.GetAssets()
-	inputAssets := ctx.FormValues()["assets"]
+	var checkAssets []*assets.Asset
+	assets, _ := assets.All()
+	inputAssets := req.Assets
 
 	for _, asset := range assets {
 		for _, inputAsset := range inputAssets {
@@ -37,31 +58,55 @@ func CreateProject(ctx iris.Context) {
 		}
 	}
 
-	project := &models.Project{
-		Title:       ctx.FormValue("title"),
-		Slug:        slug.Make(ctx.FormValue("title")),
-		Description: ctx.FormValue("description"),
+	project := &projects.Project{
+		Title:       req.Title,
+		Slug:        slug.Make(req.Title),
+		Description: req.Description,
 		Assets:      checkAssets,
-		URL:         helpers.GetVar(ctx, "url"),
-		Git:         helpers.GetVar(ctx, "git"),
+		URL:         req.Url,
+		Git:         req.Git,
 		Tags:        checkedTags,
 	}
 
-	if err := models.CreateProject(project); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to created project", iris.Map{"error": err.Error()})
+	if err := project.Create(); err != nil {
+		res.PROJECTS_CREATE.Error(ctx, err)
 	} else {
-		helpers.SuccessResponse(ctx, "Successfully created project", iris.Map{"project": project})
+		res.PROJECTS_CREATE.Send(ctx, iris.Map{"project": project})
 	}
 }
 
 func EditProject(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"id", "title", "description"}) {
+	type Req struct {
+		ID          string   `json:"id" validate:"required"`
+		Title       string   `json:"title" validate:"required"`
+		Description string   `json:"description" validate:"required"`
+		Tags        []string `json:"tags"`
+		Assets      []string `json:"assets"`
+		Url         *string  `json:"url"`
+		Git         *string  `json:"git"`
+		Redirect    string   `json:"redirect"`
+	}
+	var req Req
+	invalid_req, invalid_body := serialize.Body(ctx, &req)
+	if invalid_req != nil {
+		res.PROJECTS_EDIT.Error(ctx, invalid_req)
 		return
 	}
 
-	var checkedTags []*models.Tag
-	tags, _ := models.GetTags()
-	inputTags := ctx.FormValues()["tags"]
+	if invalid_body != nil {
+		res.PROJECTS_EDIT.ValidationError(ctx, invalid_body)
+		return
+	}
+
+	id, invalid_id := strconv.ParseUint(req.ID, 10, 64)
+	if invalid_id != nil {
+		res.PROJECTS_EDIT.Error(ctx, invalid_id)
+		return
+	}
+
+	var checkedTags []*tags.Tag
+	tags, _ := tags.All()
+	inputTags := req.Tags
 
 	for _, tag := range tags {
 		for _, inputTag := range inputTags {
@@ -71,9 +116,9 @@ func EditProject(ctx iris.Context) {
 		}
 	}
 
-	var checkAssets []*models.Asset
-	assets, _ := models.GetAssets()
-	inputAssets := ctx.FormValues()["assets"]
+	var checkAssets []*assets.Asset
+	assets, _ := assets.All()
+	inputAssets := req.Assets
 
 	for _, asset := range assets {
 		for _, inputAsset := range inputAssets {
@@ -83,39 +128,59 @@ func EditProject(ctx iris.Context) {
 		}
 	}
 
-	project := &models.Project{
-		Title:       ctx.FormValue("title"),
-		Slug:        slug.Make(ctx.FormValue("title")),
-		Description: ctx.FormValue("description"),
+	project := &projects.Project{
+		ID:          id,
+		Title:       req.Title,
+		Slug:        slug.Make(req.Title),
+		Description: req.Description,
 		Assets:      checkAssets,
-		URL:         helpers.GetVar(ctx, "url"),
-		Git:         helpers.GetVar(ctx, "git"),
+		URL:         req.Url,
+		Git:         req.Git,
 		Tags:        checkedTags,
 	}
 
-	if err := models.UpdateProject(project, ctx.FormValue("id")); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to update project", iris.Map{"error": err.Error()})
+	if err := project.Update(); err != nil {
+		res.PROJECTS_EDIT.Error(ctx, err)
 	} else {
-		helpers.SuccessResponse(ctx, "Successfully updated project", iris.Map{"project": project})
+		res.PROJECTS_EDIT.Send(ctx, iris.Map{"project": project})
 	}
 }
 
 func DeleteProject(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"id"}) {
+	type Req struct {
+		ID       string `json:"id" validate:"required"`
+		Redirect string `json:"redirect"`
+	}
+	var req Req
+	invalid_req, invalid_body := serialize.Body(ctx, &req)
+	if invalid_req != nil {
+		res.TAGS_CREATE.Error(ctx, invalid_req)
 		return
 	}
 
-	if err := models.DeleteProject(ctx.FormValue("id")); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to delete project", iris.Map{"error": err.Error()})
+	if invalid_body != nil {
+		res.TAGS_CREATE.ValidationError(ctx, invalid_body)
+		return
+	}
+
+	project, not_found := projects.Find(req.ID)
+	if not_found != nil {
+		res.PROJECTS_DELETE.Error(ctx, not_found)
+		return
+	}
+
+	if err := project.Delete(); err != nil {
+		res.PROJECTS_DELETE.Error(ctx, err)
 	} else {
-		helpers.SuccessResponse(ctx, "Successfully deleted project", iris.Map{})
+		res.PROJECTS_DELETE.Send(ctx, iris.Map{})
 	}
 }
 
 func ListProject(ctx iris.Context) {
-	projects, err := models.GetProjects()
+	projects, err := projects.All()
 	if err != nil {
-		helpers.ErrorResponse(ctx, "Failed to list projects", iris.Map{"error": err.Error()})
+		res.PROJECTS_LIST.Error(ctx, err)
+		return
 	}
-	helpers.SuccessResponse(ctx, "Successfully listed projects", iris.Map{"projects": projects})
+	res.PROJECTS_LIST.Send(ctx, iris.Map{"projects": projects})
 }

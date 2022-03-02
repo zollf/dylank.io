@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/kataras/iris/v12"
-	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type Response struct {
@@ -17,14 +16,6 @@ type Response struct {
 	Error      *string  `json:"error"`
 	SuccessMsg *string  `json:"success_msg"`
 	Data       iris.Map `json:"data"`
-}
-
-func GetOrCreateID(ctx iris.Context) (primitive.ObjectID, error) {
-	if formId := ctx.FormValue("id"); formId != "" {
-		return primitive.ObjectIDFromHex(formId)
-	} else {
-		return primitive.NewObjectID(), nil
-	}
 }
 
 func GetOrCreateDate(ctx iris.Context) string {
