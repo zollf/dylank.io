@@ -1,23 +1,13 @@
-package models
+package utils
 
 import (
-	"app/database"
+	"app/models/assets"
+	"app/models/projects"
+	"app/models/tags"
 	"time"
 )
 
-type Project struct {
-	ID          uint64    `json:"id"`
-	Slug        string    `json:"slug" gorm:"index:idx_project_slug,unique"`
-	Title       string    `json:"title" gorm:"index:idx_project_title,unique"`
-	Description string    `json:"description"`
-	Assets      []*Asset  `json:"assets" gorm:"many2many:project_assets"`
-	URL         *string   `json:"url"`
-	Git         *string   `json:"git"`
-	CreatedAt   time.Time `json:"createdAt"`
-	UpdatedAt   time.Time `json:"updatedAt"`
-	Tags        []*Tag    `json:"tags" gorm:"many2many:project_tags"`
-}
-
+// Used for dom rendering
 type ProjectData struct {
 	ID          uint64
 	Index       int
@@ -32,75 +22,16 @@ type ProjectDataWithTagAndAsset struct {
 	Title       string
 	Slug        string
 	Description string
-	Assets      []*Asset
+	Assets      []*assets.Asset
 	URL         string
 	Git         string
-	Tags        []*Tag
+	Tags        []*tags.Tag
 	CreatedAt   string
 	UpdatedAt   string
 }
 
-func GetProjects() ([]*Project, error) {
-	var projects []*Project
-	if db, err := database.Open(); err == nil {
-		results := db.Preload("Tags").Preload("Assets").Find(&projects)
-		return projects, results.Error
-	} else {
-		return nil, err
-	}
-}
-
-func FindProject(project *Project) (bool, error) {
-	return database.RecordExist(&Project{}, "id = ?", project.ID)
-}
-
-func UpdateProject(project *Project, id string) error {
-	projectRecord, err := GetProject(id)
-
-	if err != nil {
-		return err
-	}
-
-	projectRecord.Title = project.Title
-	projectRecord.Slug = project.Slug
-	projectRecord.Description = project.Description
-	projectRecord.URL = project.URL
-	projectRecord.Git = project.Git
-
-	if db, err := database.Open(); err == nil {
-		db.Save(&projectRecord)
-		db.Model(&projectRecord).Association("Tags").Replace(project.Tags)
-		db.Model(&projectRecord).Association("Assets").Replace(project.Assets)
-		return nil
-	} else {
-		return err
-	}
-}
-
-func CreateProject(project *Project) error {
-	return database.CreateRecord(project)
-}
-
-func GetProject(id string) (*Project, error) {
-	var project *Project
-	if db, err := database.Open(); err == nil {
-		results := db.
-			Preload("Tags").
-			Preload("Assets").
-			Where("id = ?", id).
-			Find(&project)
-		return project, results.Error
-	} else {
-		return nil, err
-	}
-}
-
-func DeleteProject(id string) error {
-	return database.DeleteRecord(&Project{}, id)
-}
-
 func GetProjectData() ([]*ProjectData, error) {
-	projects, projects_err := GetProjects()
+	projects, projects_err := projects.All()
 	if projects_err != nil {
 		return nil, projects_err
 	}
@@ -123,7 +54,7 @@ func GetProjectData() ([]*ProjectData, error) {
 }
 
 func GetProjectDataWithTagAndAsset(id string) (*ProjectDataWithTagAndAsset, []*ProjectTagData, []*ProjectAssetData, error) {
-	project, project_err := GetProject(id)
+	project, project_err := projects.Find(id)
 
 	if project_err != nil {
 		return nil, nil, nil, project_err
@@ -154,7 +85,7 @@ func GetProjectDataWithTagAndAsset(id string) (*ProjectDataWithTagAndAsset, []*P
 	}
 
 	var tags_data []*ProjectTagData
-	tags, _ := GetTags()
+	tags, _ := tags.All()
 	for _, tag := range tags {
 		tags_data = append(tags_data, &ProjectTagData{
 			Title:   tag.Title,
@@ -164,7 +95,7 @@ func GetProjectDataWithTagAndAsset(id string) (*ProjectDataWithTagAndAsset, []*P
 	}
 
 	var assets_data []*ProjectAssetData
-	assets, _ := GetAssets()
+	assets, _ := assets.All()
 	for _, asset := range assets {
 		assets_data = append(assets_data, &ProjectAssetData{
 			Title:   asset.Title,

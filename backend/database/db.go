@@ -75,9 +75,9 @@ func GetRecord(value interface{}, query interface{}, args ...interface{}) error 
 	}
 }
 
-func DeleteRecord(value interface{}, id string) error {
+func DeleteRecord(value interface{}, conds ...interface{}) error {
 	if db, err := Open(); err == nil {
-		return db.Delete(value, id).Error
+		return db.Delete(value, conds).Error
 	} else {
 		return err
 	}

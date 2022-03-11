@@ -2,60 +2,70 @@ package controllers
 
 import (
 	"app/helpers"
-	"app/models"
+	"app/helpers/res"
+	"app/models/assets"
 
 	"github.com/gosimple/slug"
 	"github.com/kataras/iris/v12"
 )
 
-func ListAssets(ctx iris.Context) {
-	assets, err := models.GetAssetsData()
-	if err != nil {
-		helpers.ErrorResponse(ctx, "Failed to list assets", iris.Map{"error": err.Error()})
+func AssetsList(ctx iris.Context) {
+	if assets, cannot_list := assets.All(); cannot_list != nil {
+		res.ASSETS_LIST.Error(ctx, cannot_list)
+	} else {
+		res.ASSETS_LIST.Send(ctx, iris.Map{"assets": assets})
 	}
-
-	helpers.SuccessResponse(ctx, "Successfully created project", iris.Map{"asset": assets})
 }
 
-func CreateAsset(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"title"}) {
+func AssetsCreate(ctx iris.Context) {
+	type Req struct {
+		Title    string `json:"title" validate:"required"`
+		Redirect string `json:"redirect"`
+	}
+	var req Req
+	if !res.ASSETS_CREATE.Validate(ctx, &req) {
 		return
 	}
 
-	files, files_err := helpers.UploadImage(ctx, "image")
-	if files_err != nil {
-		helpers.ErrorResponse(ctx, "Failed to upload files to s3", iris.Map{"error": files_err.Error(), "files": files})
+	file, upload_err := helpers.UploadImage(ctx, "image", req.Title)
+	if upload_err != nil {
+		res.ASSETS_CREATE.Error(ctx, upload_err)
 		return
 	}
 
-	if len(files) == 0 {
-		helpers.ErrorResponse(ctx, "Internal Error", iris.Map{"files": files})
-		return
-	}
-
-	file := files[0]
-
-	asset := &models.Asset{
+	asset := &assets.Asset{
 		Title: file.Title,
 		Slug:  slug.Make(file.Title),
 		Url:   file.Url,
 	}
 
-	if err := models.CreateAsset(asset); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to upload asset", iris.Map{"error": err.Error()})
+	if asset_create_err := asset.Create(); asset_create_err != nil {
+		res.ASSETS_CREATE.Error(ctx, asset_create_err)
 	} else {
-		helpers.SuccessResponse(ctx, "Successfully created project", iris.Map{"asset": asset})
+		res.ASSETS_CREATE.Send(ctx, iris.Map{"asset": asset})
 	}
 }
 
-func DeleteAsset(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"id"}) {
+func AssetsDelete(ctx iris.Context) {
+	type Req struct {
+		ID       string `json:"id" validate:"required"`
+		Title    string `json:"title" validate:"required"`
+		Redirect string `json:"redirect"`
+	}
+	var req Req
+	if !res.ASSETS_DELETE.Validate(ctx, &req) {
 		return
 	}
 
-	if err := models.DeleteAsset(ctx.FormValue("id")); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to delete asset", iris.Map{"error": err.Error()})
+	asset, not_found := assets.Find(req.ID)
+	if not_found != nil {
+		res.ASSETS_DELETE.Error(ctx, not_found)
+		return
+	}
+
+	if delete_error := asset.Delete(); delete_error != nil {
+		res.ASSETS_DELETE.Error(ctx, delete_error)
 	} else {
-		helpers.SuccessResponse(ctx, "Successfully deleted asset", iris.Map{})
+		res.ASSETS_DELETE.Send(ctx, iris.Map{})
 	}
 }

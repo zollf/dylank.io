@@ -3,9 +3,11 @@
     <a href="/">d.io</a>
   </div>
   <div class="header_text">
-    Admin Panel
     {{ if .LoggedIn }}
-      <a href="/api/logout" class="button is-danger is-outlined">Logout</a>
+      <form action="/api/tags/create" method="POST">
+        <input type="hidden" name="redirect" value="/admin" />
+        <button type="submit" class="button is-danger is-outlined">Logout</button>
+      </form>
     {{ end }}
   </div>
 </header>

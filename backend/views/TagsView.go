@@ -2,13 +2,13 @@ package views
 
 import (
 	"app/helpers"
-	"app/models"
+	"app/models/utils"
 
 	"github.com/kataras/iris/v12"
 )
 
 func Tags(ctx iris.Context) {
-	tags, _ := models.GetTagsData()
+	tags, _ := utils.GetTagsData()
 	helpers.RenderTemplate(ctx, "tags/tags", "admin", iris.Map{"Err": ctx.URLParam("err"), "Tags": tags})
 }
 
@@ -18,7 +18,7 @@ func NewTag(ctx iris.Context) {
 
 func EditTag(ctx iris.Context) {
 	id := ctx.Params().Get("id")
-	tag, not_found := models.GetTagData(id)
+	tag, not_found := utils.GetTagData(id)
 	if not_found != nil {
 		ctx.View("404")
 		return

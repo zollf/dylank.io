@@ -2,24 +2,25 @@ package resolvers
 
 import (
 	"app/database"
-	"app/models"
+	"app/models/projects"
+	"app/models/utils"
 
 	"github.com/graphql-go/graphql"
 )
 
 type ProjectsResolverType struct {
-	Items      []*models.Project      `json:"items"`
-	Tags       []*models.TagInterface `json:"tags"`
-	Total      int64                  `json:"total"`
-	ItemsTotal int                    `json:"items_total"`
+	Items      []*projects.Project   `json:"items"`
+	Tags       []*utils.TagInterface `json:"tags"`
+	Total      int64                 `json:"total"`
+	ItemsTotal int                   `json:"items_total"`
 }
 
 func ProjectsResolver(p graphql.ResolveParams) (interface{}, error) {
-	var projects []*models.Project
+	var ps []*projects.Project
 
 	if db, err := database.Open(); err == nil {
 		var total int64
-		db.Model(&models.Project{}).Count(&total)
+		db.Model(&projects.Project{}).Count(&total)
 		query := db.Preload("Tags").Preload("Assets")
 
 		if tags, ok := p.Args["tags"].([]interface{}); ok {
@@ -33,13 +34,13 @@ func ProjectsResolver(p graphql.ResolveParams) (interface{}, error) {
 			}
 		}
 
-		query.Find(&projects)
-		items_total := len(projects)
+		query.Find(&ps)
+		items_total := len(ps)
 		if query.Error != nil {
 			return nil, query.Error
 		}
 
-		tags := models.TagsOccurrencesInProjects(projects)
+		tags := utils.TagsOccurrencesInProjects(ps)
 
 		if limit, ok := p.Args["limit"].(int); ok {
 			query.Limit(limit)
@@ -49,10 +50,10 @@ func ProjectsResolver(p graphql.ResolveParams) (interface{}, error) {
 			query.Offset(offset)
 		}
 
-		query.Find(&projects)
+		query.Find(&ps)
 
 		result := ProjectsResolverType{
-			Items:      projects,
+			Items:      ps,
 			Tags:       tags,
 			Total:      total,
 			ItemsTotal: items_total,

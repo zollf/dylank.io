@@ -15,9 +15,7 @@ generates:
       noExport: true
   ./src/typings/graphql/generated/operations.d.ts:
     documents:
-      - ./src/test/graphql/!(public-)schema.graphql
       - ./src/**/*.graphql
-      - ./src/**/*!(.public).graphql
     plugins:
       - typescript-operations
     config:

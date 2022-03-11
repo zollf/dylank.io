@@ -2,7 +2,7 @@
   @include ClearButton;
 
   cursor: pointer;
-  border-radius: 12px;
+  border-radius: 50px;
   width: max-content;
   display: flex;
   justify-content: center;
@@ -17,8 +17,6 @@
   }
 
   &.small {
-    border-radius: 10px;
-
     padding: 0 $margin * 0.5;
     min-height: 30px;
 
@@ -28,26 +26,34 @@
   &.blue {
     color: $color-gray-colors-white;
     background: $color-brand-colors-primary;
-    border: 2px solid $color-brand-colors-primary;
+    border: 1px solid $color-brand-colors-primary;
+
+    @include button-drop-shadow;
 
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.05);
       color: $color-brand-colors-primary;
       background: $color-gray-colors-white;
       border-color: $color-brand-colors-primary;
+
+      @include button-drop-shadow-hover;
     }
   }
 
   &.white {
     color: $color-brand-colors-primary;
     background: $color-gray-colors-white;
-    border: 2px solid $color-brand-colors-primary;
+    border: 1px solid $color-brand-colors-primary;
+
+    @include button-drop-shadow;
 
     &:hover {
-      transform: scale(1.02);
+      transform: scale(1.1);
       color: $color-gray-colors-white;
       background: $color-brand-colors-primary;
       border-color: $color-brand-colors-primary;
+
+      @include button-drop-shadow-hover;
     }
   }
 
