@@ -3,7 +3,6 @@ package controllers
 import (
 	"app/helpers"
 	"app/helpers/res"
-	"app/helpers/serialize"
 	"app/models/assets"
 
 	"github.com/gosimple/slug"
@@ -24,15 +23,7 @@ func AssetsCreate(ctx iris.Context) {
 		Redirect string `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-
-	if invalid_req != nil {
-		res.ASSETS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.ASSETS_CREATE.ValidationError(ctx, invalid_body)
+	if !res.ASSETS_CREATE.Validate(ctx, &req) {
 		return
 	}
 
@@ -62,15 +53,7 @@ func AssetsDelete(ctx iris.Context) {
 		Redirect string `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-
-	if invalid_req != nil {
-		res.ASSETS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.ASSETS_CREATE.ValidationError(ctx, invalid_body)
+	if !res.ASSETS_DELETE.Validate(ctx, &req) {
 		return
 	}
 

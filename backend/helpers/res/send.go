@@ -8,18 +8,19 @@ import (
 )
 
 func (res_type RES_TYPES) Send(ctx iris.Context, data iris.Map) {
-	if redirect := ctx.FormValue("redirect"); redirect != "" {
-		ctx.Redirect(fmt.Sprintf("%s?success=%s", redirect, getSuccessMessage(res_type)))
-	} else {
-		ctx.StatusCode(200)
-		ctx.JSON(ResJSON{
-			Success:    true,
-			Path:       ctx.Path(),
-			Error:      String(getSuccessMessage(res_type)),
-			SuccessMsg: nil,
-			Data:       data,
-		})
+	if Redirect(ctx, fmt.Sprintf("?success=%s", getSuccessMessage(res_type))) {
+		return
 	}
+
+	ctx.StatusCode(200)
+	ctx.JSON(Response{
+		Success: true,
+		Msg:     getSuccessMessage(res_type),
+		Path:    ctx.Path(),
+		Error:   nil,
+		Data:    data,
+	})
+	return
 }
 
 func getSuccessMessage(res_type RES_TYPES) string {

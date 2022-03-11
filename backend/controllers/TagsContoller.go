@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"app/helpers/res"
-	"app/helpers/serialize"
 	"app/models/tags"
 	"strconv"
 
@@ -25,15 +24,7 @@ func TagsCreate(ctx iris.Context) {
 		Redirect string `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-
-	if invalid_req != nil {
-		res.TAGS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.TAGS_CREATE.ValidationError(ctx, invalid_body)
+	if !res.TAGS_CREATE.Validate(ctx, &req) {
 		return
 	}
 
@@ -56,15 +47,7 @@ func EditTag(ctx iris.Context) {
 		Redirect string `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-
-	if invalid_req != nil {
-		res.TAGS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.TAGS_CREATE.ValidationError(ctx, invalid_body)
+	if !res.TAGS_EDIT.Validate(ctx, &req) {
 		return
 	}
 
@@ -93,15 +76,7 @@ func DeleteTag(ctx iris.Context) {
 		Redirect string `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-
-	if invalid_req != nil {
-		res.TAGS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.TAGS_CREATE.ValidationError(ctx, invalid_body)
+	if !res.TAGS_DELETE.Validate(ctx, &req) {
 		return
 	}
 

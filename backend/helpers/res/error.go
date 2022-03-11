@@ -8,37 +8,40 @@ import (
 )
 
 func (res_type RES_TYPES) Error(ctx iris.Context, err error) {
-	if redirect := ctx.FormValue("redirect"); redirect != "" {
-		ctx.Redirect(fmt.Sprintf("%s?err=%s", redirect, getErrorMessage(res_type, err)))
-	} else {
-		ctx.StatusCode(400)
-		ctx.JSON(ResJSON{
-			Success:    false,
-			Path:       ctx.Path(),
-			Error:      String(getErrorMessage(res_type, err)),
-			SuccessMsg: nil,
-			Data: iris.Map{
-				"error": err.Error(),
-			},
-		})
+	if Redirect(ctx, fmt.Sprintf("?err=%s", getErrorMessage(res_type, err))) {
+		return
 	}
+
+	ctx.StatusCode(400)
+	ctx.JSON(Response{
+		Success: false,
+		Msg:     getErrorMessage(res_type, err),
+		Path:    ctx.Path(),
+		Error: &ResponseError{
+			Fatal: false,
+		},
+		Data: iris.Map{},
+	})
+	return
 }
 
 func (res_type RES_TYPES) ValidationError(ctx iris.Context, validationErr []ValidationError) {
-	if redirect := ctx.FormValue("redirect"); redirect != "" {
-		ctx.Redirect(fmt.Sprintf("%s?err=%s", redirect, getValidationErrorMessage(res_type)))
-	} else {
-		ctx.StatusCode(400)
-		ctx.JSON(ResJSON{
-			Success:    false,
-			Path:       ctx.Path(),
-			Error:      String(getValidationErrorMessage(res_type)),
-			SuccessMsg: nil,
-			Data: iris.Map{
-				"validationErr": validationErr,
-			},
-		})
+	if Redirect(ctx, fmt.Sprintf("?err=%s", getValidationErrorMessage(res_type))) {
+		return
 	}
+
+	ctx.StatusCode(400)
+	ctx.JSON(Response{
+		Success: false,
+		Msg:     getValidationErrorMessage(res_type),
+		Path:    ctx.Path(),
+		Error: &ResponseError{
+			Fatal:           false,
+			ValidationError: validationErr,
+		},
+		Data: iris.Map{},
+	})
+	return
 }
 
 func getErrorMessage(res_type RES_TYPES, err error) string {

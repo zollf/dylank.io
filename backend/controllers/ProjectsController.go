@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"app/helpers/res"
-	"app/helpers/serialize"
 	"app/models/assets"
 	"app/models/projects"
 	"app/models/tags"
@@ -23,14 +22,7 @@ func CreateProject(ctx iris.Context) {
 		Redirect    string   `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-	if invalid_req != nil {
-		res.PROJECTS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.PROJECTS_DELETE.ValidationError(ctx, invalid_body)
+	if !res.PROJECTS_CREATE.Validate(ctx, &req) {
 		return
 	}
 
@@ -87,14 +79,7 @@ func EditProject(ctx iris.Context) {
 		Redirect    string   `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-	if invalid_req != nil {
-		res.PROJECTS_EDIT.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.PROJECTS_EDIT.ValidationError(ctx, invalid_body)
+	if !res.PROJECTS_EDIT.Validate(ctx, &req) {
 		return
 	}
 
@@ -152,14 +137,7 @@ func DeleteProject(ctx iris.Context) {
 		Redirect string `json:"redirect"`
 	}
 	var req Req
-	invalid_req, invalid_body := serialize.Body(ctx, &req)
-	if invalid_req != nil {
-		res.TAGS_CREATE.Error(ctx, invalid_req)
-		return
-	}
-
-	if invalid_body != nil {
-		res.TAGS_CREATE.ValidationError(ctx, invalid_body)
+	if !res.PROJECTS_DELETE.Validate(ctx, &req) {
 		return
 	}
 
