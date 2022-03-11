@@ -1,6 +1,8 @@
+$font: "Mulish";
+
 @mixin text-style-48-font-size {
 	font-size:48px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:bold;
 	font-style:normal;
 	line-height:56px;
@@ -8,7 +10,7 @@
 }
 @mixin text-style-12-font-size {
 	font-size:12px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:normal;
 	font-style:normal;
 	line-height:15px;
@@ -16,7 +18,7 @@
 }
 @mixin text-style-ubuntu-medium-32-font-size {
 	font-size:32px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight: $medium;
 	font-style:normal;
 	line-height:36px;
@@ -24,7 +26,7 @@
 }
 @mixin text-style-ubuntu-medium-20-font-size {
 	font-size:20px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:$medium;
 	font-style:normal;
 	line-height:24px;
@@ -33,7 +35,7 @@
 }
 @mixin text-style-ubuntu-medium-18-font-size {
 	font-size:18px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:$medium;
 	font-style:normal;
 	line-height:22px;
@@ -42,7 +44,7 @@
 }
 @mixin text-style-ubuntu-medium-16-font-size {
 	font-size:16px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:$medium;
 	font-style:normal;
 	line-height:20px;
@@ -51,7 +53,7 @@
 }
 @mixin text-style-ubuntu-medium-14-font-size {
 	font-size:14px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:$medium;
 	font-style:normal;
 	line-height:20px;
@@ -60,7 +62,7 @@
 }
 @mixin text-style-ubuntu-medium-13-font-size {
 	font-size:13px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:$medium;
 	font-style:normal;
 	line-height:20px;
@@ -69,7 +71,7 @@
 }
 @mixin text-style-ubuntu-bold-32-font-size {
 	font-size:32px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:bolder;
 	font-style:normal;
 	line-height:36px;
@@ -77,7 +79,7 @@
 }
 @mixin text-style-ubuntu-bold-16-font-size {
 	font-size:16px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:bolder;
 	font-style:normal;
 	line-height:24px;
@@ -85,7 +87,7 @@
 }
 @mixin text-style-ubuntu-regular-24-font-size {
 	font-size:24px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:normal;
 	font-style:normal;
 	line-height:28px;
@@ -94,7 +96,7 @@
 }
 @mixin text-style-ubuntu-regular-18-font-size {
 	font-size:18px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:normal;
 	font-style:normal;
 	line-height:22px;
@@ -102,7 +104,7 @@
 }
 @mixin text-style-ubuntu-regular-16-font-size {
 	font-size:16px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:normal;
 	font-style:normal;
 	line-height:24px;
@@ -111,7 +113,7 @@
 }
 @mixin text-style-ubuntu-regular-14-font-size {
 	font-size:14px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:normal;
 	font-style:normal;
 	line-height:20px;
@@ -119,7 +121,7 @@
 }
 @mixin text-style-ubuntu-regular-13-font-size {
 	font-size:13px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:normal;
 	font-style:normal;
 	line-height:20px;
@@ -127,7 +129,7 @@
 }
 @mixin text-style-ubuntu-light-16-font-size {
 	font-size:16px;
-	font-family:"Ubuntu";
+	font-family:$font;
 	font-weight:lighter;
 	font-style:normal;
 	line-height:20px;
@@ -136,4 +138,11 @@
 @mixin effect-style-drop-shadow {
 	box-shadow:0.00px 30.00px 100.00px rgba(0,0,0,0.350);
 }
+@mixin button-drop-shadow {
+	box-shadow: 0px 4px 20px rgba($color-brand-colors-primary, 0.5);
+}
+@mixin button-drop-shadow-hover {
+	box-shadow: 0px 12px 20px rgba($color-brand-colors-primary, 0.2);
+}
+
 

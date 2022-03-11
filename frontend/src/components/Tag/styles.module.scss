@@ -3,8 +3,8 @@
 
   cursor: pointer;
   color: $color-brand-colors-primary;
-  padding: 5px 15px;
-  border: 2px solid $color-brand-colors-primary;
+  padding: 5px 15px 7px 15px;
+  border: 1px solid $color-brand-colors-primary;
   border-radius: 65px;
   margin: $margin * 0.25;
   transition: 0.2s all ease;
@@ -14,7 +14,7 @@
 
   &.small {
     cursor: default;
-    padding: 5px 8px;
+    padding: 5px 8px 7px 8px;
     color: $color-brand-colors-secondary-1;
     border: none;
     background: $color-brand-colors-secondary-2;
