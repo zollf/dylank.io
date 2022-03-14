@@ -6,6 +6,7 @@ import (
 	"app/middleware"
 	"app/migrations"
 	"app/routes"
+	"app/utils"
 	"fmt"
 	"os"
 
@@ -17,6 +18,9 @@ func Main() *iris.Application {
 	if os.Getenv("MIGRATE") == "Yes" {
 		migrations.Install()
 	}
+
+	utils.Log().Info("Application starting...")
+
 	root := helpers.RootDir()
 	app := iris.New()
 

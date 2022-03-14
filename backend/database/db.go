@@ -1,8 +1,8 @@
 package database
 
 import (
+	"app/utils"
 	"errors"
-	"log"
 	"os"
 
 	"gorm.io/driver/mysql"
@@ -24,10 +24,10 @@ func Open() (db *gorm.DB, err error) {
 		return db, err
 	} else {
 		if DB != nil {
-			log.Printf("Using current mysql db connection")
+			utils.Log().Info("Using existing connection")
 			return DB, nil
 		}
-		log.Printf("Open new mysql db connection")
+		utils.Log().Info("Open new mysql connection")
 		db, err := gorm.Open(mysql.Open(os.Getenv("MYSQL_DSN")), &gorm.Config{})
 		DB = db
 		return db, err
