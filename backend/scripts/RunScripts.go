@@ -2,7 +2,7 @@ package scripts
 
 import (
 	"app/config"
-	"log"
+	"app/utils"
 	"os"
 )
 
@@ -16,18 +16,18 @@ type ServerCommand struct {
 func (command ServerCommand) RunCommand(args []string) {
 	if len(args) >= len(command.RequiredArgs) {
 		if os.Getenv("ENV") != "test" {
-			log.Printf("Running command %s", command.CommandName)
+			utils.Log().Info("Running command %s", command.CommandName)
 		}
 		err := command.Command(args)
 		if err != nil {
-			log.Fatalf("Error running command %s, error: %s", command.CommandName, err)
+			utils.Log().Error("Error running command %s, error: %s", command.CommandName, err)
 		} else {
 			if os.Getenv("ENV") != "test" {
-				log.Printf("Finished running command %s", command.CommandName)
+				utils.Log().Info("Finished running command %s", command.CommandName)
 			}
 		}
 	} else {
-		log.Fatalf("Command %s requires params: %v", command.CommandName, command.RequiredArgs)
+		utils.Log().Error("Command %s requires params: %v", command.CommandName, command.RequiredArgs)
 	}
 }
 
@@ -57,7 +57,7 @@ func RunScripts(args []string) {
 			rCommand.RunCommand(args[1:])
 		} else {
 			if os.Getenv("ENV") != "test" {
-				log.Println("Please supply a main command.")
+				utils.Log().Info("Please supply a main command.")
 			}
 		}
 	}

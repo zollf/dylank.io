@@ -1,9 +1,9 @@
 package services
 
 import (
+	"app/utils"
 	"bytes"
 	"fmt"
-	"log"
 	"mime/multipart"
 	"os"
 
@@ -14,7 +14,7 @@ import (
 )
 
 func GetSession() (*session.Session, error) {
-	log.Printf("Getting AWS session")
+	utils.Log().Info("Getting AWS session")
 
 	aws_region := os.Getenv("AWS_REGION")
 	aws_access_key_id := os.Getenv("AWS_ACCESS_KEY_ID")
@@ -28,16 +28,15 @@ func GetSession() (*session.Session, error) {
 	})
 }
 
+// TODO: Refactor this to use s3 manager
 func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	bucket := os.Getenv("S3_BUCKET")
 	region := os.Getenv("AWS_REGION")
 	session, err := GetSession()
 
-	log.Printf("Preparing to upload file")
+	utils.Log().Info("Uploading file to s3")
 
 	s3Client := s3.New(session)
-
-	log.Printf("Opening files content")
 
 	body, err := file.Open()
 	defer body.Close()
@@ -49,22 +48,16 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 		return "", err
 	}
 
-	log.Printf("Uploading file to s3")
-
-	upload, err := s3Client.PutObject(&s3.PutObjectInput{
+	_, put_err := s3Client.PutObject(&s3.PutObjectInput{
 		Bucket:      aws.String(bucket),
 		Key:         aws.String(title),
 		Body:        bytes.NewReader(buffer),
 		ContentType: aws.String(file.Header.Get("Content-Type")),
 	})
 
-	log.Printf("Finished Uploading")
-
-	if err != nil {
+	if put_err != nil {
 		return "", err
 	}
-
-	log.Printf("%v", upload)
 
 	return fmt.Sprintf("https://%s.s3.%s.amazonaws.com/%s", bucket, region, title), nil
 }

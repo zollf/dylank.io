@@ -13,7 +13,7 @@ go run server.go
 
 ## Testing
 ```bash
-# TODO
+go test ./tests --v
 ```
 
 ## Lint
@@ -22,9 +22,13 @@ go run server.go
 ```
 
 ## Environment Variables
-- `ENV` - what environment you are in (testing, development, production)
+- `ENV` - what environment you are in (test, development, production)
 - `MYSQL_DSN` - url to connect to mysql db
 - `JWT_SECRET` - hashing secret for json web token
+- `AWS_ACCESS_KEY_ID` - Used to access aws resource(s)
+- `AWS_SECRET_ACCESS_KEY` - Used to access aws resource(s)
+- `AWS_REGION` - Region of aws resource(s)
+- `S3_BUCKET` - S3 bucket name
 
 ## Running backend scripts
 ```bash
@@ -75,42 +79,42 @@ Get Projects
 ```graphql
 query {
   projects(tags: $tags, offset: $offset, limit: $limit) {
-		items {
+    items {
       id
-			title
-			slug
-			assets {
-				id
-				slug
-				title
-				createdAt
-				updatedAt
-				url
-			}
-			description
-			createdAt
-			updatedAt
-			url
-    	git
-			tags {
-				id
-				slug
-				title
-				createdAt
-				updatedAt
-			}
-		}
+      title
+      slug
+      assets {
+        id
+        slug
+        title
+        createdAt
+        updatedAt
+        url
+      }
+      description
+      createdAt
+      updatedAt
+      url
+      git
+      tags {
+        id
+        slug
+        title
+        createdAt
+        updatedAt
+      }
+    }
     tags {
-    	id
-			slug
-			title
-			createdAt
-			updatedAt
-			count
-		}
-		total
-		items_total
-	}
+      id
+      slug
+      title
+      createdAt
+      updatedAt
+      count
+    }
+    total
+    items_total
+  }
 }
 ```
 
