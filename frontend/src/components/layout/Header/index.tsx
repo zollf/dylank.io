@@ -1,7 +1,9 @@
 import React from 'react';
 import cc from 'classcat';
 import useIsScrollingUp from '@/hooks/useIsScrollingUp';
-import { Discord, Github, LinkedIn } from '@/images';
+import Github from '@/images/github.svg';
+import Discord from '@/images/discord.svg';
+import LinkedIn from '@/images/linkedin.svg';
 
 import styles from './styles.module.scss';
 import { useWindowScroll } from 'react-use';

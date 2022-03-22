@@ -1,10 +1,8 @@
 .hero {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  height: 100%;
-  min-height: calc(100vh - #{$desktopHeaderHeight});
+  height: 720px;
   align-items: center;
-  padding-bottom: $margin;
+  position: relative;
 
   @include mobile {
     padding-top: calc(#{$mobileHeaderHeight} + #{$margin});
@@ -12,90 +10,154 @@
     flex-direction: column;
     height: auto;
     min-height: unset;
+    padding-bottom: $margin;
   }
 
-  .left {
-    position: relative;
-    justify-self: flex-end;
-    margin-right: $margin;
-    margin-left: $margin;
+  .content {
+    margin-left: 169px;
+
+    @include tablet {
+      margin-left: 50px;
+    }
 
     @include mobile {
-      justify-self: center;
-      margin-right: 0;
       margin-left: 0;
-      margin-bottom: $margin * 0.5;
-    }
-
-    .background {
-      height: 425px;
-      width: 425px;
-      background: $color-brand-colors-primary;
-      border-radius: 50%;
-
-      @include mobile {
-        width: 90vw;
-        height: 90vw;
-      }
-    }
-
-    .model {
-      position: absolute !important;
-    }
-  }
-
-  .right {
-    width: 341px;
-    margin-left: $margin;
-
-    @include mobile {
-      justify-self: center;
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      margin-left: 0;
-      width: 100%;
-    }
-
-    h1 {
-      margin: 0;
-      margin-bottom: $margin * 0.25;
-      color: $color-gray-colors-black;
-
-      @include text-style-ubuntu-bold-32-font-size;
     }
 
     h2 {
+      color: $color-primary;
       margin: 0;
-      color: $color-gray-colors-gray-4;
+      margin-bottom: $margin * 0.5;
+      @include text-style-bold-font-14;
 
-      @include text-style-ubuntu-bold-16-font-size;
+      @include mobile {
+        text-align: center;
+      }
+    }
+
+    h1 {
+      color: $color-dark-grey;
+      margin: 0;
+      margin-bottom: $margin * 0.5;
+      @include text-style-font-32;
+
+      @include mobile {
+        text-align: center;
+        margin-bottom: $margin;
+      }
     }
 
     p {
+      color: $color-dark-grey;
       margin: 0;
-      color: $color-gray-colors-black;
-
-      @include text-style-ubuntu-light-16-font-size;
+      margin-bottom: $margin * 0.5;
+      width: 353px;
+      @include text-style-font-16;
     }
 
     .btns {
-      display: grid;
-      width: max-content;
-      grid-template-columns: repeat(2, auto);
-      margin-top: $margin;
-      column-gap: $margin * 0.5;
+      display: flex;
+
+      > a {
+        margin-right: $margin * 0.5;
+      }
 
       @include mobile {
-        width: 100%;
-        max-width: 180px;
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(2, 1fr);
-        row-gap: $margin * 0.5;
-        margin-top: $margin * 0.5;
+        flex-direction: column;
+
+        > a {
+          margin-right: 0;
+          margin-bottom: $margin * 0.5;
+          width: 188px;
+        }
       }
+    }
+  }
+
+  .background {
+    position: absolute;
+    right: 41px;
+
+    svg {
+      height: 599px;
+      width: 599px;
+    }
+
+    @include tablet {
+      right: 10px;
+      svg {
+        height: 400px;
+        width: 400px;
+      }
+    }
+
+    @include mobile {
+      position: unset;
+      margin: -30px 0;
+      svg {
+        padding-bottom: $margin;
+        height: 311px;
+        width: 311px;
+      }
+    }
+  }
+
+  .bubble1,
+  .bubble2,
+  .bubble3,
+  .bubble4 {
+    position: absolute;
+  }
+  
+  .bubble1 {
+    width: 428px * 0.65;
+    height: 428px * 0.4;
+    overflow: hidden;
+    bottom: 0;
+    left: 0;
+
+    svg {
+      width: 428px;
+      height: 428px;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .bubble2 {
+    width: 379px * 0.65;
+    height: 379px * 0.38;
+    overflow: hidden;
+    bottom: 0;
+    left: 0;
+
+    svg {
+      width: 379px;
+      height: 379px;
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .bubble3 {
+    width: 164px;
+    height: 164px;
+    left: 399px;
+    top: 100px;
+
+    @include tablet {
+      left: 250px;
+    }
+  }
+
+  .bubble4 {
+    width: 61px;
+    height: 61px;
+    left: 570px;
+    top: 230px;
+
+    @include tablet {
+      left: 400px;
     }
   }
 }

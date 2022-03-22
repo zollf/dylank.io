@@ -11,9 +11,11 @@ export default function Home() {
   const [isMobile] = useIsMobile(768);
   return (
     <div className={styles.index}>
-      {isMobile ? <MobileHeader /> : <Header />}
-      <Hero />
-      <Work />
+      <div className={styles.inner}>
+        {isMobile ? <MobileHeader /> : <Header />}
+        <Hero />
+        <Work />
+      </div>
     </div>
   );
 }

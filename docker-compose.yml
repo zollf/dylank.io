@@ -17,7 +17,7 @@ services:
     volumes:
       - ./backend:/usr/app:cached
     command:
-      air
+      /bin/sh -c air
 
   node:
     build:

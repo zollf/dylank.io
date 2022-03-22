@@ -10,50 +10,43 @@
   transition: 0.2s all ease;
 
   &.large {
-    padding: 0 $margin;
-    min-height: 52px;
+    padding: 0 30px;
+    min-height: 38px;
 
-    @include text-style-ubuntu-medium-16-font-size;
+    @include text-style-font-16;
   }
 
   &.small {
     padding: 0 $margin * 0.5;
     min-height: 30px;
+    box-shadow: none !important;
 
-    @include text-style-ubuntu-medium-14-font-size;
+    @include text-style-font-14 ;
   }
 
   &.blue {
-    color: $color-gray-colors-white;
-    background: $color-brand-colors-primary;
-    border: 1px solid $color-brand-colors-primary;
+    color: white;
+    background: $color-magic-gradient;
 
-    @include button-drop-shadow;
+    @include effect-style-magic-gradient-drop-shadow;
 
     &:hover {
       transform: scale(1.05);
-      color: $color-brand-colors-primary;
-      background: $color-gray-colors-white;
-      border-color: $color-brand-colors-primary;
-
-      @include button-drop-shadow-hover;
+      color: $color-primary;
+      background: white;
     }
   }
 
   &.white {
-    color: $color-brand-colors-primary;
-    background: $color-gray-colors-white;
-    border: 1px solid $color-brand-colors-primary;
+    color: $color-primary;
+    background: white;
 
-    @include button-drop-shadow;
+    @include effect-style-magic-gradient-drop-shadow;
 
     &:hover {
-      transform: scale(1.1);
-      color: $color-gray-colors-white;
-      background: $color-brand-colors-primary;
-      border-color: $color-brand-colors-primary;
-
-      @include button-drop-shadow-hover;
+      transform: scale(1.05);
+      color: white;
+      background: $color-magic-gradient;
     }
   }
 

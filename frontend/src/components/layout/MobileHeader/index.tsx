@@ -1,5 +1,6 @@
-import { Burger, Close } from '@/images';
 import React, { useCallback, useState } from 'react';
+import Burger from '@/images/burger.svg';
+import Close from '@/images/close.svg';
 
 import MobileMenu from '../MobileMenu';
 import styles from './styles.module.scss';

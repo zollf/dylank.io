@@ -3,14 +3,16 @@
   display: flex;
   justify-content: center;
   height: $desktopHeaderHeight;
+  margin: 0 $margin * 0.5;
   position: sticky;
-  top: 0;
+  top: $margin * 0.5;
   z-index: 999;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border: 1px solid $color-light-grey;
   transition: 0.2s all ease;
+  border-radius: 48px;
 
   &.hideHeader {
-    transform: translateY(-$desktopHeaderHeight);
+    transform: translateY(-$desktopHeaderHeight - $margin);
   }
 
   .inner {
@@ -19,13 +21,13 @@
     height: 100%;
     display: grid;
     align-items: center;
-    padding: $margin;
+    padding: 0 $margin;
     grid-template-columns: repeat(3, 1fr);
 
     .logo {
       color: $color-brand-colors-secondary-1;
 
-      @include text-style-ubuntu-medium-20-font-size;
+      @include text-style-font-24;
     }
 
     nav {
@@ -37,7 +39,7 @@
         margin: 0 $margin * 0.5;
         color: $color-brand-colors-secondary-1;
 
-        @include text-style-ubuntu-medium-16-font-size;
+        @include text-style-font-14;
       }
     }
 
@@ -46,10 +48,14 @@
       align-items: center;
       justify-self: flex-end;
 
+      a {
+        display: flex;
+      }
+
       svg {
         margin: 0 $margin * 0.25;
-        height: 24px;
-        width: 24px;
+        height: 32px;
+        width: 32px;
       }
     }
   }
