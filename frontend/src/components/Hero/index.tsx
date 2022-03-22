@@ -1,4 +1,6 @@
 import React from 'react';
+import Circle from '@/images/circle.svg';
+import Space from '@/images/space.svg';
 import useIsMobile from '@/hooks/useIsMobile';
 
 import Button from '../Button';
@@ -9,10 +11,10 @@ const Hero = () => {
 
   return (
     <div className={styles.hero}>
-      <div className={styles.left}>
-        <div className={styles.background} />
+      <div className={styles.background}>
+        <Space />
       </div>
-      <div className={styles.right}>
+      <div className={styles.content}>
         <h2>software developer</h2>
         <h1>Hi, I'm Dylan</h1>
         {!isMobile && (
@@ -24,13 +26,29 @@ const Hero = () => {
         )}
         <div className={styles.btns}>
           <Button size="large" theme="blue" href="#contact" full={isMobile}>
-            Contact me
+            Contact
           </Button>
           <Button size="large" theme="white" href="#work" full={isMobile}>
-            Check my work
+            Explore
           </Button>
         </div>
       </div>
+      {!isMobile && (
+        <>
+          <div className={styles.bubble1}>
+            <Circle />
+          </div>
+          <div className={styles.bubble2}>
+            <Circle />
+          </div>
+          <div className={styles.bubble3}>
+            <Circle />
+          </div>
+          <div className={styles.bubble4}>
+            <Circle />
+          </div>
+        </>
+      )}
     </div>
   );
 };

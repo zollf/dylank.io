@@ -1,4 +1,9 @@
-module.exports = {
+/* eslint-disable @typescript-eslint/no-var-requires */
+const nextJest = require('next/jest');
+
+const createJestConfig = nextJest({ dir: '.' });
+
+const customJestConfig = {
   cacheDirectory: 'node_modules/.cache/jest',
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.tsx', '!src/index.tsx'],
@@ -13,6 +18,7 @@ module.exports = {
   },
   transform: {
     '\\.(gql|graphql)$': 'jest-transform-graphql',
-    '^.+\\.tsx?$': ['babel-jest', { presets: ['next/babel'] }],
   },
 };
+
+module.exports = createJestConfig(customJestConfig);

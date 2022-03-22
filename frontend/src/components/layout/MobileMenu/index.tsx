@@ -1,6 +1,6 @@
+import React from 'react';
 import { Discord, Github, LinkedIn } from '@/images';
 
-import React from 'react';
 import styles from './styles.module.scss';
 
 interface Props {

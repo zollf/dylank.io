@@ -14,7 +14,15 @@ require (
 	gorm.io/gorm v1.22.5
 )
 
-require github.com/stretchr/testify v1.7.0 // indirect
+require (
+	github.com/cosmtrek/air v1.29.0 // indirect
+	github.com/fatih/color v1.10.0 // indirect
+	github.com/fsnotify/fsnotify v1.5.1 // indirect
+	github.com/imdario/mergo v0.3.12 // indirect
+	github.com/mattn/go-colorable v0.1.12 // indirect
+	github.com/pelletier/go-toml v1.8.1 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
+)
 
 require (
 	github.com/ajg/form v1.5.1 // indirect

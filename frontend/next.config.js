@@ -16,6 +16,19 @@ module.exports = {
       use: [{ loader: 'graphql-tag/loader' }],
     });
 
+    config.module.rules.push({
+      test: /\.svg$/,
+      issuer: /\.tsx?$/,
+      include: [options.dir],
+      use: [
+        'next-swc-loader',
+        {
+          loader: '@svgr/webpack',
+          options: { babel: false },
+        },
+      ],
+    });
+
     return config;
   },
 };
