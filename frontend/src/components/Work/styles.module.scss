@@ -21,15 +21,15 @@
 
     h1 {
       margin: 0;
-      margin-bottom: $margin * 0.5;
-      @include text-style-ubuntu-medium-32-font-size;
+      margin-bottom: $margin;
+      @include text-style-font-32;
     }
 
     p {
       margin: 0;
-      max-width: 474px;
-      margin-bottom: $margin * 0.5;
-      @include text-style-ubuntu-light-16-font-size;
+      max-width: 490px;
+      margin-bottom: $margin;
+      @include text-style-font-16;
     }
   }
 }

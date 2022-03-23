@@ -2,34 +2,25 @@
   @include ClearButton;
 
   cursor: pointer;
-  color: $color-brand-colors-primary;
+  color: $color-primary;
   padding: 5px 15px 7px 15px;
-  border: 1px solid $color-brand-colors-primary;
+  border: 1px solid $color-primary;
   border-radius: 65px;
   margin: $margin * 0.25;
   transition: 0.2s all ease;
   white-space: nowrap;
+  background: white;
 
-  @include text-style-ubuntu-medium-16-font-size;
-
-  &.small {
-    cursor: default;
-    padding: 5px 8px 7px 8px;
-    color: $color-brand-colors-secondary-1;
-    border: none;
-    background: $color-brand-colors-secondary-2;
-    margin: $margin * 0.125;
-
-    @include text-style-12-font-size;
-  }
+  @include text-style-font-16;
 
   &.hasFunc:hover {
-    background: $color-brand-colors-primary;
-    color: $color-gray-colors-white;
+    background: $color-magic-gradient;
+    color: white;
   }
 
   &.active {
-    background: $color-brand-colors-primary;
-    color: $color-gray-colors-white;
+    background: $color-magic-gradient;
+    color: white;
+    border: 1px solid;
   }
 }

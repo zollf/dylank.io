@@ -1,33 +1,30 @@
 .project {
-  width: 230px;
-  height: 350px;
+  width: 250px;
+  height: 330px;
+  padding: 10px;
 
   .title {
-    margin-bottom: $margin * 0.25;
-    @include text-style-ubuntu-medium-18-font-size;
+    margin-bottom: 10px;
+    @include text-style-bold-font-16;
   }
 
   .desc {
     height: 60px;
     overflow-y: hidden;
-    margin-bottom: $margin * 0.25;
-    @include text-style-12-font-size;
-  }
-
-  .tags {
-    margin-bottom: $margin * 0.25;
+    margin-bottom: 10px;
+    @include text-style-font-14;
   }
 
   .stub {
-    background: $color-brand-colors-secondary-2;
+    background: white;
   }
 
   .image, .stub {
-    margin-bottom: $margin * 0.25;
+    margin-bottom: 14px;
     border-radius: 18px;
     width: 230px;
     height: 160px;
-    outline: 1px solid $color-gray-colors-gray-6;
+    outline: 1px solid $color-light-grey;
   }
 
   .image {
