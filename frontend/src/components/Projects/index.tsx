@@ -19,7 +19,7 @@ const ProjectsContext = React.createContext<ProjectsContext>({
 });
 
 export default function Projects() {
-  const itemsPerPage = 6;
+  const itemsPerPage = 3;
   const [activeFilters, setActiveFilters] = useState<Array<string>>([]);
   const [pageCount, setPageCount] = useState(0);
   const [isMobile] = useIsMobile(768);

@@ -10,7 +10,7 @@ export default function Work() {
   return (
     <div className={styles.work}>
       <div className={styles.top}>
-        <h1>Work</h1>
+        <h1>Explore My Projects</h1>
         {!isMobile && (
           <p>
             Check my commercial and non commercial projects. If you have any questions feel free to ask me for more

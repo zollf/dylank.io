@@ -18,19 +18,21 @@
 
   &.small {
     padding: 0 $margin * 0.5;
-    min-height: 30px;
+    min-height: 38px;
     box-shadow: none !important;
 
-    @include text-style-font-14 ;
+    @include text-style-font-16;
   }
 
   &.blue {
     color: white;
     background: $color-magic-gradient;
+    border: 1px solid;
 
     @include effect-style-magic-gradient-drop-shadow;
 
     &:hover {
+      border: 1px solid $color-primary;
       transform: scale(1.05);
       color: $color-primary;
       background: white;
@@ -40,6 +42,7 @@
   &.white {
     color: $color-primary;
     background: white;
+    border: 1px solid $color-primary;
 
     @include effect-style-magic-gradient-drop-shadow;
 
@@ -47,6 +50,7 @@
       transform: scale(1.05);
       color: white;
       background: $color-magic-gradient;
+      border: 1px solid;
     }
   }
 
@@ -55,9 +59,11 @@
   }
 
   &.icon {
+    padding-left: 18px;
+
     > svg {
       height: 24px;
-      margin-right: $margin * 0.25;
+      margin-left: $margin * 0.25;
 
       path {
         transition: 0.2s all ease;
@@ -68,7 +74,23 @@
     &:hover {
       > svg {
         path {
-          fill: $color-brand-colors-primary;
+          fill: $color-primary;
+        }
+      }
+    }
+  }
+
+  &.icon.white {
+    > svg {
+      path {
+        fill: $color-primary;
+      }
+    }
+
+    &:hover {
+      > svg {
+        path {
+          fill: white;
         }
       }
     }
