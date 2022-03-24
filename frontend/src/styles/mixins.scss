@@ -22,29 +22,27 @@
   }
 
   .paginationPage > a, .paginationNext > a, .paginationPrev > a {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 0.2s all ease;
     cursor: pointer;
 
-    @include text-style-ubuntu-medium-16-font-size;
+    @include text-style-bold-font-16;
   }
 
   .paginationPage, .paginationNext, .paginationPrev {
     transition: 0.2s all ease;
-    border-radius: 7px;
-    color: $color-gray-colors-gray-5;
-    margin: 2px;
+    color: $color-dark-grey;
+    border-bottom: 2px solid white;
 
     &:hover {
-      background: $color-brand-colors-primary;
-      color: $color-gray-colors-white;
+      color: $color-primary;
       
       svg path {
-        stroke: $color-gray-colors-white;
+        stroke: $color-primary;
       }
     }
   }
@@ -60,21 +58,22 @@
       background: unset;
 
       svg path {
-        stroke: $color-gray-colors-gray-5;
+        opacity: 0.5;
+        stroke: $color-dark-grey;
       }
     }
   }
 
   .paginationNext {
-    margin-left: $margin;
+    margin-left: $margin * 0.5;
   }
 
   .paginationPrev {
-    margin-right: $margin;
+    margin-right: $margin * 0.5;
   }
 
   .paginationActive {
-    background: $color-brand-colors-primary;
-    color: $color-gray-colors-white;
+    border-bottom: 2px solid $color-primary;
+    color: $color-primary;
   }
 }
