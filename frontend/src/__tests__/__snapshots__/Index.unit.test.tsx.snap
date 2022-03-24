@@ -263,9 +263,6 @@ exports[`matches its mobile snapshot 1`] = `
           <div
             class="projects"
           />
-          <div
-            class="paginationWrapper"
-          />
         </div>
       </div>
     </div>
@@ -537,27 +534,15 @@ exports[`matches its snapshot 1`] = `
                 </a>
               </li>
               <li
-                class="paginationPage"
+                class="paginationNext paginationDisabled"
               >
                 <a
-                  aria-label="Page 2"
-                  rel="next"
-                  role="button"
-                  tabindex="0"
-                >
-                  2
-                </a>
-              </li>
-              <li
-                class="paginationNext"
-              >
-                <a
-                  aria-disabled="false"
+                  aria-disabled="true"
                   aria-label="Next page"
-                  class=""
+                  class=" "
                   rel="next"
                   role="button"
-                  tabindex="0"
+                  tabindex="-1"
                 >
                   <svg
                     fill="none"
