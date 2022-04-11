@@ -83,6 +83,6 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["EC2"]
   network_mode             = "awsvpc"
   memory                   = 512
-  cpu                      = 256 
+  cpu                      = 256
   execution_role_arn       = "arn:aws:iam::703161335764:role/main_cluster_execution_role"
 }
