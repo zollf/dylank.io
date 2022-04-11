@@ -80,9 +80,9 @@ resource "aws_ecs_task_definition" "task" {
     }
   ]
   DEFINITION 
-  requires_compatibilities = ["EC2"]
+  requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   memory                   = 512
   cpu                      = 256
-  execution_role_arn       = "arn:aws:iam::703161335764:role/main_cluster_execution_role"
+  execution_role_arn       = "arn:aws:iam::703161335764:role/main-cluster-ecs-task-execution-role"
 }
