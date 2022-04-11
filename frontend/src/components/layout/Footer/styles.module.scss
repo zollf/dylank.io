@@ -1,0 +1,8 @@
+.footer {
+  height: 176px;
+  background: white;
+
+  @include mobile {
+    height: 120px;
+  }
+}

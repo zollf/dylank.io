@@ -2,6 +2,34 @@
 
 exports[`matches its mobile snapshot 1`] = `
 <body>
+  <div
+    id="chakra-toast-portal"
+  >
+    <ul
+      id="chakra-toast-manager-top"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column; margin: 0px auto;"
+    />
+    <ul
+      id="chakra-toast-manager-top-left"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      id="chakra-toast-manager-top-right"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      id="chakra-toast-manager-bottom-left"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      id="chakra-toast-manager-bottom"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column; margin: 0px auto;"
+    />
+    <ul
+      id="chakra-toast-manager-bottom-right"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+  </div>
   <div>
     <div
       class="index"
@@ -264,6 +292,97 @@ exports[`matches its mobile snapshot 1`] = `
             class="projects"
           />
         </div>
+        <div
+          class="contact"
+        >
+          <div
+            class="contactFormWrapper"
+          >
+            <h1>
+              Contact Me
+            </h1>
+            <div
+              class="contactForm"
+            >
+              <form
+                action="#"
+              >
+                <div
+                  class="chakra-stack css-16voevi"
+                >
+                  <div
+                    class="chakra-form-control css-0"
+                    role="group"
+                  >
+                    <label
+                      class="chakra-form__label css-1t6pe3y"
+                      for="name"
+                      id="field-4-label"
+                    >
+                      Name
+                    </label>
+                    <input
+                      class="chakra-input css-0"
+                      id="name"
+                      name="name"
+                      placeholder="John Smith"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="chakra-form-control css-0"
+                    role="group"
+                  >
+                    <label
+                      class="chakra-form__label css-1t6pe3y"
+                      for="email"
+                      id="field-5-label"
+                    >
+                      Email
+                    </label>
+                    <input
+                      class="chakra-input css-0"
+                      id="email"
+                      name="email"
+                      placeholder="your@email.com"
+                      type="email"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="chakra-form-control css-0"
+                    role="group"
+                  >
+                    <label
+                      class="chakra-form__label css-1t6pe3y"
+                      for="message"
+                      id="field-6-label"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      class="chakra-textarea css-5d6l6w"
+                      id="message"
+                      name="message"
+                      placeholder="Hey, I would like to message you about..."
+                    />
+                  </div>
+                  <button
+                    class="button blue large"
+                    role="button"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <footer
+          class="footer"
+        />
       </div>
     </div>
   </div>
@@ -272,6 +391,34 @@ exports[`matches its mobile snapshot 1`] = `
 
 exports[`matches its snapshot 1`] = `
 <body>
+  <div
+    id="chakra-toast-portal"
+  >
+    <ul
+      id="chakra-toast-manager-top"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column; margin: 0px auto;"
+    />
+    <ul
+      id="chakra-toast-manager-top-left"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      id="chakra-toast-manager-top-right"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      id="chakra-toast-manager-bottom-left"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+    <ul
+      id="chakra-toast-manager-bottom"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column; margin: 0px auto;"
+    />
+    <ul
+      id="chakra-toast-manager-bottom-right"
+      style="position: fixed; z-index: 5500; pointer-events: none; display: flex; flex-direction: column;"
+    />
+  </div>
   <div>
     <div
       class="index"
@@ -564,6 +711,98 @@ exports[`matches its snapshot 1`] = `
             </ul>
           </div>
         </div>
+        <div
+          class="contact"
+        >
+          <test-file-stub />
+          <div
+            class="contactFormWrapper"
+          >
+            <h1>
+              Contact Me
+            </h1>
+            <div
+              class="contactForm"
+            >
+              <form
+                action="#"
+              >
+                <div
+                  class="chakra-stack css-16voevi"
+                >
+                  <div
+                    class="chakra-form-control css-0"
+                    role="group"
+                  >
+                    <label
+                      class="chakra-form__label css-1t6pe3y"
+                      for="name"
+                      id="field-1-label"
+                    >
+                      Name
+                    </label>
+                    <input
+                      class="chakra-input css-0"
+                      id="name"
+                      name="name"
+                      placeholder="John Smith"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="chakra-form-control css-0"
+                    role="group"
+                  >
+                    <label
+                      class="chakra-form__label css-1t6pe3y"
+                      for="email"
+                      id="field-2-label"
+                    >
+                      Email
+                    </label>
+                    <input
+                      class="chakra-input css-0"
+                      id="email"
+                      name="email"
+                      placeholder="your@email.com"
+                      type="email"
+                      value=""
+                    />
+                  </div>
+                  <div
+                    class="chakra-form-control css-0"
+                    role="group"
+                  >
+                    <label
+                      class="chakra-form__label css-1t6pe3y"
+                      for="message"
+                      id="field-3-label"
+                    >
+                      Message
+                    </label>
+                    <textarea
+                      class="chakra-textarea css-5d6l6w"
+                      id="message"
+                      name="message"
+                      placeholder="Hey, I would like to message you about..."
+                    />
+                  </div>
+                  <button
+                    class="button blue large"
+                    role="button"
+                    tabindex="0"
+                    type="submit"
+                  >
+                    Send
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <footer
+          class="footer"
+        />
       </div>
     </div>
   </div>

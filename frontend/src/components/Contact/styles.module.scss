@@ -1,0 +1,39 @@
+.contact {
+  height: 668px;
+  position: relative;
+  padding: 0 $margin * 0.5;
+
+  @include mobile {
+    height: unset;
+  }
+
+  .contactFormWrapper {
+    h1 {
+      margin: 0;
+      margin-left: $margin * 2;
+      margin-bottom: 40px;
+      @include text-style-font-32;
+
+      @include mobile {
+        width: 100%;
+        margin-left: 0;
+        margin-bottom: $margin;
+        text-align: center;
+      }
+    }
+
+    position: absolute;
+    top: 69px;
+    right: 116px;
+
+    @include mobile {
+      position: unset;
+      margin: $margin 0;
+      width: 100%;
+    }
+  }
+
+  > svg {
+    margin-left: $margin;
+  }
+}

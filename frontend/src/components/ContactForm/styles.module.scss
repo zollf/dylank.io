@@ -1,0 +1,13 @@
+.contactForm {
+  width: 418px;
+  height: 462px;
+  background: white;
+  border-radius: 24px;
+  padding: $margin * 2;
+
+  @include mobile {
+    padding: $margin;
+    width: 100%;
+    height: auto;
+  }
+}

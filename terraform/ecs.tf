@@ -14,7 +14,7 @@ resource "aws_ecs_task_definition" "task" {
         }
       ],
       "memory": 256,
-      "cpu": 256,
+      "cpu": 96,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -36,7 +36,7 @@ resource "aws_ecs_task_definition" "task" {
         }
       ],
       "memory": 128,
-      "cpu": 128,
+      "cpu": 96,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -68,7 +68,7 @@ resource "aws_ecs_task_definition" "task" {
         }
       ],
       "memory": 128,
-      "cpu": 128,
+      "cpu": 64,
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -83,6 +83,6 @@ resource "aws_ecs_task_definition" "task" {
   requires_compatibilities = ["EC2"]
   network_mode             = "awsvpc"
   memory                   = 512
-  cpu                      = 512
+  cpu                      = 256 
   execution_role_arn       = "arn:aws:iam::703161335764:role/main_cluster_execution_role"
 }

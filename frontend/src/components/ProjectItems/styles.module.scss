@@ -5,6 +5,7 @@
   grid-template-rows: repeat(2, 1fr);
   column-gap: $margin;
   row-gap: $margin;
+  margin-bottom: $margin;
 
   @include NoScrollbar;
   @include mobile {
@@ -16,6 +17,7 @@
     padding: 0;
     row-gap: 0;
     column-gap: 0;
+    margin-bottom: 0;
 
     > div {
       margin-right: $margin * 0.5;
