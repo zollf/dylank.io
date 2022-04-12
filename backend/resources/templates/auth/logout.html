@@ -1,4 +1,7 @@
 {{ define "content" }}
   <h1>Welcome</h1>
-  <a href="/api/logout" class="btn btn-primary">Logout</a>
+  <form action="/api/logout" method="POST">
+    <input type="hidden" name="redirect" value="/admin" />
+    <button type="submit" class="button is-danger is-outlined">Logout</button>
+  </form>
 {{ end }}

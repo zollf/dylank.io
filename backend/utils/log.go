@@ -12,7 +12,8 @@ func Log() *logrus.Logger {
 	if _log == nil {
 		_log = logrus.New()
 		_log.SetFormatter(&logrus.TextFormatter{
-			ForceColors:   true,
+			DisableColors: true,
+			ForceColors:   false,
 			FullTimestamp: true,
 		})
 		_log.SetOutput(os.Stdout)

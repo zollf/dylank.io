@@ -4,7 +4,7 @@
   </div>
   <div class="header_text">
     {{ if .LoggedIn }}
-      <form action="/api/tags/create" method="POST">
+      <form action="/api/logout" method="POST">
         <input type="hidden" name="redirect" value="/admin" />
         <button type="submit" class="button is-danger is-outlined">Logout</button>
       </form>
