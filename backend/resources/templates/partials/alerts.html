@@ -1,11 +1,27 @@
-{{ if .Err }}
-<div class="notification is-danger">
-  {{ .Err }}
-</div>
-{{ end }}
+<div class="alerts">
+  {{ if .Err }}
+  <div class="notification is-danger">
+    <button class="delete"></button>
+    {{ .Err }}
+  </div>
+  {{ end }}
 
-{{ if .Success }}
-<div class="notification is-primary">
-  {{ .Success }}
+  {{ if .Success }}
+  <div class="notification is-primary">
+    <button class="delete"></button>
+    {{ .Success }}
+  </div>
+  {{ end }}
 </div>
-{{ end }}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    const $notification = $delete.parentNode;
+
+    $delete.addEventListener('click', () => {
+      $notification.parentNode.removeChild($notification);
+    });
+  });
+});
+</script>

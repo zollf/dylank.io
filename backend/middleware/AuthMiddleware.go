@@ -3,10 +3,19 @@ package middleware
 import (
 	"app/helpers"
 	"app/services"
+	"app/utils"
 	"strings"
 
 	"github.com/kataras/iris/v12"
 )
+
+type Response struct {
+	Success    bool     `json:"success"`
+	Path       string   `json:"path"`
+	Error      *string  `json:"error"`
+	SuccessMsg *string  `json:"success_msg"`
+	Data       iris.Map `json:"data"`
+}
 
 // Auth is either through token param or cookie
 func AuthRequired(ctx iris.Context) {
@@ -22,10 +31,10 @@ func authApiRequest(ctx iris.Context) {
 
 	if token == "" {
 		ctx.StatusCode(400)
-		ctx.JSON(helpers.Response{
+		ctx.JSON(Response{
 			Success:    false,
 			Path:       ctx.Path(),
-			Error:      helpers.ErrorMsg("Token not supplied"),
+			Error:      utils.StringLike("Token not supplied"),
 			SuccessMsg: nil,
 			Data:       iris.Map{},
 		})
@@ -39,10 +48,10 @@ func authApiRequest(ctx iris.Context) {
 
 		// delete cookie since its not valid
 		ctx.RemoveCookie("dylank-io-auth")
-		ctx.JSON(helpers.Response{
+		ctx.JSON(Response{
 			Success:    false,
 			Path:       ctx.Path(),
-			Error:      helpers.ErrorMsg("Access Denied"),
+			Error:      utils.StringLike("Access Denied"),
 			SuccessMsg: nil,
 			Data:       iris.Map{},
 		})

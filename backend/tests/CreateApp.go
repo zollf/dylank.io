@@ -3,13 +3,14 @@ package tests
 import (
 	"app/config"
 	"app/scripts"
+	"app/utils"
 	"os"
 
 	"github.com/kataras/iris/v12"
 )
 
 func CreateApp() *iris.Application {
-	config.DotEnv()
+	utils.DotEnv()
 	os.Setenv("ENV", "test")
 	scripts.RunScripts([]string{"destroy"})
 	scripts.RunScripts([]string{"migrate"})
@@ -18,7 +19,7 @@ func CreateApp() *iris.Application {
 }
 
 func CreateAppWithAdmin() *iris.Application {
-	config.DotEnv()
+	utils.DotEnv()
 	os.Setenv("ENV", "test")
 	scripts.RunScripts([]string{"destroy"})
 	scripts.RunScripts([]string{"migrate"})
@@ -28,5 +29,5 @@ func CreateAppWithAdmin() *iris.Application {
 }
 
 func DestoryTables() {
-	scripts.RunScripts([]string{"destory"})
+	scripts.RunScripts([]string{"destroy"})
 }

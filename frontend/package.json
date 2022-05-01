@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/zollf/dylank.io#readme",
   "engines": {
-    "node": ">=14.18 <15"
+    "node": ">= 16"
   },
   "dependencies": {
     "@apollo/client": "^3.5.6",

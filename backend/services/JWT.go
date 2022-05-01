@@ -10,6 +10,7 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
+// Generate JSON Web Token based on user model.
 func GenerateJWT(user *models.User) (string, error) {
 	hmacSampleSecret := []byte(os.Getenv("JWT_SECRET"))
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
@@ -46,7 +47,7 @@ func VerifyJWT(tokenString string) (string, error) {
 		}
 
 		if time.Now().After(Expiry) {
-			return "", fmt.Errorf("token expired")
+			return "", fmt.Errorf("token has expired")
 		}
 
 		return Username, nil

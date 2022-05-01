@@ -2,7 +2,6 @@ package config
 
 import (
 	"app/graphql"
-	"app/helpers"
 	"app/middleware"
 	"app/migrations"
 	"app/routes"
@@ -14,14 +13,13 @@ import (
 )
 
 func Main() *iris.Application {
-	DotEnv()
 	if os.Getenv("MIGRATE") == "Yes" {
 		migrations.Install()
 	}
 
 	utils.Log().Info("Application starting...")
 
-	root := helpers.RootDir()
+	root := utils.RootDir()
 	app := iris.New()
 
 	app.RegisterView(iris.Blocks(fmt.Sprintf("%s/resources/templates", root), ".html").Reload(true))

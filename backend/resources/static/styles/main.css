@@ -52,3 +52,10 @@ td {
   display: flex;
   align-items: center;
 }
+
+.alerts {
+  position: absolute;
+  top: 100px;
+  left: 24px;
+  right: 24px;
+}

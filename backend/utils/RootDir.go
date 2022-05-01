@@ -1,18 +1,10 @@
-package helpers
+package utils
 
 import (
 	"path"
 	"path/filepath"
 	"runtime"
 )
-
-func StringLike(pointer *string) string {
-	non_pointer := ""
-	if pointer != nil {
-		non_pointer = *pointer
-	}
-	return non_pointer
-}
 
 func RootDir() string {
 	_, b, _, _ := runtime.Caller(0)

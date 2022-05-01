@@ -7,6 +7,13 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
+type FileResponse struct {
+	Title   string
+	Url     string
+	Success bool
+	Error   string
+}
+
 func UploadImage(ctx iris.Context, handle string, title string) (*FileResponse, error) {
 	maxSize := ctx.Application().ConfigurationReadOnly().GetPostMaxMemory()
 	multip_parse_err := ctx.Request().ParseMultipartForm(maxSize)

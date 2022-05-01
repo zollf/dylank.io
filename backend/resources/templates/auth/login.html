@@ -5,8 +5,8 @@
 {{ define "content" }}
   <div class="login">
     {{ partial "partials/alerts" . }}
-    <form action="/api/login" method="POST" class="login-form box">
-      <h1>Login</h1>
+    <form action="/api/login" method="POST" class="box" style="padding: 24px">
+      <h1 style="margin-bottom: 12px">Login</h1>
       <input type="hidden" name="redirect" value="/admin"/>
       <div class="field">
         <p class="control has-icons-left">
@@ -24,7 +24,7 @@
           </span>
         </p>
       </div>
-      <button type="submit" class="button is-info is-outlined">Login</button>
+      <button type="submit" class="button is-info is-primary">Login</button>
     </form>
   </div>
 {{ end }}

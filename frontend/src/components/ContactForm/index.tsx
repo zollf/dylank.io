@@ -25,7 +25,7 @@ export default function ContactForm() {
         {({ handleSubmit, errors, touched }) => (
           <Form onSubmit={handleSubmit}>
             <Stack spacing={6}>
-              <FormControl isInvalid={!!errors.message && touched.message} isDisabled={sent}>
+              <FormControl isInvalid={!!errors.name && touched.name} isDisabled={sent}>
                 <FormLabel {...defaultProps} htmlFor="name">
                   Name
                 </FormLabel>

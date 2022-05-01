@@ -1,73 +1,102 @@
 package controllers
 
 import (
-	"app/helpers"
-	"app/models"
+	"app/helpers/res"
+	"app/models/users"
+	"strconv"
 
 	"github.com/kataras/iris/v12"
 )
 
 func CreateUser(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"username", "password", "email"}) {
+	type Req struct {
+		Username string `json:"username" validate:"required"`
+		Password string `json:"password" validate:"required"`
+		Email    string `json:"email" validate:"required"`
+		Redirect string `json:"redirect"`
+	}
+	var req Req
+	if !res.USER_CREATE.Validate(ctx, &req) {
 		return
 	}
 
-	user := &models.User{
-		Username:     ctx.FormValue("username"),
-		Password:     ctx.FormValue("password"),
-		Email:        ctx.FormValue("email"),
+	user := &users.User{
+		Username:     req.Username,
+		Password:     req.Password,
+		Email:        req.Email,
 		Locked:       false,
 		LastLoggedIn: nil,
 	}
 
-	if err := models.CreateUser(user); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to created user", iris.Map{"error": err.Error()})
+	if user_create_err := user.Create(); user_create_err != nil {
+		res.USER_CREATE.Error(ctx, user_create_err)
 	} else {
-		user.Password = "***"
-		helpers.SuccessResponse(ctx, "Successfully created user", iris.Map{"user": user})
+		res.USER_CREATE.Send(ctx, iris.Map{"user": user})
 	}
 }
 
 func EditUser(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"username", "password", "email", "id"}) {
+	type Req struct {
+		ID       string `json:"id" validate:"required"`
+		Username string `json:"username" validate:"required"`
+		Password string `json:"password" validate:"required"`
+		Email    string `json:"email" validate:"required"`
+		Redirect string `json:"redirect"`
+	}
+	var req Req
+	if !res.USER_EDIT.Validate(ctx, &req) {
 		return
 	}
 
-	user := &models.User{
-		Username:     ctx.FormValue("username"),
-		Password:     ctx.FormValue("password"),
-		Email:        ctx.FormValue("email"),
+	id, invalid_id := strconv.ParseUint(req.ID, 10, 64)
+	if invalid_id != nil {
+		res.USER_EDIT.Error(ctx, invalid_id)
+		return
+	}
+
+	user := &users.User{
+		ID:           id,
+		Username:     req.Username,
+		Password:     req.Password,
+		Email:        req.Email,
 		Locked:       false,
 		LastLoggedIn: nil,
 	}
 
-	if err := models.UpdateUser(user, ctx.FormValue("id")); err != nil {
-		helpers.ErrorResponse(ctx, "Failed to update user", iris.Map{"error": err.Error()})
+	if user_update_err := user.Update(); user_update_err != nil {
+		res.USER_EDIT.Error(ctx, user_update_err)
 	} else {
-		user.Password = "***"
-		helpers.SuccessResponse(ctx, "Successfully updated user", iris.Map{"user": user})
+		res.USER_EDIT.Send(ctx, iris.Map{"user": user})
 	}
 }
 
 func DeleteUser(ctx iris.Context) {
-	if !helpers.ValidInputs(ctx, []string{"id"}) {
+	type Req struct {
+		ID       string `json:"id" validate:"required"`
+		Redirect string `json:"redirect"`
+	}
+	var req Req
+	if !res.USER_DELETE.Validate(ctx, &req) {
 		return
 	}
 
-	if err := models.DeleteUser(ctx.FormValue("id")); err != nil {
-		helpers.RedirectIfExist(ctx, helpers.ErrorMsg("Failed to delete user"), nil, iris.Map{"error": err.Error()})
+	user, not_found := users.Find(req.ID)
+	if not_found != nil {
+		res.USER_DELETE.Error(ctx, not_found)
+		return
+	}
+
+	if err := user.Delete(); err != nil {
+		res.USER_DELETE.Error(ctx, err)
 	} else {
-		helpers.RedirectIfExist(ctx, nil, helpers.SuccessMsg("Successfully deleted user"), iris.Map{})
+		res.USER_DELETE.Send(ctx, iris.Map{})
 	}
 }
 
 func ListUsers(ctx iris.Context) {
-	users, err := models.GetUsers()
-	if err != nil {
-		helpers.ErrorResponse(ctx, "Failed to list users", iris.Map{"error": err.Error()})
+	if users, cannot_list := users.All(); cannot_list != nil {
+		res.USER_LIST.Error(ctx, cannot_list)
+	} else {
+		res.USER_LIST.Send(ctx, iris.Map{"users": users})
 	}
-	for _, user := range users {
-		user.Password = "***"
-	}
-	helpers.SuccessResponse(ctx, "Successfully listed users", iris.Map{"users": users})
 }

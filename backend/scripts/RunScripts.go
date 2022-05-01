@@ -1,7 +1,6 @@
 package scripts
 
 import (
-	"app/config"
 	"app/utils"
 	"os"
 )
@@ -38,14 +37,9 @@ var RegisteredCommands = map[string]ServerCommand{
 	Destroy.CommandName:         Destroy,
 }
 
-/*
-Run command script
-MainCommand is always first arg
-List of MainCommands
-- create_user
-*/
+// Run command script, main command is always first arg
 func RunScripts(args []string) {
-	config.DotEnv()
+	utils.DotEnv()
 
 	MainCommand := args[0]
 

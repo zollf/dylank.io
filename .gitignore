@@ -9,6 +9,7 @@ node_modules/
 public/static/*.js*
 coverage/
 .next/
+yarn-error.log
 
 # terraform
 .terraform
