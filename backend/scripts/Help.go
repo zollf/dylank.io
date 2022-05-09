@@ -1,7 +1,7 @@
 package scripts
 
 import (
-	"app/utils"
+	"log"
 )
 
 var Help = ServerCommand{
@@ -14,13 +14,13 @@ var Help = ServerCommand{
 func HelpCommand(args []string) error {
 	if len(args) == 0 {
 		for name, command := range RegisteredCommands {
-			utils.Log().Info("%s - %s", name, command.Description)
+			log.Printf("%s - %s", name, command.Description)
 		}
 	} else {
 		if rCommand, ok := RegisteredCommands[args[0]]; ok {
-			utils.Log().Info("%s - %s", rCommand.CommandName, rCommand.Description)
+			log.Printf("%s - %s", rCommand.CommandName, rCommand.Description)
 		} else {
-			utils.Log().Info("Command %s does not exist", rCommand.CommandName)
+			log.Printf("Command %s does not exist", rCommand.CommandName)
 		}
 	}
 	return nil

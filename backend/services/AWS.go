@@ -1,9 +1,9 @@
 package services
 
 import (
-	"app/utils"
 	"bytes"
 	"fmt"
+	"log"
 	"mime/multipart"
 	"os"
 
@@ -14,7 +14,7 @@ import (
 )
 
 func GetSession() (*session.Session, error) {
-	utils.Log().Info("Getting AWS session")
+	log.Printf("Getting AWS session")
 
 	aws_region := os.Getenv("AWS_REGION")
 	aws_access_key_id := os.Getenv("AWS_ACCESS_KEY_ID")
@@ -34,7 +34,7 @@ func UploadImageToS3(file *multipart.FileHeader, title string) (string, error) {
 	region := os.Getenv("AWS_REGION")
 	session, err := GetSession()
 
-	utils.Log().Info("Uploading file to s3")
+	log.Printf("Uploading file to s3")
 
 	s3Client := s3.New(session)
 

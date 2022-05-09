@@ -2,6 +2,7 @@ package utils
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/joho/godotenv"
 )
@@ -9,9 +10,9 @@ import (
 func DotEnv() {
 	root := RootDir()
 	err := godotenv.Load(fmt.Sprintf("%s/.env", root))
-	Log().Info("Initialising dotenv")
+	log.Printf("Initialising dotenv")
 
 	if err != nil {
-		Log().Error("Failed to initialising dotenv")
+		log.Printf("Failed to initialising dotenv")
 	}
 }

@@ -18,6 +18,26 @@ type User struct {
 	LastLoggedIn *time.Time `json:"lastLoggedIn"`
 }
 
+type UserCreateRequest struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
+type UserEditRequest struct {
+	ID       string `json:"id" validate:"required"`
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required"`
+	Email    string `json:"email" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
+type UserDeleteRequest struct {
+	ID       string `json:"id" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
 func All() ([]*User, error) {
 	var user []*User
 	err := database.GetRecords(&user)

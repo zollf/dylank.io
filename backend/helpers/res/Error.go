@@ -8,6 +8,9 @@ import (
 )
 
 func (res_type RES_TYPES) Error(ctx iris.Context, err error) {
+	if ctx.IsStopped() {
+		return
+	}
 	if Redirect(ctx, fmt.Sprintf("?err=%s", getErrorMessage(res_type, err))) {
 		return
 	}
@@ -22,10 +25,14 @@ func (res_type RES_TYPES) Error(ctx iris.Context, err error) {
 		},
 		Data: iris.Map{},
 	})
+	ctx.StopExecution()
 	return
 }
 
 func (res_type RES_TYPES) ValidationError(ctx iris.Context, validationErr []ValidationError) {
+	if ctx.IsStopped() {
+		return
+	}
 	if Redirect(ctx, fmt.Sprintf("?err=%s", getValidationErrorMessage(res_type))) {
 		return
 	}
@@ -36,11 +43,12 @@ func (res_type RES_TYPES) ValidationError(ctx iris.Context, validationErr []Vali
 		Msg:     getValidationErrorMessage(res_type),
 		Path:    ctx.Path(),
 		Error: &ResponseError{
-			Fatal:           false,
-			ValidationError: validationErr,
+			Fatal:            false,
+			ValidationErrors: validationErr,
 		},
 		Data: iris.Map{},
 	})
+	ctx.StopExecution()
 	return
 }
 

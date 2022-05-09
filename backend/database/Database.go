@@ -1,7 +1,6 @@
 package database
 
 import (
-	"app/utils"
 	"errors"
 	"os"
 
@@ -24,10 +23,8 @@ func Open() (db *gorm.DB, err error) {
 		return db, err
 	} else {
 		if DB != nil {
-			utils.Log().Info("Using existing connection")
 			return DB, nil
 		}
-		utils.Log().Info("Open new mysql connection")
 		db, err := gorm.Open(mysql.Open(os.Getenv("MYSQL_DSN")), &gorm.Config{})
 		DB = db
 		return db, err

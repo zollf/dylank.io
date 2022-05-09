@@ -13,6 +13,26 @@ type Tag struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type TagCreateRequest struct {
+	Title    string `json:"title" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
+type TagEditRequest struct {
+	ID       string `json:"id" validate:"required"`
+	Title    string `json:"title" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
+type TagDeleteRequest struct {
+	ID       string `json:"id" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
+type TagGetRequest struct {
+	ID string `param:"id" validate:"required"`
+}
+
 func All() ([]*Tag, error) {
 	var tags []*Tag
 	err := database.GetRecords(&tags)

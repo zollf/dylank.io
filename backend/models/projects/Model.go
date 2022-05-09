@@ -20,6 +20,32 @@ type Project struct {
 	Tags        []*tags.Tag     `json:"tags" gorm:"many2many:project_tags"`
 }
 
+type ProjectCreateRequest struct {
+	Title       string   `json:"title" validate:"required"`
+	Description string   `json:"description" validate:"required"`
+	Tags        []string `json:"tags"`
+	Assets      []string `json:"assets"`
+	Url         *string  `json:"url"`
+	Git         *string  `json:"git"`
+	Redirect    string   `json:"redirect"`
+}
+
+type ProjectEditRequest struct {
+	ID          string   `json:"id" validate:"required"`
+	Title       string   `json:"title" validate:"required"`
+	Description string   `json:"description" validate:"required"`
+	Tags        []string `json:"tags"`
+	Assets      []string `json:"assets"`
+	Url         *string  `json:"url"`
+	Git         *string  `json:"git"`
+	Redirect    string   `json:"redirect"`
+}
+
+type ProjectDeleteRequest struct {
+	ID       string `json:"id" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
 // List all projects.
 func All() ([]*Project, error) {
 	var projects []*Project

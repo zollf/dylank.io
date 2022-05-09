@@ -8,15 +8,14 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
-func CreateUser(ctx iris.Context) {
-	type Req struct {
-		Username string `json:"username" validate:"required"`
-		Password string `json:"password" validate:"required"`
-		Email    string `json:"email" validate:"required"`
-		Redirect string `json:"redirect"`
-	}
-	var req Req
-	if !res.USER_CREATE.Validate(ctx, &req) {
+type UsersController struct{}
+
+// Create User
+// Method:   POST
+// Resource: /api/users/create
+func (c *UsersController) PostCreate(req users.UserCreateRequest, ctx iris.Context) {
+	res.USER_CREATE.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
@@ -35,16 +34,12 @@ func CreateUser(ctx iris.Context) {
 	}
 }
 
-func EditUser(ctx iris.Context) {
-	type Req struct {
-		ID       string `json:"id" validate:"required"`
-		Username string `json:"username" validate:"required"`
-		Password string `json:"password" validate:"required"`
-		Email    string `json:"email" validate:"required"`
-		Redirect string `json:"redirect"`
-	}
-	var req Req
-	if !res.USER_EDIT.Validate(ctx, &req) {
+// Edit User
+// Method:   POST
+// Resource: /api/users/edit
+func (c *UsersController) PostEdit(req users.UserEditRequest, ctx iris.Context) {
+	res.USER_EDIT.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
@@ -70,13 +65,12 @@ func EditUser(ctx iris.Context) {
 	}
 }
 
-func DeleteUser(ctx iris.Context) {
-	type Req struct {
-		ID       string `json:"id" validate:"required"`
-		Redirect string `json:"redirect"`
-	}
-	var req Req
-	if !res.USER_DELETE.Validate(ctx, &req) {
+// Delete User
+// Method:   POST
+// Resource: /api/users/delete
+func (c *UsersController) PostDelete(req users.UserDeleteRequest, ctx iris.Context) {
+	res.USER_DELETE.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
@@ -93,10 +87,13 @@ func DeleteUser(ctx iris.Context) {
 	}
 }
 
-func ListUsers(ctx iris.Context) {
+// Get Users
+// Method:   POST
+// Resource: /api/users
+func (c *UsersController) Get(ctx iris.Context) {
 	if users, cannot_list := users.All(); cannot_list != nil {
-		res.USER_LIST.Error(ctx, cannot_list)
+		res.USERS_LIST.Error(ctx, cannot_list)
 	} else {
-		res.USER_LIST.Send(ctx, iris.Map{"users": users})
+		res.USERS_LIST.Send(ctx, iris.Map{"users": users})
 	}
 }

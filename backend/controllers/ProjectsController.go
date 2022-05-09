@@ -11,18 +11,36 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
-func CreateProject(ctx iris.Context) {
-	type Req struct {
-		Title       string   `json:"title" validate:"required"`
-		Description string   `json:"description" validate:"required"`
-		Tags        []string `json:"tags"`
-		Assets      []string `json:"assets"`
-		Url         *string  `json:"url"`
-		Git         *string  `json:"git"`
-		Redirect    string   `json:"redirect"`
+type ProjectsController struct{}
+
+// Get Projects
+// Method:   GET
+// Resource: /api/projects
+func (c *ProjectsController) Get(ctx iris.Context) {
+	projects, err := projects.All()
+	if err != nil {
+		res.PROJECTS_LIST.Error(ctx, err)
 	}
-	var req Req
-	if !res.PROJECTS_CREATE.Validate(ctx, &req) {
+	res.PROJECTS_LIST.Send(ctx, iris.Map{"projects": projects})
+}
+
+// Get Project by ID
+// Method:   GET
+// Resource: /api/projects/{id:int}
+func (c *ProjectsController) GetBy(id int, ctx iris.Context) {
+	project, cannot_find := projects.Find(id)
+	if cannot_find != nil {
+		res.PROJECT_GET.Error(ctx, cannot_find)
+	}
+	res.PROJECT_GET.Send(ctx, iris.Map{"project": project})
+}
+
+// Create Project
+// Method:   POST
+// Resource: /api/tags/create
+func (c *ProjectsController) PostCreate(req projects.ProjectCreateRequest, ctx iris.Context) {
+	res.PROJECT_CREATE.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
@@ -61,31 +79,24 @@ func CreateProject(ctx iris.Context) {
 	}
 
 	if err := project.Create(); err != nil {
-		res.PROJECTS_CREATE.Error(ctx, err)
+		res.PROJECT_CREATE.Error(ctx, err)
 	} else {
-		res.PROJECTS_CREATE.Send(ctx, iris.Map{"project": project})
+		res.PROJECT_CREATE.Send(ctx, iris.Map{"project": project})
 	}
 }
 
-func EditProject(ctx iris.Context) {
-	type Req struct {
-		ID          string   `json:"id" validate:"required"`
-		Title       string   `json:"title" validate:"required"`
-		Description string   `json:"description" validate:"required"`
-		Tags        []string `json:"tags"`
-		Assets      []string `json:"assets"`
-		Url         *string  `json:"url"`
-		Git         *string  `json:"git"`
-		Redirect    string   `json:"redirect"`
-	}
-	var req Req
-	if !res.PROJECTS_EDIT.Validate(ctx, &req) {
+// Edit Project
+// Method:   POST
+// Resource: /api/projects/create
+func (c *ProjectsController) PostEdit(req projects.ProjectEditRequest, ctx iris.Context) {
+	res.PROJECT_EDIT.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
 	id, invalid_id := strconv.ParseUint(req.ID, 10, 64)
 	if invalid_id != nil {
-		res.PROJECTS_EDIT.Error(ctx, invalid_id)
+		res.PROJECT_EDIT.Error(ctx, invalid_id)
 		return
 	}
 
@@ -125,40 +136,30 @@ func EditProject(ctx iris.Context) {
 	}
 
 	if err := project.Update(); err != nil {
-		res.PROJECTS_EDIT.Error(ctx, err)
+		res.PROJECT_EDIT.Error(ctx, err)
 	} else {
-		res.PROJECTS_EDIT.Send(ctx, iris.Map{"project": project})
+		res.PROJECT_EDIT.Send(ctx, iris.Map{"project": project})
 	}
 }
 
-func DeleteProject(ctx iris.Context) {
-	type Req struct {
-		ID       string `json:"id" validate:"required"`
-		Redirect string `json:"redirect"`
-	}
-	var req Req
-	if !res.PROJECTS_DELETE.Validate(ctx, &req) {
+// Delete Project
+// Method:   POST
+// Resource: /api/projects/delete
+func (c *ProjectsController) PostDelete(req projects.ProjectDeleteRequest, ctx iris.Context) {
+	res.PROJECT_DELETE.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
 	project, not_found := projects.Find(req.ID)
 	if not_found != nil {
-		res.PROJECTS_DELETE.Error(ctx, not_found)
+		res.PROJECT_DELETE.Error(ctx, not_found)
 		return
 	}
 
 	if err := project.Delete(); err != nil {
-		res.PROJECTS_DELETE.Error(ctx, err)
+		res.PROJECT_DELETE.Error(ctx, err)
 	} else {
-		res.PROJECTS_DELETE.Send(ctx, iris.Map{})
+		res.PROJECT_DELETE.Send(ctx, iris.Map{})
 	}
-}
-
-func ListProject(ctx iris.Context) {
-	projects, err := projects.All()
-	if err != nil {
-		res.PROJECTS_LIST.Error(ctx, err)
-		return
-	}
-	res.PROJECTS_LIST.Send(ctx, iris.Map{"projects": projects})
 }

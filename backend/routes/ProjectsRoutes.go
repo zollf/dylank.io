@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"app/controllers"
 	"app/views"
 
 	"github.com/kataras/iris/v12"
@@ -11,9 +10,4 @@ func ProjectsRoutes(app *iris.Application) {
 	app.Get("/admin/projects", views.Projects)
 	app.Get("/admin/projects/create", views.NewProject)
 	app.Get("/admin/projects/view/{id}", views.EditProject)
-
-	app.Get("/api/projects", controllers.ListProject)
-	app.Post("/api/projects/create", controllers.CreateProject)
-	app.Post("/api/projects/edit", controllers.EditProject)
-	app.Post("/api/projects/delete", controllers.DeleteProject)
 }

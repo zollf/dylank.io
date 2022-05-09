@@ -9,7 +9,12 @@ import (
 	"github.com/kataras/iris/v12"
 )
 
-func AssetsList(ctx iris.Context) {
+type AssetsController struct{}
+
+// Get Assets
+// Method:   GET
+// Resource: /api/assets
+func (c *AssetsController) Get(ctx iris.Context) {
 	if assets, cannot_list := assets.All(); cannot_list != nil {
 		res.ASSETS_LIST.Error(ctx, cannot_list)
 	} else {
@@ -17,19 +22,18 @@ func AssetsList(ctx iris.Context) {
 	}
 }
 
-func AssetsCreate(ctx iris.Context) {
-	type Req struct {
-		Title    string `json:"title" validate:"required"`
-		Redirect string `json:"redirect"`
-	}
-	var req Req
-	if !res.ASSETS_CREATE.Validate(ctx, &req) {
+// Creates Assets
+// Method:   POST
+// Resource: /api/assets/create
+func (c *AssetsController) PostCreate(req assets.AssetCreateRequest, ctx iris.Context) {
+	res.ASSET_CREATE.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
 	file, upload_err := helpers.UploadImage(ctx, "image", req.Title)
 	if upload_err != nil {
-		res.ASSETS_CREATE.Error(ctx, upload_err)
+		res.ASSET_CREATE.Error(ctx, upload_err)
 		return
 	}
 
@@ -40,32 +44,30 @@ func AssetsCreate(ctx iris.Context) {
 	}
 
 	if asset_create_err := asset.Create(); asset_create_err != nil {
-		res.ASSETS_CREATE.Error(ctx, asset_create_err)
+		res.ASSET_CREATE.Error(ctx, asset_create_err)
 	} else {
-		res.ASSETS_CREATE.Send(ctx, iris.Map{"asset": asset})
+		res.ASSET_CREATE.Send(ctx, iris.Map{"asset": asset})
 	}
 }
 
-func AssetsDelete(ctx iris.Context) {
-	type Req struct {
-		ID       string `json:"id" validate:"required"`
-		Title    string `json:"title" validate:"required"`
-		Redirect string `json:"redirect"`
-	}
-	var req Req
-	if !res.ASSETS_DELETE.Validate(ctx, &req) {
+// Delete Assets
+// Method:   POST
+// Resource: /api/assets/delete
+func (c *AssetsController) PostDelete(req assets.AssetDeleteRequest, ctx iris.Context) {
+	res.ASSET_DELETE.Validate(ctx, &req)
+	if ctx.IsStopped() {
 		return
 	}
 
 	asset, not_found := assets.Find(req.ID)
 	if not_found != nil {
-		res.ASSETS_DELETE.Error(ctx, not_found)
+		res.ASSET_DELETE.Error(ctx, not_found)
 		return
 	}
 
 	if delete_error := asset.Delete(); delete_error != nil {
-		res.ASSETS_DELETE.Error(ctx, delete_error)
+		res.ASSET_DELETE.Error(ctx, delete_error)
 	} else {
-		res.ASSETS_DELETE.Send(ctx, iris.Map{})
+		res.ASSET_DELETE.Send(ctx, iris.Map{})
 	}
 }

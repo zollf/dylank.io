@@ -14,6 +14,18 @@ type Asset struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
+type AssetCreateRequest struct {
+	Title    string `json:"title" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
+type AssetEditRequest struct{}
+
+type AssetDeleteRequest struct {
+	ID       string `json:"id" validate:"required"`
+	Redirect string `json:"redirect"`
+}
+
 func All() ([]*Asset, error) {
 	var assets []*Asset
 	if db, err := database.Open(); err == nil {

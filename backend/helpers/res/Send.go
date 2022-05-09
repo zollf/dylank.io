@@ -8,6 +8,9 @@ import (
 )
 
 func (res_type RES_TYPES) Send(ctx iris.Context, data iris.Map) {
+	if ctx.IsStopped() {
+		return
+	}
 	if Redirect(ctx, fmt.Sprintf("?success=%s", getSuccessMessage(res_type))) {
 		return
 	}

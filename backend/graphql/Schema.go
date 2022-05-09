@@ -1,7 +1,7 @@
 package graphql
 
 import (
-	"app/utils"
+	"fmt"
 
 	"github.com/graphql-go/graphql"
 )
@@ -14,7 +14,7 @@ func GetSchema() graphql.Schema {
 	)
 
 	if err != nil {
-		utils.Log().Error("Graphql Schema is invalid: %s", err.Error())
+		fmt.Printf("Graphql Schema is invalid: %s", err.Error())
 	}
 	return schema
 }
