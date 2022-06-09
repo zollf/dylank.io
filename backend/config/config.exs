@@ -11,9 +11,9 @@ config :backend,
   ecto_repos: [Backend.Repo]
 
 # Configures the endpoint
-config :backend, BackendWeb.Endpoint,
+config :backend, Web.Endpoint,
   url: [host: "localhost", path: "/admin"],
-  render_errors: [view: BackendWeb.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [view: Web.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Backend.PubSub,
   live_view: [signing_salt: "ROhEx8NX"]
 
