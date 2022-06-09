@@ -1,10 +1,10 @@
-defmodule BackendWeb.Controllers.Users do
-  use BackendWeb, :controller
+defmodule Web.Controllers.Users do
+  use Web, :controller
 
   alias Backend.Models.User
-  alias BackendWeb.Views
+  alias Web.Views
 
-  action_fallback(BackendWeb.Controllers.Fallback)
+  action_fallback(Web.Controllers.Fallback)
 
   def index(conn, _params) do
     users = User.get_users()

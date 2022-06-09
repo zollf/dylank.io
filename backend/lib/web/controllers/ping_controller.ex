@@ -1,5 +1,5 @@
-defmodule BackendWeb.Controllers.Ping do
-  use BackendWeb, :controller
+defmodule Web.Controllers.Ping do
+  use Web, :controller
   def index(conn, _params), do: json(conn, %{ping: "pong"})
   def user_ping(conn, _params), do: json(conn, %{user_ping: "user_pong"})
 

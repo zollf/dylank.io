@@ -1,4 +1,4 @@
-defmodule BackendWeb.Endpoint do
+defmodule Web.Endpoint do
   use Phoenix.Endpoint, otp_app: :backend
 
   # The session will be stored in the cookie and signed,
@@ -46,5 +46,5 @@ defmodule BackendWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug BackendWeb.Router
+  plug Web.Router
 end

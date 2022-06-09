@@ -1,5 +1,5 @@
-defmodule BackendWeb.UserConfirmationControllerTest do
-  use BackendWeb.ConnCase
+defmodule Web.UserConfirmationControllerTest do
+  use Web.ConnCase
 
   alias Backend.Accounts
   alias Backend.Repo

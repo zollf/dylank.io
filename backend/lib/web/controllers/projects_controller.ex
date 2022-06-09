@@ -1,10 +1,10 @@
-defmodule BackendWeb.Controllers.Projects do
-  use BackendWeb, :controller
+defmodule Web.Controllers.Projects do
+  use Web, :controller
 
   alias Backend.Models.Project
-  alias BackendWeb.Views
+  alias Web.Views
 
-  action_fallback(BackendWeb.Controllers.Fallback)
+  action_fallback(Web.Controllers.Fallback)
 
   def index(conn, _params) do
     conn

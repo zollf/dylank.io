@@ -11,11 +11,11 @@ defmodule Backend.Application do
       # Start the Ecto repository
       Backend.Repo,
       # Start the Telemetry supervisor
-      BackendWeb.Telemetry,
+      Web.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Backend.PubSub},
       # Start the Endpoint (http/https)
-      BackendWeb.Endpoint
+      Web.Endpoint
       # Start a worker by calling: Backend.Worker.start_link(arg)
       # {Backend.Worker, arg}
     ]
@@ -30,7 +30,7 @@ defmodule Backend.Application do
   # whenever the application is updated.
   @impl true
   def config_change(changed, _new, removed) do
-    BackendWeb.Endpoint.config_change(changed, removed)
+    Web.Endpoint.config_change(changed, removed)
     :ok
   end
 end

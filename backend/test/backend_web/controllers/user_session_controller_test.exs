@@ -1,5 +1,5 @@
-defmodule BackendWeb.UserSessionControllerTest do
-  use BackendWeb.ConnCase
+defmodule Web.UserSessionControllerTest do
+  use Web.ConnCase
 
   import Backend.AccountsFixtures
 

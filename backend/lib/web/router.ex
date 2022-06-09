@@ -1,13 +1,13 @@
-defmodule BackendWeb.Router do
-  use BackendWeb, :router
+defmodule Web.Router do
+  use Web, :router
 
-  import BackendWeb.Plugs.Auth
+  import Web.Plugs.Auth
 
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {BackendWeb.LayoutView, :root}
+    plug :put_root_layout, {Web.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
@@ -19,13 +19,13 @@ defmodule BackendWeb.Router do
     plug :fetch_current_user
   end
 
-  scope "/", BackendWeb do
+  scope "/", Web do
     pipe_through :browser
 
     get "/", Controllers.Page, :index
   end
 
-  scope "/api", BackendWeb do
+  scope "/api", Web do
     pipe_through :api
 
     get "/ping", Controllers.Ping, :index
@@ -40,7 +40,7 @@ defmodule BackendWeb.Router do
   end
 
   # Authenticated User Scope
-  scope "/api", BackendWeb do
+  scope "/api", Web do
     pipe_through [:api, :require_authenticated_user]
 
     get "/user_ping", Controllers.Ping, :user_ping
@@ -50,7 +50,7 @@ defmodule BackendWeb.Router do
   end
 
   # Admin scope
-  scope "/api", BackendWeb do
+  scope "/api", Web do
     pipe_through [:api, :require_authenticated_admin]
 
     get "/admin_ping", Controllers.Ping, :admin_ping
@@ -68,7 +68,7 @@ defmodule BackendWeb.Router do
   end
 
   # Super Admin Scope
-  scope "/api", BackendWeb do
+  scope "/api", Web do
     pipe_through [:api, :require_authenticated_super_admin]
 
     get "/super_admin_ping", Controllers.Ping, :super_admin_ping
@@ -85,7 +85,7 @@ defmodule BackendWeb.Router do
     scope "/" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: BackendWeb.Telemetry
+      live_dashboard "/dashboard", metrics: Web.Telemetry
     end
   end
 

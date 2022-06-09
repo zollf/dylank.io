@@ -1,5 +1,5 @@
-defmodule BackendWeb.UserResetPasswordControllerTest do
-  use BackendWeb.ConnCase
+defmodule Web.UserResetPasswordControllerTest do
+  use Web.ConnCase
 
   alias Backend.Accounts
   alias Backend.Repo

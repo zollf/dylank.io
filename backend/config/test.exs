@@ -18,7 +18,7 @@ config :backend, Backend.Repo,
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :backend, BackendWeb.Endpoint,
+config :backend, Web.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4002],
   secret_key_base: "tY7TzbyZVudclgd2/bZq6zL/nteeyDtYBGaIksOVVqIz2CKEMcAOEw5gFwxGje3W",
   server: false

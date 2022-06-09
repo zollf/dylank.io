@@ -1,8 +1,8 @@
-defmodule BackendWeb.UserAuthTest do
-  use BackendWeb.ConnCase
+defmodule Web.UserAuthTest do
+  use Web.ConnCase
 
   alias Backend.Accounts
-  alias BackendWeb.UserAuth
+  alias Web.UserAuth
   import Backend.AccountsFixtures
 
   @remember_me_cookie "_backend_web_user_remember_me"
@@ -10,7 +10,7 @@ defmodule BackendWeb.UserAuthTest do
   setup %{conn: conn} do
     conn =
       conn
-      |> Map.replace!(:secret_key_base, BackendWeb.Endpoint.config(:secret_key_base))
+      |> Map.replace!(:secret_key_base, Web.Endpoint.config(:secret_key_base))
       |> init_test_session(%{})
 
     %{user: user_fixture(), conn: conn}
@@ -65,7 +65,7 @@ defmodule BackendWeb.UserAuthTest do
 
     test "broadcasts to the given live_socket_id", %{conn: conn} do
       live_socket_id = "users_sessions:abcdef-token"
-      BackendWeb.Endpoint.subscribe(live_socket_id)
+      Web.Endpoint.subscribe(live_socket_id)
 
       conn
       |> put_session(:live_socket_id, live_socket_id)

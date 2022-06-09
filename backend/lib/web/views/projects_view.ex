@@ -1,6 +1,6 @@
-defmodule BackendWeb.Views.Projects do
-  use BackendWeb, :view
-  alias BackendWeb.Views
+defmodule Web.Views.Projects do
+  use Web, :view
+  alias Web.Views
 
   def render("index.json", %{projects: projects}) do
     %{data: render_many(projects, Views.Projects, "project.json", as: :project)}

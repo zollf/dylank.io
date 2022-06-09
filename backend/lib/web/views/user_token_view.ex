@@ -1,6 +1,6 @@
-defmodule BackendWeb.Views.UserToken do
-  use BackendWeb, :view
-  alias BackendWeb.Views
+defmodule Web.Views.UserToken do
+  use Web, :view
+  alias Web.Views
 
   def render("view.json", %{user_token: user_token}) do
     %{data: render_one(user_token, Views.UserToken, "user_token.json", as: :user_token)}

@@ -1,5 +1,5 @@
-defmodule BackendWeb.UserRegistrationControllerTest do
-  use BackendWeb.ConnCase
+defmodule Web.UserRegistrationControllerTest do
+  use Web.ConnCase
 
   import Backend.AccountsFixtures
 

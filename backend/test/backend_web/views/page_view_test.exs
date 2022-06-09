@@ -1,3 +1,3 @@
-defmodule BackendWeb.PageViewTest do
-  use BackendWeb.ConnCase, async: true
+defmodule Web.PageViewTest do
+  use Web.ConnCase, async: true
 end

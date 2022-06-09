@@ -9,7 +9,7 @@ config :backend, Backend.Repo,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 
-config :backend, BackendWeb.Endpoint,
+config :backend, Web.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {0, 0, 0, 0}, port: 8080],
@@ -22,7 +22,7 @@ config :backend, BackendWeb.Endpoint,
     # esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
-config :backend, BackendWeb.Endpoint,
+config :backend, Web.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",

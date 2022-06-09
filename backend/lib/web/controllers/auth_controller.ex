@@ -1,17 +1,17 @@
-defmodule BackendWeb.Controllers.Auth do
-  use BackendWeb, :controller
+defmodule Web.Controllers.Auth do
+  use Web, :controller
 
   import Plug.Conn
 
   alias Backend.Models.User
   alias Backend.Models.UserToken
-  alias BackendWeb.Views
+  alias Web.Views
 
   @max_age 60 * 60 * 24 * 60
   @remember_me_cookie "user_remember_me"
   @remember_me_options [sign: true, max_age: @max_age]
 
-  action_fallback(BackendWeb.Controllers.Fallback)
+  action_fallback(Web.Controllers.Fallback)
 
   def login(conn, %{"username" => username, "password" => password, "remember_me" => remember_me}) do
     with {:ok, user} <- User.get_user_with_password(username, password) do

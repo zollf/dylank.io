@@ -1,5 +1,5 @@
-defmodule BackendWeb.Plugs.Auth do
-  use BackendWeb, :controller
+defmodule Web.Plugs.Auth do
+  use Web, :controller
 
   import Plug.Conn
 

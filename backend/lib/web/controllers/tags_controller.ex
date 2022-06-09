@@ -1,10 +1,10 @@
-defmodule BackendWeb.Controllers.Tags do
-  use BackendWeb, :controller
+defmodule Web.Controllers.Tags do
+  use Web, :controller
 
   alias Backend.Models.Tag
-  alias BackendWeb.Views
+  alias Web.Views
 
-  action_fallback(BackendWeb.Controllers.Fallback)
+  action_fallback(Web.Controllers.Fallback)
 
   def index(conn, _params) do
     tags = Tag.get_tags()

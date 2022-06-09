@@ -1,6 +1,6 @@
-defmodule BackendWeb.Controllers.Fallback do
-  use BackendWeb, :controller
-  alias BackendWeb.Views
+defmodule Web.Controllers.Fallback do
+  use Web, :controller
+  alias Web.Views
 
   @doc """
   Error call
