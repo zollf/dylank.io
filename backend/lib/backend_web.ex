@@ -22,7 +22,7 @@ defmodule BackendWeb do
       use Phoenix.Controller, namespace: BackendWeb
 
       import Plug.Conn
-      import BackendWeb.Helpers.GettextHelpers
+      import BackendWeb.Helpers.Gettext
       alias BackendWeb.Router.Helpers, as: Routes
     end
   end
@@ -95,8 +95,8 @@ defmodule BackendWeb do
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
 
-      import BackendWeb.Helpers.ErrorsHelpers
-      import BackendWeb.Helpers.GettextHelpers
+      import BackendWeb.Helpers.Errors
+      import BackendWeb.Helpers.Gettext
 
       alias BackendWeb.Router.Helpers, as: Routes
     end

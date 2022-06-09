@@ -1,4 +1,4 @@
-defmodule BackendWeb.Helpers.ErrorsHelpers do
+defmodule BackendWeb.Helpers.Errors do
   use Phoenix.HTML
 
   def traverse_errors(changeset) do

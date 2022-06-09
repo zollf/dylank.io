@@ -1,3 +1,3 @@
-defmodule BackendWeb.LayoutView do
+defmodule BackendWeb.Views.Layout do
   use BackendWeb, :view
 end

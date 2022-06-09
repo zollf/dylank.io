@@ -1,4 +1,4 @@
-defmodule Backend.Model.Project do
+defmodule Backend.Models.Project do
   alias Backend.Schema.Project
   alias Backend.Repo
 

@@ -1,4 +1,4 @@
-defmodule Backend.Model.Tag do
+defmodule Backend.Models.Tag do
   alias Backend.Schema.Tag
   alias Backend.Repo
 

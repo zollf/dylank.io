@@ -1,7 +1,7 @@
 defmodule BackendWeb.Router do
   use BackendWeb, :router
 
-  import BackendWeb.UserAuth
+  import BackendWeb.Plugs.Auth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -10,41 +10,73 @@ defmodule BackendWeb.Router do
     plug :put_root_layout, {BackendWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :fetch_current_user
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_current_user
   end
 
   scope "/", BackendWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", Controllers.Page, :index
   end
 
   scope "/api", BackendWeb do
     pipe_through :api
 
-    get "/ping", PingController, :index
+    get "/ping", Controllers.Ping, :index
 
-    get "/tags", TagsController, :index
-    get "/tags/:slug", TagsController, :get
-    post "/tags/create", TagsController, :create
-    post "/tags/delete", TagsController, :delete
-    post "/tags/edit", TagsController, :edit
+    post "/auth/login", Controllers.Auth, :login
 
-    get "/projects", ProjectsController, :index
-    get "/projects/:slug", ProjectsController, :get
-    post "/projects/create", ProjectsController, :create
-    post "/projects/delete", ProjectsController, :delete
-    post "/projects/edit", ProjectsController, :edit
+    get "/tags", Controllers.Tags, :index
+    get "/tags/:slug", Controllers.Tags, :get
 
-    get "/users", UsersController, :index
-    get "/users/:username", UsersController, :get
-    post "/users/create", UsersController, :create
-    post "/users/delete", UsersController, :delete
-    post "/users/edit", UsersController, :edit_details
-    post "/users/reset_password", UsersController, :reset_password
+    get "/projects", Controllers.Projects, :index
+    get "/projects/:slug", Controllers.Projects, :get
+  end
+
+  # Authenticated User Scope
+  scope "/api", BackendWeb do
+    pipe_through [:api, :require_authenticated_user]
+
+    get "/user_ping", Controllers.Ping, :user_ping
+
+    get "/auth/session", Controllers.Auth, :session
+    get "/auth/logout", Controllers.Auth, :logout
+  end
+
+  # Admin scope
+  scope "/api", BackendWeb do
+    pipe_through [:api, :require_authenticated_admin]
+
+    get "/admin_ping", Controllers.Ping, :admin_ping
+
+    post "/tags/create", Controllers.Tags, :create
+    post "/tags/delete", Controllers.Tags, :delete
+    post "/tags/edit", Controllers.Tags, :edit
+
+    post "/projects/create", Controllers.Projects, :create
+    post "/projects/delete", Controllers.Projects, :delete
+    post "/projects/edit", Controllers.Projects, :edit
+
+    get "/users", Controllers.Users, :index
+    get "/users/:username", Controllers.Users, :get
+  end
+
+  # Super Admin Scope
+  scope "/api", BackendWeb do
+    pipe_through [:api, :require_authenticated_super_admin]
+
+    get "/super_admin_ping", Controllers.Ping, :super_admin_ping
+
+    post "/users/create", Controllers.Users, :create
+    post "/users/delete", Controllers.Users, :delete
+    post "/users/edit", Controllers.Users, :edit_details
+    post "/users/reset_password", Controllers.Users, :reset_password
   end
 
   if Mix.env() in [:dev, :test] do

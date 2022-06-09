@@ -1,13 +1,13 @@
-defmodule BackendWeb.TagsView do
+defmodule BackendWeb.Views.Tags do
   use BackendWeb, :view
-  alias BackendWeb.TagsView
+  alias BackendWeb.Views
 
   def render("index.json", %{tags: tags}) do
-    %{data: render_many(tags, TagsView, "tag.json", as: :tag)}
+    %{data: render_many(tags, Views.Tags, "tag.json", as: :tag)}
   end
 
   def render("view.json", %{tag: tag}) do
-    %{data: render_one(tag, TagsView, "tag.json", as: :tag)}
+    %{data: render_one(tag, Views.Tags, "tag.json", as: :tag)}
   end
 
   def render("tag.json", %{tag: tag}) do

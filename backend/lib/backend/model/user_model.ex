@@ -1,4 +1,4 @@
-defmodule Backend.Model.User do
+defmodule Backend.Models.User do
   alias Backend.Repo
   alias Backend.Schema.User
 
@@ -40,5 +40,20 @@ defmodule Backend.Model.User do
       |> User.update_password_changeset(%{current_password: current_password, password: new_password})
       |> Repo.update()
     end
+  end
+
+  def get_user_with_password(username, password) do
+    case Repo.get_by(User, username: username) do
+      nil -> {:unauthorized, "Username or password is incorrect"}
+      user -> case verify_user_password?(user, password) do
+        true -> {:ok, user}
+        false -> {:unauthorized, "Username or password is incorrect"}
+      end
+    end
+  end
+
+  defp verify_user_password?(user, password) do
+    hashed_password = user.hashed_password
+    if Bcrypt.verify_pass(password, hashed_password), do: true, else: false
   end
 end

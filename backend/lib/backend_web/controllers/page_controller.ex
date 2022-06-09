@@ -1,4 +1,4 @@
-defmodule BackendWeb.PageController do
+defmodule BackendWeb.Controllers.Page do
   use BackendWeb, :controller
 
   def index(conn, _params) do

@@ -1,8 +1,8 @@
-defmodule BackendWeb.ChangesetView do
+defmodule BackendWeb.Views.Changeset do
   use BackendWeb, :view
-  alias BackendWeb.Helpers.ErrorsHelpers
+  alias BackendWeb.Helpers.Errors
 
   def render("error.json", %{changeset: changeset}) do
-    %{errors: ErrorsHelpers.traverse_errors(changeset)}
+    %{errors: Errors.traverse_errors(changeset)}
   end
 end
