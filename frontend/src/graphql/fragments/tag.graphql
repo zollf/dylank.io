@@ -2,6 +2,6 @@ fragment Tag on Tag {
   id
   slug
   title
-  createdAt
+  insertedAt
   updatedAt
 }

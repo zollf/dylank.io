@@ -18,8 +18,6 @@ config :backend, Web.Endpoint,
   debug_errors: true,
   secret_key_base: "HW9WaQ9yb3r56tvS2vC6UJCveq+UZNHKm5efu3OLR2I4arnbibCvdRIMoT+/OCeF",
   watchers: [
-    # Start the esbuild watcher by calling Esbuild.install_and_run(:default, args)
-    # esbuild: {Esbuild, :install_and_run, [:default, ~w(--sourcemap=inline --watch)]}
   ]
 
 config :backend, Web.Endpoint,

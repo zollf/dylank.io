@@ -7,7 +7,7 @@ defmodule Web.Router do
     plug :accepts, ["html"]
     plug :fetch_session
     plug :fetch_live_flash
-    plug :put_root_layout, {Web.LayoutView, :root}
+    plug :put_root_layout, {Web.Views.Layout, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
@@ -23,6 +23,16 @@ defmodule Web.Router do
     pipe_through :browser
 
     get "/", Controllers.Page, :index
+  end
+
+  scope "/api" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: Web.GraphQL.Schema
+
+    forward "/graphql", Absinthe.Plug,
+      schema: Web.GraphQL.Schema
   end
 
   scope "/api", Web do
@@ -47,6 +57,10 @@ defmodule Web.Router do
 
     get "/auth/session", Controllers.Auth, :session
     get "/auth/logout", Controllers.Auth, :logout
+
+    get "/me", Controllers.Me, :index
+    post "/me/change_password", Controllers.Me, :change_password
+    post "/me/edit_details", Controllers.Me, :edit_details
   end
 
   # Admin scope

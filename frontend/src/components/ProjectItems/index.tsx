@@ -9,7 +9,7 @@ export default function ProjectItems() {
 
   return (
     <div className={styles.projects}>
-      {projects?.items?.map((project) => project && <Project project={project} key={project.id} />)}
+      {projects?.items?.map((project) => project && <Project project={project as Project} key={project.id} />)}
     </div>
   );
 }

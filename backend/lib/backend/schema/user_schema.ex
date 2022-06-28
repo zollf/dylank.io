@@ -28,7 +28,7 @@ defmodule Backend.Schema.User do
 
   def update_changeset(user, attrs) do
     user
-    |> cast(attrs, [:email, :username, :admin, :super_admin])
+    |> cast(attrs, [:email])
     |> validate_username()
     |> validate_email()
   end

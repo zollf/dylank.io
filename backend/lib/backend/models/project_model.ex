@@ -32,4 +32,6 @@ defmodule Backend.Models.Project do
   end
 
   def get_projects(), do: Repo.all(Project) |> Repo.preload(:tags)
+
+  def get_total_projects_count, do: Repo.aggregate(Project, :count, :id)
 end

@@ -19,7 +19,9 @@ defmodule Web do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: Web
+      use Phoenix.Controller,
+        namespace: Web.Controllers,
+        put_default_views: false
 
       import Plug.Conn
       import Web.Helpers.Gettext
@@ -31,7 +33,7 @@ defmodule Web do
     quote do
       use Phoenix.View,
         root: "lib/web/templates",
-        namespace: Web
+        namespace: Web.Views
 
       # Import convenience functions from controllers
       import Phoenix.Controller,
@@ -80,7 +82,7 @@ defmodule Web do
   def channel do
     quote do
       use Phoenix.Channel
-      import Web.Gettext
+      import Web.Helpers.Gettext
     end
   end
 
