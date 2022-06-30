@@ -40,7 +40,6 @@ type RootQueryType = {
   tags?: Maybe<Array<Maybe<Tag>>>;
 };
 
-
 type RootQueryTypeProjectsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
