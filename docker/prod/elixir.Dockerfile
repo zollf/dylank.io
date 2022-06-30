@@ -5,10 +5,9 @@ ENV ENVRIONMENT prod
 
 WORKDIR /usr/app
 
-COPY . .
+COPY /backend .
 
 RUN apt-get update
-RUN apt-get -y install inotify-tools
 
 RUN mix local.hex --force
 RUN mix local.rebar --force

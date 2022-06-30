@@ -2,7 +2,7 @@ FROM node:16
 
 WORKDIR /usr/app
 
-COPY /frontend /usr/app
+COPY /frontend .
 
 RUN yarn
 RUN yarn build
