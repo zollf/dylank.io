@@ -46,9 +46,9 @@ export default function Tags() {
         {!!projects?.tags?.length ? (
           sortBy(projects.tags, ['count'])
             .reverse()
-            .map((tag: Tag) => (
-              <Tag onClick={() => setActiveFilter(tag.slug)} active={activeFilters.includes(tag.slug)} key={tag.id}>
-                {tag.title} ({tag.count})
+            .map((tag: TagInterface) => (
+              <Tag onClick={() => setActiveFilter(tag.slug!)} active={activeFilters.includes(tag.slug!)} key={tag.id}>
+                {tag.title} ({tag?.count || 0})
               </Tag>
             ))
         ) : (

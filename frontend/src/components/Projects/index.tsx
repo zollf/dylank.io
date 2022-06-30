@@ -58,7 +58,7 @@ export default function Projects() {
           onPageChange={(ev) => setPageCount(ev.selected)}
           pageRangeDisplayed={5}
           forcePage={pageCount}
-          pageCount={Math.ceil((data?.projects?.items_total || 6) / itemsPerPage)}
+          pageCount={Math.ceil((data?.projects?.itemsTotal || 6) / itemsPerPage)}
           previousLabel={<ChevronLeft />}
         />
       )}

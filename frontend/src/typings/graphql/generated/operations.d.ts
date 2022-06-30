@@ -5,6 +5,6 @@ type WorkQueryVariables = Exact<{
 }>;
 
 
-type WorkQuery = { projects?: { total: number, items_total: number, items?: Array<{ id: string, title: string, slug: string, description: string, createdAt: string, updatedAt: string, url?: string | null, git?: string | null, assets?: Array<{ id: string, slug: string, title: string, createdAt: string, updatedAt: string, url: string } | null> | null, tags?: Array<{ id: string, slug: string, title: string, createdAt: string, updatedAt: string } | null> | null } | null> | null, tags?: Array<{ id: string, slug: string, title: string, createdAt: string, updatedAt: string, count?: number | null } | null> | null } | null };
+type WorkQuery = { projects?: { total: number, itemsTotal: number, items: Array<{ id: string, title: string, slug: string, updatedAt: string, insertedAt: string, shortDescription?: string | null, previewLink?: string | null, gitLink?: string | null, pageContent?: string | null, tags?: Array<{ id?: string | null, slug?: string | null, title?: string | null } | null> | null } | null>, tags: Array<{ id?: string | null, slug?: string | null, title?: string | null, count?: number | null } | null> } | null };
 
-type TagFragment = { id: string, slug: string, title: string, createdAt: string, updatedAt: string };
+type TagFragment = { id?: string | null, slug?: string | null, title?: string | null, insertedAt: string, updatedAt: string };

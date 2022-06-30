@@ -4,12 +4,26 @@ tmp
 *.db
 data/
 
+# elixir
+.elixir_ls
+_build/
+cover/
+deps/
+doc/
+.fetch
+erl_crash.dump
+*.ez
+backend-*.tar
+priv/static/assets/
+priv/static/cache_manifest.json
+
 # node 
 node_modules/
 public/static/*.js*
 coverage/
 .next/
 yarn-error.log
+npm-debug.log
 
 # terraform
 .terraform

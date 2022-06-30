@@ -1,10 +1,10 @@
 resource "aws_ecs_task_definition" "task" {
   family                   = "${var.project}_task"
-  container_definitions    = <<DEFINITION
-  [
+  container_definitions    = <<EOL
+  ${jsonencode([
     {
-      "name": "${var.project}_go",
-      "image": "${aws_ecr_repository.go.repository_url}",
+      "name": "${var.project}_elixir",
+      "image": "${aws_ecr_repository.elixir.repository_url}",
       "essential": true,
       "portMappings": [
         {
@@ -15,6 +15,10 @@ resource "aws_ecs_task_definition" "task" {
       ],
       "memory": 256,
       "cpu": 96,
+      "secrets": [for secret in local.environment_secrets : {
+        "name": "${secret}",
+        "valueFrom": "${local.ssm_prefix}/${secret}"
+      }],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -47,7 +51,7 @@ resource "aws_ecs_task_definition" "task" {
       },
       "dependsOn": [
         {
-          "containerName": "${var.project}_go",
+          "containerName": "${var.project}_elixir",
           "condition": "START"
         },
         {
@@ -78,8 +82,8 @@ resource "aws_ecs_task_definition" "task" {
         }
       }
     }
-  ]
-  DEFINITION 
+  ])}
+  EOL 
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
   memory                   = 512

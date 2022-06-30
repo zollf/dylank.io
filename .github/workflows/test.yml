@@ -23,28 +23,3 @@ jobs:
         run: cd frontend && yarn lint
       - name: Yarn Build
         run: cd frontend && yarn build
-
-  go:
-    name: Go Test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: '1.17.2'
-      - name: Make Environment File
-        uses: SpicyPizza/create-envfile@v1
-        with:
-          envkey_JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          envkey_ENV: production
-          file_name: .env 
-      - name: CP .env
-        run: cp .env backend
-      - name: Go Modules Download
-        run: cd backend && go mod download
-      - name: Go Tests
-        run: cd backend && go test ./tests --v
-      - name: Go Build
-        run: cd backend && go build -o server server.go

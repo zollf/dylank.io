@@ -10,7 +10,7 @@ cp backend/.env.example .env
 Build + Start
 ```bash
 # In backend
-go mod download
+mix deps.get
 
 # In frontend 
 yarn
@@ -25,7 +25,7 @@ Open http://localhost
 ## Tech Stack
 - Frontend - Typescript, React, Nextjs, SCSS 
 - API Gateway - Graphql
-- Backend - Golang, Iris, Gorm
+- Backend - Elixir, Pheonix
 - Database - MySql
 - Infra - AWS (ECS + EC2), Terraform, Docker, Nginx 
 

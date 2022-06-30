@@ -1,12 +1,16 @@
 version: "3.8"
 
 services:
-  go:
+  elixir:
     build:
       context: ./backend
-      dockerfile: ../docker/dev/go.Dockerfile
+      dockerfile: ../docker/dev/elixir.Dockerfile
+      # dockerfile: ../docker/prod/elixir.Dockerfile
+    command: mix phx.server
     ports:
       - 8080:8080
+    env_file:
+      - ./backend/.env
     environment: &app_environment
       MYSQL_HOSTNAME: mysql
       MYSQL_USER: mysql
@@ -16,8 +20,8 @@ services:
       ENV: development
     volumes:
       - ./backend:/usr/app:cached
-    command:
-      /bin/sh -c air
+    depends_on:
+      - mysql
 
   node:
     build:
@@ -54,7 +58,7 @@ services:
       - 80:80
       - 443:443
     depends_on:
-      - go
+      - elixir
       - node
       
 volumes:

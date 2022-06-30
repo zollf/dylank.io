@@ -12,47 +12,35 @@ type Scalars = {
   Float: number;
 };
 
-type Asset = {
-  __typename?: 'Asset';
-  createdAt: Scalars['String'];
-  id: Scalars['String'];
-  slug: Scalars['String'];
-  title: Scalars['String'];
-  updatedAt: Scalars['String'];
-  url: Scalars['String'];
-};
-
 type Project = {
   __typename?: 'Project';
-  assets?: Maybe<Array<Maybe<Asset>>>;
-  createdAt: Scalars['String'];
-  description: Scalars['String'];
-  git?: Maybe<Scalars['String']>;
-  id: Scalars['String'];
+  gitLink?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  insertedAt: Scalars['String'];
+  pageContent?: Maybe<Scalars['String']>;
+  previewLink?: Maybe<Scalars['String']>;
+  shortDescription?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
   tags?: Maybe<Array<Maybe<Tag>>>;
   title: Scalars['String'];
   updatedAt: Scalars['String'];
-  url?: Maybe<Scalars['String']>;
 };
 
-type Projects = {
-  __typename?: 'Projects';
-  items?: Maybe<Array<Maybe<Project>>>;
-  items_total: Scalars['Int'];
-  tags?: Maybe<Array<Maybe<Tag>>>;
+type ProjectInterface = {
+  __typename?: 'ProjectInterface';
+  items: Array<Maybe<Project>>;
+  itemsTotal: Scalars['Int'];
+  tags: Array<Maybe<TagInterface>>;
   total: Scalars['Int'];
 };
 
-type Query = {
-  __typename?: 'Query';
-  ping?: Maybe<Scalars['String']>;
-  projects?: Maybe<Projects>;
+type RootQueryType = {
+  __typename?: 'RootQueryType';
+  projects?: Maybe<ProjectInterface>;
   tags?: Maybe<Array<Maybe<Tag>>>;
 };
 
-
-type QueryProjectsArgs = {
+type RootQueryTypeProjectsArgs = {
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
   tags?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -60,10 +48,19 @@ type QueryProjectsArgs = {
 
 type Tag = {
   __typename?: 'Tag';
+  id?: Maybe<Scalars['ID']>;
+  insertedAt: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['String'];
+};
+
+type TagInterface = {
+  __typename?: 'TagInterface';
   count?: Maybe<Scalars['Int']>;
-  createdAt: Scalars['String'];
-  id: Scalars['String'];
-  slug: Scalars['String'];
-  title: Scalars['String'];
+  id?: Maybe<Scalars['ID']>;
+  insertedAt: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
   updatedAt: Scalars['String'];
 };
