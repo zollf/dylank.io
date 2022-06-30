@@ -5,9 +5,12 @@ services:
     build:
       context: ./backend
       dockerfile: ../docker/dev/elixir.Dockerfile
+      # dockerfile: ../docker/prod/elixir.Dockerfile
     command: mix phx.server
     ports:
       - 8080:8080
+    env_file:
+      - ./backend/.env
     environment: &app_environment
       MYSQL_HOSTNAME: mysql
       MYSQL_USER: mysql
