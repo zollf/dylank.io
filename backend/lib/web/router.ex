@@ -22,7 +22,14 @@ defmodule Web.Router do
   scope "/", Web do
     pipe_through :browser
 
-    get "/", Controllers.Page, :index
+    live "/login", Pages.Login
+  end
+
+  live_session :admin, on_mount: Web.Helpers.AuthLive do
+    scope "/", Web do
+      pipe_through :browser
+      live "/", Pages.Dashboard
+    end
   end
 
   scope "/api" do
@@ -99,7 +106,7 @@ defmodule Web.Router do
     scope "/" do
       pipe_through :browser
 
-      live_dashboard "/dashboard", metrics: Web.Telemetry
+      live_dashboard "/live_dashboard", metrics: Web.Telemetry
     end
   end
 

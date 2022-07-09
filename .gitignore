@@ -14,8 +14,8 @@ doc/
 erl_crash.dump
 *.ez
 backend-*.tar
-priv/static/assets/
-priv/static/cache_manifest.json
+backend/priv/static/assets/*
+backend/priv/static/cache_manifest.json
 
 # node 
 node_modules/

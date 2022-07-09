@@ -13,13 +13,25 @@ defmodule Web.Controllers.Auth do
 
   action_fallback(Web.Controllers.Fallback)
 
+  def login(conn, %{"user" => %{"username" => username, "password" => password, "remember_me" => remember_me }}) do
+    with {:ok, user} <- User.get_user_with_password(username, password) do
+      with {:ok, user_token} <- UserToken.create_user_token(user) do
+        conn
+        |> renew_session()
+        |> put_session(:user_token, user_token.token)
+        |> maybe_write_remember_me_cookie(user_token.token, remember_me === "true")
+        |> redirect(to: "/admin")
+      end
+    end
+  end
+
   def login(conn, %{"username" => username, "password" => password, "remember_me" => remember_me}) do
     with {:ok, user} <- User.get_user_with_password(username, password) do
       with {:ok, user_token} <- UserToken.create_user_token(user) do
         conn
         |> renew_session()
         |> put_session(:user_token, user_token.token)
-        |> maybe_write_remember_me_cookie(user_token.token, remember_me)
+        |> maybe_write_remember_me_cookie(user_token.token, remember_me === "true")
         |> json(%{"success" => true})
       end
     end

@@ -1,0 +1,6 @@
+.error {
+  margin: 12px 0;
+  color: $color-color-red-1-red;
+
+  @include text-style-caption-1;
+}
