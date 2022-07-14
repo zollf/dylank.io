@@ -37,8 +37,8 @@ RUN mix assets.deploy
 # COMPILE RELEASE
 COPY lib lib
 RUN mix compile
-COPY rel rel
 RUN mix release
+COPY rel rel
 
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
