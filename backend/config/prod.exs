@@ -8,8 +8,8 @@ config :backend, Backend.Repo,
 config :backend, Web.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 8080],
   server: true,
-  load_from_system_env: true
-  url: [host: "dylank.io", path: "/admin"],
+  load_from_system_env: true,
+  url: [host: "dylank.io", path: "/admin"]
 
 # config :backend, Web.Endpoint, cache_static_manifest: "priv/static/cache_manifest.json"
 config :logger, level: :info
