@@ -65,4 +65,4 @@ COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/backend ./
 
 USER nobody
 
-CMD /app/bin/backend eval "Backend.Release.migrate" && /app/bin/server
+CMD /app/bin/backend eval "Backend.Release.migrate" && /app/bin/backend start
