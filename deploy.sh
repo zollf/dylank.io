@@ -25,7 +25,7 @@ if [ -z "$DOCKERFILE" ]; then
 fi
 
 if [ -z "$CONTEXT" ]; then
-  $CONTEXT="."
+  $CONTEXT="./"
 fi
 
 docker build -f $DOCKERFILE -t $REPO $CONTEXT || exit
