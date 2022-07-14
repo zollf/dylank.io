@@ -47,4 +47,13 @@ defmodule Web.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug Web.Router
+
+  def init(_key, config) do
+    if config[:load_from_system_env] do
+      {:ok, config
+      |> Keyword.put(:secret_key_base, System.get_env("SECRET_KEY_BASE"))}
+    else
+      {:ok, config}
+    end
+  end
 end

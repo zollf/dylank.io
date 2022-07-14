@@ -1,0 +1,10 @@
+* {
+  font-family: $font;
+}
+
+body {
+  min-height: 100vh;
+  background: $color-color-background;
+  color: $color-color-neutral-1-dark-reverse;
+  margin: 0;
+}

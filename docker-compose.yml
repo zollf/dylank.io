@@ -4,9 +4,9 @@ services:
   elixir:
     build:
       context: ./backend
-      dockerfile: ../docker/dev/elixir.Dockerfile
-      # dockerfile: ../docker/prod/elixir.Dockerfile
-    command: mix phx.server
+      # dockerfile: ../docker/dev/elixir.Dockerfile
+      dockerfile: ../docker/prod/elixir.Dockerfile
+    # command: mix phx.server
     ports:
       - 8080:8080
     env_file:
@@ -17,9 +17,11 @@ services:
       MYSQL_PASSWORD: mysql
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_DATABASE: db
-      ENV: development
+      ENV: developement
+      NODE_ENV: developement
     volumes:
       - ./backend:/usr/app:cached
+      - elixir__node_modules:/usr/app/assets/node_modules:delegated
     depends_on:
       - mysql
 
@@ -34,7 +36,7 @@ services:
       NGINX_HOST: 'nginx'
     volumes:
       - ./frontend:/usr/app:cached
-      - node_modules:/app/node_modules:delegated
+      - node_modules:/usr/app/node_modules:delegated
       - yarn_config:/usr/local/share/.config 
 
   mysql:
@@ -62,5 +64,6 @@ services:
       - node
       
 volumes:
+  elixir__node_modules:
   node_modules:
   yarn_config:

@@ -1,0 +1,19 @@
+@mixin effect-style-dropshadow-1 {
+	box-shadow:0px 7px 64px rgba(0,0,0,0.070);
+}
+
+@mixin effect-style-dropshadow-2 {
+	box-shadow:0px 0px 10px rgba(0,0,0,0.070);
+}
+
+@mixin effect-style-dropshadow-3 {
+	box-shadow:0px 7px 20px rgba(0,0,0,0.070);
+}
+
+@mixin effect-style-nav-bot {
+	box-shadow:inset 0px -1px 0px rgba(208,201,214,0.400);
+}
+
+@mixin effect-style-nav-top {
+	box-shadow:inset 0px 1px 0px rgba(208,201,214,0.400);
+}

@@ -4,8 +4,14 @@ defmodule Web.Controllers.Page do
   alias Web.Views
 
   def index(conn, _params) do
-    conn
-    |> put_view(Views.Page)
-    |> render("index.html")
+    if conn.assigns[:current_user] do
+      conn
+      |> put_view(Views.Page)
+      |> render("index.html")
+    else
+      conn
+      |> put_view(Views.Page)
+      |> render("login.html")
+    end
   end
 end

@@ -14,16 +14,24 @@ config :backend, Web.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "HW9WaQ9yb3r56tvS2vC6UJCveq+UZNHKm5efu3OLR2I4arnbibCvdRIMoT+/OCeF",
-  watchers: []
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
+  watchers: [
+    node: [
+      "node_modules/webpack/bin/webpack.js",
+      "watch",
+      "--mode",
+      System.get_env("NODE_ENV") || "production",
+      "--watch-options-stdin",
+      cd: "assets"
+    ]
+  ]
 
 config :backend, Web.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"priv/gettext/.*(po)$",
-      ~r"lib/backend_web/(live|views)/.*(ex)$",
-      ~r"lib/backend_web/templates/.*(eex)$"
+      ~r"lib/web/(live|views)/.*(ex)$",
+      ~r"lib/web/templates/.*(eex)$"
     ]
   ]
 
