@@ -37,8 +37,11 @@ RUN mix assets.deploy
 # COMPILE RELEASE
 COPY lib lib
 RUN mix compile
-RUN mix release
+
+COPY config/runtime.exs config/
+
 COPY rel rel
+RUN mix release
 
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
