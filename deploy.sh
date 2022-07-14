@@ -4,6 +4,7 @@ REPO=$1
 AWS=$2
 REGION=$3
 DOCKERFILE=$4
+CONTEXT=$5
 
 if [ -z "$REPO" ]; then
   echo "Please enter repository variable as first paramater"
@@ -23,7 +24,11 @@ if [ -z "$DOCKERFILE" ]; then
   $DOCKERFILE="./Dockerfile"
 fi
 
-docker build -f $DOCKERFILE -t $REPO . || exit
+if [ -z "$CONTEXT" ]; then
+  $CONTEXT="."
+fi
+
+docker build -f $DOCKERFILE -t $REPO $CONTEXT || exit
 docker tag $REPO:latest $AWS/$REPO:latest || exit
 docker login -u AWS -p $(aws ecr get-login-password --region $REGION) $AWS || exit
 docker push $AWS/$REPO:latest || exit

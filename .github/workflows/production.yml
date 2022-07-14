@@ -37,7 +37,7 @@ jobs:
           aws-secret-access-key : ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region            : "ap-southeast-2"
       - name: Upload
-        run: sh deploy.sh ecr-core-dylank-elixir ${{ secrets.AWS_URL }} ap-southeast-2 docker/prod/elixir.Dockerfile
+        run: sh deploy.sh ecr-core-dylank-elixir ${{ secrets.AWS_URL }} ap-southeast-2 docker/prod/elixir.Dockerfile ./backend
   
   ecr-node:
     name: Upload node image to ECR
