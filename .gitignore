@@ -16,6 +16,7 @@ erl_crash.dump
 backend-*.tar
 backend/priv/static/assets/*
 backend/priv/static/cache_manifest.json
+rel/
 
 # node 
 node_modules/

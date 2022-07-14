@@ -57,7 +57,8 @@ defmodule Backend.MixProject do
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
-      "assets.deploy": ["cmd --cd assets node build.js --deploy", "phx.digest"]
+      "assets.install": ["cmd --cd assets npm install"],
+      "assets.deploy": ["cmd --cd assets node_modules/webpack/bin/webpack.js build --mode production"]
     ]
   end
 end

@@ -5,7 +5,7 @@ config :backend,
 
 config :backend, Web.Endpoint,
   url: [host: "localhost", path: "/admin"],
-  render_errors: [view: Web.ErrorView, accepts: ~w(html json), layout: false],
+  render_errors: [view: Web.Views.Error, accepts: ~w(html json), layout: false],
   pubsub_server: Backend.PubSub,
   live_view: [signing_salt: "ROhEx8NX"]
 
