@@ -40,6 +40,8 @@ RUN mix compile
 
 COPY config/runtime.exs config/
 
+RUN ls -lash
+
 COPY rel rel
 RUN mix release
 
