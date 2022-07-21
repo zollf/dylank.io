@@ -11,9 +11,12 @@ defmodule Web.Controllers.Auth do
   @remember_me_cookie "user_remember_me"
   @remember_me_options [sign: true, max_age: @max_age]
 
+  @single_session_cookie "single_session"
+  @single_session_options [sign: true, max_age: 60]
+
   action_fallback(Web.Controllers.Fallback)
 
-  def login(conn, %{"user" => %{"username" => username, "password" => password, "remember_me" => remember_me }}) do
+  def login(conn, %{"user" => %{"username" => username, "password" => password, "remember_me" => remember_me}}) do
     with {:ok, user} <- User.get_user_with_password(username, password) do
       with {:ok, user_token} <- UserToken.create_user_token(user) do
         conn
@@ -51,7 +54,18 @@ defmodule Web.Controllers.Auth do
     conn
     |> renew_session()
     |> delete_resp_cookie(@remember_me_cookie)
+    |> delete_resp_cookie(@single_session_cookie)
     |> json(%{"success" => true})
+  end
+
+  def admin_logout(conn, _params) do
+    user_token_string = get_session(conn, :user_token_string)
+    user_token_string && UserToken.delete_user_token(user_token_string)
+    conn
+    |> renew_session()
+    |> delete_resp_cookie(@remember_me_cookie)
+    |> delete_resp_cookie(@single_session_cookie)
+    |> redirect(to: "/admin")
   end
 
   defp renew_session(conn) do
@@ -64,5 +78,7 @@ defmodule Web.Controllers.Auth do
     put_resp_cookie(conn, @remember_me_cookie, token, @remember_me_options)
   end
 
-  defp maybe_write_remember_me_cookie(conn, _token, false), do: conn
+  defp maybe_write_remember_me_cookie(conn, token, false) do
+    put_resp_cookie(conn, @single_session_cookie, token, @single_session_options)
+  end
 end
