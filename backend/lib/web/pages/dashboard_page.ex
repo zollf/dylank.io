@@ -5,14 +5,9 @@ defmodule Web.Pages.Dashboard do
   alias Web.PageBuilder
 
   @pages %{
-    :home => {Pages.Home, %{}}
+    :home => {Pages.Home, %{}},
+    :tags => {Pages.Tags, %{}}
   }
-
-  def mount(%{}, _session, socket) do
-    page = %PageBuilder{module: Pages.Home}
-    socket = assign(socket, page: page)
-    {:ok, socket}
-  end
 
   def mount(%{"page" => page} = _params, _session, socket) do
     with {_id, { module, _page_session }} <- (Enum.find(@pages, :error, fn {key, _} -> Atom.to_string(key) == page end))  do
@@ -20,6 +15,12 @@ defmodule Web.Pages.Dashboard do
       socket = assign(socket, page: page)
       {:ok, socket}
     end
+  end
+
+  def mount(%{}, _session, socket) do
+    page = %PageBuilder{module: Pages.Home}
+    socket = assign(socket, page: page)
+    {:ok, socket}
   end
 
   def render(assigns) do
@@ -32,8 +33,12 @@ defmodule Web.Pages.Dashboard do
             <h1>dylank.io</h1>
           </div>
           <nav class="nav">
-            <a class="nav-item home">Home</a>
+            <a class="nav-item home" href="/admin">Home</a>
             <a class="nav-item entries">Entries</a>
+            <div class="sub-nav">
+              <a class="sub-nav-item projects">- Projects</a>
+              <a class="sub-nav-item tags" href="/admin/tags">- Tags</a>
+            </div>
             <a class="nav-item assets">Assets</a>
             <a class="nav-item users">Users</a>
           </nav>

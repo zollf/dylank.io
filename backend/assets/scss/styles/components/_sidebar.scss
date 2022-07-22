@@ -1,11 +1,15 @@
 .sidebar {
   width: 320px;
+  min-width: 320px;
   background: $color-color-neutral-6-white-reverse;
+  border: 1px solid $color-color-neutral-4-grey-25-reverse;
   border-radius: 16px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  @include effect-style-nav-bot;
 
   h1 {
     margin: 0;
@@ -37,7 +41,7 @@
       align-items: center;
       font-weight: bold;
       padding-left: 50px;
-      padding-top: 4px;
+      padding-top: 2px;
       cursor: pointer;
       border-radius: 12px;
       transition: 0.2s all ease;
@@ -81,6 +85,29 @@
 
       &:hover {
         background-color: $color-color-neutral-4-grey-25-reverse;
+      }
+    }
+
+    .sub-nav {
+      padding-left: 12px;
+      margin-bottom: 12px;
+
+      .sub-nav-item {
+        height: 42px;
+        padding: 0 12px;
+        display: flex;
+        align-items: center;
+        font-weight: bold;
+        padding-left: 50px;
+        cursor: pointer;
+        border-radius: 12px;
+        transition: 0.2s all ease;
+        text-decoration: none;
+        color: white;
+
+        &:hover {
+          background-color: $color-color-neutral-4-grey-25-reverse;
+        }
       }
     }
   }

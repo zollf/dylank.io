@@ -5,8 +5,15 @@ defmodule Web.PageBuilder do
 
   @callback render_page(assigns :: Socket.assigns()) :: component()
 
-  def render_page() do
+  alias Web.Components.{
+    Table
+  }
 
+  def table(assigns) do
+    assigns = assigns
+    |> Map.new()
+    |> Table.normalize_params()
+    {Table, assigns}
   end
 
   defmacro __using__(opts) do
