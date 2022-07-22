@@ -6,6 +6,7 @@ defmodule Web.Plugs.Auth do
   alias Backend.Models.UserToken
 
   @remember_me_cookie "user_remember_me"
+  @single_session_cookie "single_session"
 
   def fetch_current_user(conn, _opts) do
     {user_token_string, conn} = ensure_user_token(conn)
@@ -45,12 +46,14 @@ defmodule Web.Plugs.Auth do
     if user_token_string = get_session(conn, :user_token_string) do
       {user_token_string, conn}
     else
-      conn = fetch_cookies(conn, signed: [@remember_me_cookie])
+      conn = fetch_cookies(conn, signed: [@remember_me_cookie, @single_session_cookie])
 
-      if user_token_string = conn.cookies[@remember_me_cookie] do
-        {user_token_string, put_session(conn, :user_token_string, user_token_string)}
-      else
-        {nil, conn}
+      cond do
+        user_token_string = conn.cookies[@remember_me_cookie] ->
+          {user_token_string, put_session(conn, :user_token_string, user_token_string)}
+        user_token_string = conn.cookies[@single_session_cookie] ->
+          {user_token_string, put_session(conn, :user_token_string, user_token_string)}
+        true -> {nil, conn}
       end
     end
   end

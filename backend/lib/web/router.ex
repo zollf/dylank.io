@@ -13,6 +13,10 @@ defmodule Web.Router do
     plug :fetch_current_user
   end
 
+  pipeline :dashboard do
+    plug :put_layout, {Web.Views.Layout, :dashboard}
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
     plug :fetch_session
@@ -23,12 +27,15 @@ defmodule Web.Router do
     pipe_through :browser
 
     live "/login", Pages.Login
+    get "/logout", Controllers.Auth, :admin_logout
   end
 
   live_session :admin, on_mount: Web.Helpers.AuthLive do
     scope "/", Web do
-      pipe_through :browser
+      pipe_through [:browser, :dashboard]
+
       live "/", Pages.Dashboard
+      live "/:page", Pages.Dashboard
     end
   end
 

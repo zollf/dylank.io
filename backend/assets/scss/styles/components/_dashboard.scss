@@ -1,0 +1,11 @@
+.dashboard {
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  width: 100%;
+
+  .page {
+    width: 100%;
+    padding-left: 24px;
+  }
+}
